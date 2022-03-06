@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Grocery APP</string>
+    <string name="title_activity_location_map">LocationMap</string>
+    <string name="title_activity_maps">MapsActivity</string>
+</resources>
