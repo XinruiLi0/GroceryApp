@@ -10,15 +10,27 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     Button Customer;
+    Button Retailer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Customer = (Button) findViewById(R.id.Customer);
+        Retailer = (Button) findViewById(R.id.Grocery);
+
         Customer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // To selection menu
                 Intent intent = new Intent(MainActivity.this,Register.class);
+                startActivity(intent);
+
+            }
+        });
+
+        Retailer .setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // To selection menu
+                Intent intent = new Intent(MainActivity.this,storeRegister.class);
                 startActivity(intent);
 
             }
