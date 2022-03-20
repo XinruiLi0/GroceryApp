@@ -46,30 +46,8 @@ public class MainActivity extends AppCompatActivity {
         Button test = (Button) findViewById(R.id.test);
         test.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                SQLConnection db = new SQLConnection();
-                Connection conn = db.conclass();
-                if (conn != null) {
-                    try {
-                        ArrayList<ArrayList<String>> result = new ArrayList<>();
-                        String sql = "select * from test";
-                        Statement smt = conn.createStatement();
-                        ResultSet rs = smt.executeQuery(sql);
-                        ResultSetMetaData rsm =rs.getMetaData();
-                        int col = rsm.getColumnCount();
-                        while (rs.next()) {
-                            ArrayList<String> row = new ArrayList<String>();
-                            for (int i = 1; i <= col; i++) {
-                                row.add(rs.getString(i));
-                            }
-                            result.add(row);
-                        }
-                        test.setText(result.toString());
-                        conn.close();
-                    } catch (Exception e) {
-                        Log.e("Error :", e.getMessage());
-                    }
-                }
-
+                ArrayList<ArrayList<String>> result = DBUtil.Query("select * from test");
+                test.setText(result.toString());
             }
         });
     }
