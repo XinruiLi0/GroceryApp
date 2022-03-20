@@ -12,53 +12,32 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class Cart extends AppCompatActivity {
 
-    Button Call;
-    Button Notify;
 
-    int phoneNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        Call = (Button) findViewById(R.id.CartCall);
-        Notify = (Button) findViewById(R.id.CartNotify);
-        phoneNum = 123456;
+        TextView cucumber = (TextView) findViewById(R.id.cucumbercart);
+        TextView bluebery = (TextView) findViewById(R.id.blueberrycart);
+        TextView eggs = (TextView) findViewById(R.id.eggcart);
+        TextView garlic = (TextView) findViewById(R.id.garliccart);
 
-        Call.setOnClickListener(new View.OnClickListener() {
+        Button checkout = (Button) findViewById(R.id.checkout);
+
+        checkout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                Uri data = Uri.parse("tel:" + phoneNum);
-                intent.setData(data);
+                // To selection menu
+                Intent intent = new Intent(Cart.this,HistoryOrder.class);
                 startActivity(intent);
+
             }
         });
 
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
-            //创建通知渠道实例（这三个参数是必须要有的）
-            NotificationChannel channel = new NotificationChannel("Notification","Notification",NotificationManager.IMPORTANCE_DEFAULT);
-            //创建通知渠道的通知管理器
-            NotificationManager manager = (NotificationManager) getSystemService(NotificationManager.class);
-            //将实例交给管理器
-            manager.createNotificationChannel(channel);
-        }
-
-
-       Notify.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(Cart.this,"Notification");
-                builder.setContentText("You have items in cart!");
-                builder.setContentTitle("Grocery Notification!");
-                builder.setSmallIcon(R.drawable.ic_launcher_foreground);
-                builder.setAutoCancel(true);
-
-                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(Cart.this);
-                managerCompat.notify(1,builder.build());
-            }
-        });
     }
 
 
