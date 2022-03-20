@@ -43,9 +43,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Will be removed in final prototype
         Button test = (Button) findViewById(R.id.test);
         test.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                int temp = DBUtil.Update("insert into test (string, integer, boolean) values ('Test string', 123, 0)");
                 ArrayList<ArrayList<String>> result = DBUtil.Query("select * from test");
                 test.setText(result.toString());
             }

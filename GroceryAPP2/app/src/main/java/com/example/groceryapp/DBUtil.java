@@ -33,4 +33,20 @@ public class DBUtil {
         }
         return result;
     }
+
+    public static int Update(String sql) {
+        SQLConnection db = new SQLConnection();
+        Connection conn = db.conclass();
+        int result = -1;
+        if (conn != null) {
+            try {
+                Statement smt = conn.createStatement();
+                result = smt.executeUpdate(sql);
+                conn.close();
+            } catch (Exception e) {
+                Log.e("Error :", e.getMessage());
+            }
+        }
+        return result;
+    }
 }
