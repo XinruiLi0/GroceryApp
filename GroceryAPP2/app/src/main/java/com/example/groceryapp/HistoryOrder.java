@@ -13,7 +13,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class HistoryOrder extends AppCompatActivity {
+
+    private int userID;
 
     Button Call;
     Button Notify;
@@ -23,6 +27,15 @@ public class HistoryOrder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_order);
+
+        // Extract user id from local
+        // TODO
+
+        // Request order list from db
+        ArrayList<ArrayList<String>> orderList = DBUtil.Query("select * from Orders where CustomerId = "+userID);
+
+        // Show the order detail in view
+        // TODO
 
         Call = (Button) findViewById(R.id.cartCall);
         Notify = (Button) findViewById(R.id.cartNotify);

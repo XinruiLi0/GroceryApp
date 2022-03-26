@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 public class GroceryStores extends AppCompatActivity {
 
     Button Share1;
@@ -15,6 +17,9 @@ public class GroceryStores extends AppCompatActivity {
 
     Button store1;
     Button Share2;
+
+    private String userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +29,15 @@ public class GroceryStores extends AppCompatActivity {
         Map1 = (Button) findViewById(R.id.StoreLocation1);
         store1 = (Button) findViewById(R.id.Store1);
         Share2 = (Button) findViewById(R.id.storeShare2);
+
+        // Extract user name from local
+        // TODO
+
+        // Request store list from db
+        ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers");
+
+        // Show the stores in view
+        // TODO
 
         Share1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

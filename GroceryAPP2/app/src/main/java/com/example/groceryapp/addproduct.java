@@ -8,13 +8,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 public class addproduct extends AppCompatActivity {
+
+    private int storeID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addproduct);
 
+        // Extract store id from local
+        // TODO
+
+        // Request product list from db
+        ArrayList<ArrayList<String>> productList = DBUtil.Query("select * from Products where RetailerId = " + storeID);
+
+        // Show the products in view
+        // TODO
 
         EditText cucumber = (EditText) findViewById(R.id.cucumberadd);
         EditText blueberry = (EditText) findViewById(R.id.blueberryadd);
