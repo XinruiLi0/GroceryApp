@@ -30,7 +30,7 @@ public class shopCategory extends AppCompatActivity {
         // Extract store id and user name from local
         // TODO
 
-        // Request store list from db
+        // Request product list from db
         ArrayList<ArrayList<String>> productList = DBUtil.Query("select * from Products where RetailerId = " + storeID);
         // Optional: Request categories list from db
         // ArrayList<ArrayList<String>> categoryList = DBUtil.Query("select ItemCategory from Products where RetailerId = " + storeID + " group by ItemCategory");

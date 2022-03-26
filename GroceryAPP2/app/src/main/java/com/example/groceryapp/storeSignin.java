@@ -30,7 +30,7 @@ public class storeSignin extends AppCompatActivity {
                 if (result.isEmpty()) {
                     Toast.makeText(storeSignin.this,"Incorrect email or password!", Toast.LENGTH_LONG).show();
                 } else {
-                    // Store store id and user name in local
+                    // Store store id and store name in local
                     int storeID = Integer.parseInt(result.get(0).get(0));
                     // TODO
 

@@ -44,7 +44,7 @@ public class storeRegister extends AppCompatActivity {
                     // Success
                     Toast.makeText(storeRegister.this,"Success!", Toast.LENGTH_LONG).show();
                     ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers where Email = '"+email.getText()+"' and Password = '"+password.getText()+"'");
-                    // Store user id and user name in local
+                    // Store user id and store name in local
                     // TODO
 
                     Intent intent = new Intent(storeRegister.this,addproduct.class);
