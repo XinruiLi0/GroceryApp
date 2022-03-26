@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class storeSignin extends AppCompatActivity {
 
@@ -21,9 +24,21 @@ public class storeSignin extends AppCompatActivity {
 
         Signin .setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // To selection menu
-                Intent intent = new Intent(storeSignin.this,addproduct.class);
-                startActivity(intent);
+
+
+                ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers where Email = '"+email.getText()+"' and Password = '"+password.getText()+"'");
+                if (result.isEmpty()) {
+                    Toast.makeText(storeSignin.this,"Incorrect email or password!", Toast.LENGTH_LONG).show();
+                } else {
+                    // Store store id and user name in local
+                    int storeID = Integer.parseInt(result.get(0).get(0));
+                    // TODO
+
+                    // To selection menu
+                    Intent intent = new Intent(storeSignin.this,addproduct.class);
+                    startActivity(intent);
+                }
+
 
             }
         });
