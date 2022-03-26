@@ -21,20 +21,20 @@ public class Register extends AppCompatActivity {
     public static String user = "admin";
     public static String pass = "123123123";
 
-    Button Register;
-    Button Sign_in;
+    private Button Register;
+    private Button Sign_in;
 
+    private EditText Name;
+    private EditText Email;
+    private EditText Password;
 
-    EditText Name;
-    EditText Password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         Name = (EditText) findViewById(R.id.registerName);
-        // Email is also needed
-        // TODO
+        Email = (EditText) findViewById(R.id.registerEmail);
         Password = (EditText) findViewById(R.id.registerPassword);
 
         Register  = (Button) findViewById(R.id.registerRegis);
@@ -46,15 +46,16 @@ public class Register extends AppCompatActivity {
                 // TODO
 
                 // Update user info to db
-                int temp = DBUtil.Update("insert into Customers(UserName, Email, [Password]) values ('"+Name.getText()+"', '"+Name.getText()+"', '"+Password.getText()+"')");
+                int temp = DBUtil.Update("insert into Customers(UserName, Email, [Password]) values ('"+Name.getText()+"', '"+Email.getText()+"', '"+Password.getText()+"')");
                 if (temp == 1) {
                     // Success
                     Toast.makeText(Register.this,"Success!", Toast.LENGTH_LONG).show();
-                    ArrayList<ArrayList<String>> result = DBUtil.Query("select id, UserName from Customers where Email = '"+Name.getText()+"' and Password = '"+Password.getText()+"'");
-                    // Store user id and user name in local
-                    // TODO
+                    ArrayList<ArrayList<String>> result = DBUtil.Query("select id, UserName from Customers where Email = '"+Email.getText()+"' and Password = '"+Password.getText()+"'");
 
+                    // Jump to next page with user id and user name
                     Intent intent = new Intent(Register.this,GroceryStores.class);
+                    intent.putExtra("userID",Integer.parseInt(result.get(0).get(0)));
+                    intent.putExtra("userName",result.get(0).get(1));
                     startActivity(intent);
                 } else {
                     // Error
@@ -62,20 +63,23 @@ public class Register extends AppCompatActivity {
                 }
             }
         });
-        /*
+
         Sign_in.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // To selection menu
-
-                String pass = readPass(Name.getText().toString());
-                if(pass.equals(Password.getText().toString())){
-                    Intent intent = new Intent(Register.this,GroceryStores.class);
-                    startActivity(intent);
+                // Check user information
+                ArrayList<ArrayList<String>> result = DBUtil.Query("select id, UserName from Customers where Email = '"+Email.getText()+"' and Password = '"+Password.getText()+"'");
+                if (result.isEmpty()) {
+                    Toast.makeText(Register.this,"Incorrect email or password!", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(Register.this,"Wrong Password!", Toast.LENGTH_LONG).show();
+                    // Jump to next page with user id and user name
+                    Intent intent = new Intent(Register.this,GroceryStores.class);
+                    intent.putExtra("userID",Integer.parseInt(result.get(0).get(0)));
+                    intent.putExtra("userName",result.get(0).get(1));
+                    startActivity(intent);
                 }
+
             }
-        }); */
+        });
 
     }
 

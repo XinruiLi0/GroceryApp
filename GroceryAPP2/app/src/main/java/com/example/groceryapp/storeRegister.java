@@ -24,9 +24,8 @@ public class storeRegister extends AppCompatActivity {
         EditText email = (EditText) findViewById(R.id.emailregister);
         EditText password = (EditText) findViewById(R.id.passwordregister);
         EditText phone = (EditText) findViewById(R.id.phoneregister);
-
-        double longitude = 0;
-        double latitude = 0;
+        EditText longitude = (EditText) findViewById(R.id.longitude);
+        EditText latitude = (EditText) findViewById(R.id.latitude);
 
         Button Rgister = (Button) findViewById(R.id.registerstore);
 
@@ -39,15 +38,16 @@ public class storeRegister extends AppCompatActivity {
                 // TODO
 
                 // Update user info to db
-                int temp = DBUtil.Update("insert into Retailers(StoreName, PhoneNumber, StoreAddress, longitude, latitude, Email, [Password]) values ('"+storename.getText()+"', "+phone.getText()+", '"+storeaddress.getText()+"', "+longitude+", "+latitude+", '"+email.getText()+"', '"+password.getText()+"')");
+                int temp = DBUtil.Update("insert into Retailers(StoreName, PhoneNumber, StoreAddress, longitude, latitude, Email, [Password]) values ('"+storename.getText()+"', "+phone.getText()+", '"+storeaddress.getText()+"', "+longitude.getText()+", "+latitude.getText()+", '"+email.getText()+"', '"+password.getText()+"')");
                 if (temp == 1) {
                     // Success
                     Toast.makeText(storeRegister.this,"Success!", Toast.LENGTH_LONG).show();
                     ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers where Email = '"+email.getText()+"' and Password = '"+password.getText()+"'");
-                    // Store user id and store name in local
-                    // TODO
 
+                    // Jump to next page with store id and store name
                     Intent intent = new Intent(storeRegister.this,addproduct.class);
+                    intent.putExtra("storeID",Integer.parseInt(result.get(0).get(0)));
+                    intent.putExtra("storeName",result.get(0).get(1));
                     startActivity(intent);
                 } else {
                     // Error
@@ -56,7 +56,7 @@ public class storeRegister extends AppCompatActivity {
             }
         });
 
-        Signin .setOnClickListener(new View.OnClickListener() {
+        Signin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // To selection menu
                 Intent intent = new Intent(storeRegister.this,storeSignin.class);

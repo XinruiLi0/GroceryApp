@@ -24,18 +24,15 @@ public class storeSignin extends AppCompatActivity {
 
         Signin .setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-
+                // Check retailer information
                 ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers where Email = '"+email.getText()+"' and Password = '"+password.getText()+"'");
                 if (result.isEmpty()) {
                     Toast.makeText(storeSignin.this,"Incorrect email or password!", Toast.LENGTH_LONG).show();
                 } else {
-                    // Store store id and store name in local
-                    int storeID = Integer.parseInt(result.get(0).get(0));
-                    // TODO
-
-                    // To selection menu
+                    // Jump to next page with store id and store name
                     Intent intent = new Intent(storeSignin.this,addproduct.class);
+                    intent.putExtra("storeID",Integer.parseInt(result.get(0).get(0)));
+                    intent.putExtra("storeName",result.get(0).get(1));
                     startActivity(intent);
                 }
 
