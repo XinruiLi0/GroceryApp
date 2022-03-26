@@ -55,7 +55,7 @@ public class Register extends AppCompatActivity {
                     // Jump to next page with user id and user name
                     Intent intent = new Intent(Register.this,GroceryStores.class);
                     intent.putExtra("userID",Integer.parseInt(result.get(0).get(0)));
-                    intent.putExtra("userName",Integer.parseInt(result.get(0).get(1)));
+                    intent.putExtra("userName",result.get(0).get(1));
                     startActivity(intent);
                 } else {
                     // Error
@@ -74,7 +74,7 @@ public class Register extends AppCompatActivity {
                     // Jump to next page with user id and user name
                     Intent intent = new Intent(Register.this,GroceryStores.class);
                     intent.putExtra("userID",Integer.parseInt(result.get(0).get(0)));
-                    intent.putExtra("userName",Integer.parseInt(result.get(0).get(1)));
+                    intent.putExtra("userName",result.get(0).get(1));
                     startActivity(intent);
                 }
 
