@@ -32,7 +32,7 @@ public class HistoryOrder extends AppCompatActivity {
         // TODO
 
         // Request order list from db
-        ArrayList<ArrayList<String>> orderList = DBUtil.Query("select * from Orders where CustomerId = "+userID+" order by OrderNumber desc");
+        ArrayList<ArrayList<String>> orderList = DBUtil.Query("select * from Orders where CustomerId = "+userID);
 
         // Show the order detail in view
         // TODO
