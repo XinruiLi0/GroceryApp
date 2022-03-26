@@ -8,7 +8,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import java.util.ArrayList;
+
 public class shopCategory extends AppCompatActivity {
+
+    private int storeID;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +26,18 @@ public class shopCategory extends AppCompatActivity {
         EditText garlic = (EditText) findViewById(R.id.garlicnumber);
 
         ImageButton cart = (ImageButton) findViewById(R.id.imageButton);
+
+        // Extract store id and user name from local
+        // TODO
+
+        // Request store list from db
+        ArrayList<ArrayList<String>> productList = DBUtil.Query("select * from Products where RetailerId = " + storeID);
+        // Optional: Request categories list from db
+        // ArrayList<ArrayList<String>> categoryList = DBUtil.Query("select * from Products where RetailerId = " + storeID + " group by ItemCategory");
+
+        // Show the products in view
+        // TODO
+
         cart .setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // To selection menu

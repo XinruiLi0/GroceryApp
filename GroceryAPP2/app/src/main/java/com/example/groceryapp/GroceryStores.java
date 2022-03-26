@@ -18,7 +18,6 @@ public class GroceryStores extends AppCompatActivity {
     Button store1;
     Button Share2;
 
-    private int userID;
     private String userName;
 
     @Override
@@ -31,11 +30,12 @@ public class GroceryStores extends AppCompatActivity {
         store1 = (Button) findViewById(R.id.Store1);
         Share2 = (Button) findViewById(R.id.storeShare2);
 
-        // Extract user id and name from local
+        // Extract user name from local
         // TODO
 
         // Request store list from db
         ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers");
+
         // Show the stores in view
         // TODO
 
