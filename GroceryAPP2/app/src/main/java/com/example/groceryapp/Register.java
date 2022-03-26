@@ -33,6 +33,7 @@ public class Register extends AppCompatActivity {
 
         Name = (EditText) findViewById(R.id.registerName);
         Password = (EditText) findViewById(R.id.registerPassword);
+        // Email
 
         Register  = (Button) findViewById(R.id.registerRegis);
         Sign_in  = (Button) findViewById(R.id.registerSignin);
@@ -40,12 +41,17 @@ public class Register extends AppCompatActivity {
 
         Register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // To selection menu
-
-                //add(Name.getText().toString(), Password.getText().toString());
-                Toast.makeText(Register.this,"Good!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Register.this,GroceryStores.class);
-               startActivity(intent);
+                // Update user info to db
+                int temp = DBUtil.Update("insert into Customers(UserName, Email, [Password]) values ('"+Name+"', '"+Name+"', '"+Password+"')");
+                if (temp == 1) {
+                    // Success
+                    Toast.makeText(Register.this,"Success!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Register.this,GroceryStores.class);
+                    startActivity(intent);
+                } else {
+                    // Error
+                    Toast.makeText(Register.this,"Error!", Toast.LENGTH_LONG).show();
+                }
             }
         });
         /*
