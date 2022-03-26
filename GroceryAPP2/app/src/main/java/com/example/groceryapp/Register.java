@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Register extends AppCompatActivity {
    // public static String url = "jdbc:mysql://localhost:3306/grocery";
@@ -32,20 +33,27 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         Name = (EditText) findViewById(R.id.registerName);
+        // Email is also needed
+        // TODO
         Password = (EditText) findViewById(R.id.registerPassword);
-        // Email
 
         Register  = (Button) findViewById(R.id.registerRegis);
         Sign_in  = (Button) findViewById(R.id.registerSignin);
 
-
         Register.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // Check the syntax of the inputs
+                // TODO
+
                 // Update user info to db
-                int temp = DBUtil.Update("insert into Customers(UserName, Email, [Password]) values ('"+Name+"', '"+Name+"', '"+Password+"')");
+                int temp = DBUtil.Update("insert into Customers(UserName, Email, [Password]) values ('"+Name.getText()+"', '"+Name.getText()+"', '"+Password.getText()+"')");
                 if (temp == 1) {
                     // Success
                     Toast.makeText(Register.this,"Success!", Toast.LENGTH_LONG).show();
+                    ArrayList<ArrayList<String>> result = DBUtil.Query("select id, UserName from Customers where Email = '"+Name.getText()+"' and Password = '"+Password.getText()+"'");
+                    // Store user id and user name in local
+                    // TODO
+
                     Intent intent = new Intent(Register.this,GroceryStores.class);
                     startActivity(intent);
                 } else {
