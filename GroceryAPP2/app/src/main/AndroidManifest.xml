@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroceryAPP">
         <activity
+            android:name=".Signin"
+            android:exported="false" />
+        <activity
             android:name=".viewOrder"
             android:exported="false" />
         <activity
