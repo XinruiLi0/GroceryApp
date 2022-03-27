@@ -19,6 +19,22 @@
     <!--        app:layout_constraintTop_toTopOf="parent"-->
     <!--        app:layout_constraintVertical_bias="0.874" />-->
 
+    <Button
+        android:id="@+id/registerRegis"
+        android:layout_width="238dp"
+        android:layout_height="57dp"
+        android:background="@drawable/btn_1"
+        android:text="Register"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.778" />
+
     <EditText
         android:id="@+id/registerPassword"
         android:layout_width="326dp"
