@@ -1,16 +1,23 @@
 package com.example.groceryapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 
-public class GroceryStores extends AppCompatActivity {
+public class GroceryStores extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+
+    BottomNavigationView bottomNavigationView;
 
     Button Share1;
     Button Map1;
@@ -24,6 +31,11 @@ public class GroceryStores extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grocery_stores);
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.home);
+
 
         Share1 = (Button) findViewById(R.id.storeShare1);
         Map1 = (Button) findViewById(R.id.StoreLocation1);
@@ -77,5 +89,26 @@ public class GroceryStores extends AppCompatActivity {
 
             }
         });
+    }
+
+    // navigation view
+//    CustomerAccount customerAccount = new CustomerAccount();
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+//                Intent homeIntent = new Intent(GroceryStores.this, GroceryStores.class);
+//                startActivity(homeIntent);
+                return true;
+
+            // jump to account page
+            case R.id.account:
+                Intent accountIntent = new Intent(GroceryStores.this, CustomerAccount.class);
+                startActivity(accountIntent);
+                return true;
+
+        }
+
+        return false;
     }
 }
