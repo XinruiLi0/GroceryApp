@@ -58,11 +58,11 @@
         app:layout_constraintVertical_bias="0.353" />
 
     <EditText
-        android:id="@+id/registerEmail2"
+        android:id="@+id/signInEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.467"
@@ -71,7 +71,7 @@
         app:layout_constraintVertical_bias="0.408" />
 
     <EditText
-        android:id="@+id/registerPassword2"
+        android:id="@+id/signInPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"

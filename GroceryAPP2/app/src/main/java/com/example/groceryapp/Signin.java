@@ -18,27 +18,24 @@ public class Signin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
 
-        EditText email = (EditText) findViewById(R.id.emailsignin);
-        EditText password = (EditText) findViewById(R.id.passwordsignin);
+        EditText email = (EditText) findViewById(R.id.signInEmail);
+        EditText password = (EditText) findViewById(R.id.signInPassword);
         Button signin = (Button) findViewById(R.id.signin);
         Button register = (Button) findViewById(R.id.signinRegister);
 
         signin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Check retailer information
-                ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Customers where Email = '"+email.getText()+"' and Password = '"+password.getText()+"'");
+                ArrayList<ArrayList<String>> result = DBUtil.Query("select id from Customers where Email = '"+email.getText()+"' and Password = '"+password.getText()+"'");
                 if (result.isEmpty()) {
                     Toast.makeText(Signin.this,"Incorrect email or password!", Toast.LENGTH_LONG).show();
                 } else {
-                    // Jump to next page with store id and store name
+                    // Jump to next page
                     Intent intent = new Intent(Signin.this, GroceryStores.class);
 //                    intent.putExtra("userID",Integer.parseInt(result.get(0).get(0)));
 //                    intent.putExtra("userName",result.get(0).get(1));
-//                    startActivity(intent);
                     startActivity(intent);
                 }
-
-
             }
         });
 

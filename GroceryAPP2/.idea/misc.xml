@@ -4,13 +4,18 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_addproduct.xml" value="0.2631712259371834" />
+        <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_customer_account.xml" value="0.2658514492753623" />
+        <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_grocery_stores.xml" value="0.2658514492753623" />
+        <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_history_order.xml" value="0.2658514492753623" />
         <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_main.xml" value="0.2631712259371834" />
         <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_map.xml" value="0.2631712259371834" />
+        <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_maps.xml" value="0.2658514492753623" />
         <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_shop_category.xml" value="0.2658514492753623" />
         <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_signin.xml" value="0.2631712259371834" />
         <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_register.xml" value="0.2658514492753623" />
         <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_signin.xml" value="0.2658514492753623" />
+        <entry key="..\:/++R/5175/GroceryApp/GroceryAPP2/app/src/main/res/menu/customer_bottom_nav_menu.xml" value="0.4203125" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_addproduct.xml" value="0.39945652173913043" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_cart.xml" value="0.39945652173913043" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_grocery_stores.xml" value="0.39945652173913043" />
