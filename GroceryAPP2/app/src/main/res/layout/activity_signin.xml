@@ -52,7 +52,7 @@
         app:layout_constraintVertical_bias="0.853" />
 
     <EditText
-        android:id="@+id/registerEmail2"
+        android:id="@+id/emailsignin"
         android:layout_width="326dp"
         android:layout_height="50dp"
         android:background="@drawable/txt_1"
@@ -68,7 +68,7 @@
         app:layout_constraintVertical_bias="0.499" />
 
     <EditText
-        android:id="@+id/registerPassword2"
+        android:id="@+id/passwordsignin"
         android:layout_width="326dp"
         android:layout_height="50dp"
         android:background="@drawable/txt_1"
@@ -91,7 +91,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="66dp"
         android:layout_marginBottom="68dp"
-        app:layout_constraintBottom_toTopOf="@+id/registerEmail2"
+        app:layout_constraintBottom_toTopOf="@+id/emailsignin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
