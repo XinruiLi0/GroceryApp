@@ -52,13 +52,13 @@
         app:layout_constraintVertical_bias="0.853" />
 
     <EditText
-        android:id="@+id/registerEmail2"
+        android:id="@+id/signInEmail"
         android:layout_width="326dp"
         android:layout_height="50dp"
         android:background="@drawable/txt_1"
         android:ems="10"
         android:hint="Email"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
         app:layout_constraintVertical_bias="0.499" />
 
     <EditText
-        android:id="@+id/registerPassword2"
+        android:id="@+id/signInPassword"
         android:layout_width="326dp"
         android:layout_height="50dp"
         android:background="@drawable/txt_1"
@@ -88,14 +88,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="65dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="66dp"
-        android:layout_marginBottom="68dp"
-        app:layout_constraintBottom_toTopOf="@+id/registerEmail2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.074"
         app:srcCompat="@drawable/logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

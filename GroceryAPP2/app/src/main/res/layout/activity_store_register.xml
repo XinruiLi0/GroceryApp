@@ -13,6 +13,7 @@
         android:layout_height="46dp"
         android:background="@drawable/txt_1"
         android:ems="10"
+        android:hint="Latitude"
         android:inputType="numberSigned|numberDecimal"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,8 +21,7 @@
         app:layout_constraintHorizontal_bias="0.773"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.789"
-        tools:text="Latitude" />
+        app:layout_constraintVertical_bias="0.789" />
 
     <EditText
         android:id="@+id/longitude"
@@ -29,6 +29,7 @@
         android:layout_height="46dp"
         android:background="@drawable/txt_1"
         android:ems="10"
+        android:hint="Longitude"
         android:inputType="numberSigned|numberDecimal"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,8 +37,7 @@
         app:layout_constraintHorizontal_bias="0.24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.789"
-        tools:text="Longitude" />
+        app:layout_constraintVertical_bias="0.789" />
 
     <EditText
         android:id="@+id/emailregister"
@@ -48,13 +48,12 @@
         android:hint="Email"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57" />
+        app:layout_constraintVertical_bias="0.537" />
 
     <EditText
         android:id="@+id/passwordregister"
@@ -65,13 +64,12 @@
         android:hint="Password"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.64" />
+        app:layout_constraintVertical_bias="0.617" />
 
     <EditText
         android:id="@+id/storeaddressregister"
@@ -82,12 +80,12 @@
         android:hint="Store Address"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.457" />
 
     <EditText
         android:id="@+id/phoneregister"
@@ -99,13 +97,12 @@
         android:inputType="phone"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.71" />
+        app:layout_constraintVertical_bias="0.697" />
 
     <EditText
         android:id="@+id/storenameregister"
@@ -116,13 +113,12 @@
         android:hint="Store Name"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.43" />
+        app:layout_constraintVertical_bias="0.377" />
 
     <Button
         android:id="@+id/registerstore"
@@ -146,10 +142,8 @@
         android:layout_width="63dp"
         android:layout_height="31dp"
         android:background="@color/material_on_background_disabled"
-
         android:text="Sign in"
         android:textColor="#0070C8"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.715"
@@ -174,8 +168,14 @@
         android:id="@+id/imageView25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/logo"
-        tools:layout_editor_absoluteX="65dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="66dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/storenameregister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
