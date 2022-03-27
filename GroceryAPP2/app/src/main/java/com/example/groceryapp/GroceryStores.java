@@ -22,6 +22,7 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
     Button store1;
     Button Share2;
 
+    private String userID;
     private String userName;
 
     @Override
@@ -39,7 +40,9 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
         Share2 = (Button) findViewById(R.id.storeShare2);
 
         // Extract user name from local
-        // TODO
+        Intent i = getIntent();
+        userID = i.getStringExtra("userID");
+        userName = i.getStringExtra("userName");
 
         // Request store list from db
         ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers");
