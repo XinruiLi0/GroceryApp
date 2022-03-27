@@ -10,15 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class GroceryStores extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
-
+public class GroceryStores extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
-
     Button Share1;
     Button Map1;
 
@@ -35,7 +32,6 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
-
 
         Share1 = (Button) findViewById(R.id.storeShare1);
         Map1 = (Button) findViewById(R.id.StoreLocation1);
@@ -93,7 +89,7 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
 
     // navigation view
 //    CustomerAccount customerAccount = new CustomerAccount();
-    @Override
+//    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home:
@@ -111,4 +107,6 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
 
         return false;
     }
+
+
 }
