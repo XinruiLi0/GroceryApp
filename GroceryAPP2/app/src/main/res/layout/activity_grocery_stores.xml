@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="#F8FFF8"
     tools:context=".GroceryStores">
@@ -19,42 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.792" />
 
-    <Button
-        android:id="@+id/StoreLocation1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="See location on Google Map"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.469"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.443" />
-
-    <ImageView
-        android:id="@+id/Storeview"
-        android:layout_width="268dp"
-        android:layout_height="62dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.552"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.261"
-        app:srcCompat="@drawable/uottawastore" />
-
-    <Button
-        android:id="@+id/storeShare1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Share store on social media"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.524" />
-
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
@@ -63,21 +27,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/storeShare2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/storename"
-        app:layout_constraintVertical_bias="0.637" />
-
-    <Button
-        android:id="@+id/Store1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Shop this store"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.373" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView22"
@@ -103,18 +53,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.878" />
 
-    <TextView
-        android:id="@+id/storename"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="storename"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.056" />
-
     <Button
         android:id="@+id/store"
         android:layout_width="wrap_content"
@@ -137,5 +75,111 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/customer_bottom_nav_menu" />
+
+    <LinearLayout
+        android:layout_width="410dp"
+        android:layout_height="334dp"
+        android:layout_marginEnd="2dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.205">
+
+        <LinearLayout
+            android:layout_width="378dp"
+            android:layout_height="107dp"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_4"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#00FFFFFF" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textView39"
+                android:layout_width="205dp"
+                android:layout_height="107dp"
+                android:gravity="center"
+                android:text="Costco"
+                android:textColor="#2E5418"
+                android:textSize="34sp"
+                android:textStyle="bold|italic"
+                android:typeface="serif"
+                tools:layout_editor_absoluteX="7dp"
+                tools:layout_editor_absoluteY="423dp" />
+
+            <LinearLayout
+                android:layout_width="88dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#FFFFFFFF"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/Store1"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="#00FFFFFF"
+                    android:scaleType="fitEnd"
+                    app:srcCompat="@drawable/next" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <ImageButton
+                    android:id="@+id/StoreLocation1"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:background="#00FFFFFF"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/map2" />
+
+                <ImageButton
+                    android:id="@+id/storeShare1"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:background="#00FFFFFF"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/share" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+    </LinearLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
