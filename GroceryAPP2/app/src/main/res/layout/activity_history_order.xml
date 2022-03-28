@@ -24,19 +24,22 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="412dp"
-        android:layout_height="530dp"
+        android:layout_width="match_parent"
+        android:layout_height="430dp"
         android:layout_marginTop="7dp"
         android:layout_marginBottom="74dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView32">
+        app:layout_constraintTop_toBottomOf="@+id/textView32"
+        app:layout_constraintVertical_bias="0.64">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="97dp"
+            android:background="@drawable/layout_1"
             android:gravity="left|center_vertical">
 
             <ImageView
@@ -51,7 +54,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.18"
                 app:srcCompat="@drawable/cucumber" />
-
+            <LinearLayout
+                android:layout_width="169dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
             <TextView
                 android:id="@+id/cucumber3"
                 android:layout_width="wrap_content"
@@ -66,7 +73,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.23" />
-
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -110,6 +117,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="97dp"
+            android:background="@drawable/layout_1"
             android:gravity="left|center_vertical">
 
             <ImageView
@@ -123,7 +131,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.819"
                 app:srcCompat="@drawable/garlic" />
-
+            <LinearLayout
+                android:layout_width="169dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
             <TextView
                 android:id="@+id/garlic3"
                 android:layout_width="wrap_content"
@@ -138,7 +150,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.738" />
-
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -182,6 +194,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="97dp"
+            android:background="@drawable/layout_1"
             android:gravity="left|center_vertical">
 
             <ImageView
@@ -195,22 +208,28 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.611"
                 app:srcCompat="@drawable/eggs" />
+            <LinearLayout
+                android:layout_width="169dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/eggs3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Eggs (18 counts)"
-                android:textColor="#6D7278"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/eggcart2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.924"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.55" />
-
+                <TextView
+                    android:id="@+id/eggs3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Large White Eggs (18 counts)"
+                    android:textAlignment="center"
+                    android:textColor="#6D7278"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/eggcart2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.924"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.55" />
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -254,6 +273,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="97dp"
+            android:background="@drawable/layout_1"
             android:gravity="left|center_vertical">
 
             <ImageView
@@ -267,7 +287,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.42"
                 app:srcCompat="@drawable/blueberry" />
-
+            <LinearLayout
+                android:layout_width="169dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
             <TextView
                 android:id="@+id/blueberry3"
                 android:layout_width="wrap_content"
@@ -282,7 +306,7 @@
                 app:layout_constraintStart_toStartOf="@id/imageView10"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.45" />
-
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -323,6 +347,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
     <Button
         android:id="@+id/cartNotify"
         android:layout_width="wrap_content"
@@ -357,10 +382,54 @@
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.333"
         app:srcCompat="@drawable/service" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#E3E9DF"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.007"
+        app:srcCompat="@drawable/back"
+        app:tint="#FF308033" />
+
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order Number:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView42"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.069"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView42"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="11dp"
+        android:text="Order Date:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.063"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.969" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

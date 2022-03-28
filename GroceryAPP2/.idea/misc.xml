@@ -9,9 +9,10 @@
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_3.xml" value="0.279" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_4.xml" value="0.2905" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.32864583333333336" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/layout_1.xml" value="0.2905" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/txt_1.xml" value="0.32864583333333336" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_addproduct.xml" value="0.33" />
-        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_cart.xml" value="0.2" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_cart.xml" value="0.33" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_customer_account.xml" value="0.31354166666666666" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_grocery_stores.xml" value="0.33" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_history_order.xml" value="0.33" />
@@ -21,9 +22,10 @@
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_shop_category.xml" value="0.33" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_signin.xml" value="0.33" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_home.xml" value="0.33" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_register.xml" value="0.33" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_signin.xml" value="0.33" />
-        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_view_order.xml" value="0.3125" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_view_order.xml" value="0.33" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/menu/customer_bottom_nav_menu.xml" value="0.3125" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/menu/retailer_bottom_nav_menu.xml" value="0.2864583333333333" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_addproduct.xml" value="0.39945652173913043" />
