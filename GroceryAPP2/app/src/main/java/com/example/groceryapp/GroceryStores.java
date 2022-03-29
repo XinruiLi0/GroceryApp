@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -16,11 +17,11 @@ import java.util.ArrayList;
 
 public class GroceryStores extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
-    Button Share1;
-    Button Map1;
+    ImageButton Share1;
+    ImageButton Map1;
 
-    Button store1;
-    Button Share2;
+    ImageButton store1;
+    Button Share2; //may need to change to ImageButton later
 
     private String userID;
     private String userName;
@@ -34,15 +35,16 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
-        Share1 = (Button) findViewById(R.id.storeShare1);
-        Map1 = (Button) findViewById(R.id.StoreLocation1);
-        store1 = (Button) findViewById(R.id.Store1);
-        Share2 = (Button) findViewById(R.id.storeShare2);
+        Share1 = (ImageButton) findViewById(R.id.storeShare1);
+        Map1 = (ImageButton) findViewById(R.id.StoreLocation1);
+        store1 = (ImageButton) findViewById(R.id.Store1);
+        Share2 = (Button) findViewById(R.id.storeShare2); //may need to change to ImageButton later
 
         // Extract user name from local
         Intent i = getIntent();
         userID = i.getStringExtra("userID");
         userName = i.getStringExtra("userName");
+// 跳到后一个页面时不仅要传这2个，也要传store id
 
         // Request store list from db
         ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers");
@@ -105,7 +107,6 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
                 Intent accountIntent = new Intent(GroceryStores.this, CustomerAccount.class);
                 startActivity(accountIntent);
                 return true;
-
         }
 
         return false;

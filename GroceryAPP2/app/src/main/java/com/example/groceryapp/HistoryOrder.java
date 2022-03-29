@@ -1,5 +1,6 @@
 package com.example.groceryapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -10,16 +11,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class HistoryOrder extends AppCompatActivity {
+public class HistoryOrder extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private int userID;
-
-    Button Call;
+    BottomNavigationView bottomNavigationView;
+    ImageButton Call;
     Button Notify;
 
     int phoneNum;
@@ -27,6 +32,10 @@ public class HistoryOrder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_order);
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.home);
 
         // Extract user id from local
         // TODO
@@ -37,7 +46,7 @@ public class HistoryOrder extends AppCompatActivity {
         // Show the order detail in view
         // TODO
 
-        Call = (Button) findViewById(R.id.cartCall);
+        Call = (ImageButton) findViewById(R.id.cartCall);
         Notify = (Button) findViewById(R.id.cartNotify);
         phoneNum = 123456;
 
@@ -72,6 +81,27 @@ public class HistoryOrder extends AppCompatActivity {
                 managerCompat.notify(1,builder.build());
             }
         });
+    }
+
+
+    // navigation view
+//    CustomerAccount customerAccount = new CustomerAccount();
+//    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            // jump to customer home page
+            case R.id.home:
+                Intent homeIntent = new Intent(HistoryOrder.this, GroceryStores.class);
+                startActivity(homeIntent);
+                return true;
+
+            case R.id.account:
+//                Intent accountIntent = new Intent(GroceryStores.this, CustomerAccount.class);
+//                startActivity(accountIntent);
+                return true;
+        }
+
+        return false;
     }
 
 
