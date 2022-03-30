@@ -57,14 +57,14 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
         ArrayList<StoreHelperClass> locations = new ArrayList<>();
 
         for (int i = 0; i < result.size(); ++i) {
-            locations.add(new StoreHelperClass(result.get(i).get(1), result.get(i).get(0)));
+            locations.add(new StoreHelperClass(result.get(i).get(1), result.get(i).get(0), userName, userID));
         }
 
         adapter = new MyAdapter(locations);
         recyclerView.setAdapter(adapter);
 
     }
-    
+
     // navigation view
 //    CustomerAccount customerAccount = new CustomerAccount();
 //    @Override

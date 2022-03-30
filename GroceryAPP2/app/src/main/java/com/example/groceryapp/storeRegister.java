@@ -46,7 +46,7 @@ public class storeRegister extends AppCompatActivity {
 
                     // Jump to next page with store id and store name
                     Intent intent = new Intent(storeRegister.this,addproduct.class);
-                    intent.putExtra("storeID",Integer.parseInt(result.get(0).get(0)));
+                    intent.putExtra("storeID",result.get(0).get(0));
                     intent.putExtra("storeName",result.get(0).get(1));
                     startActivity(intent);
                 } else {

@@ -54,7 +54,7 @@ public class Register extends AppCompatActivity {
 
                     // Jump to next page with user id and user name
                     Intent intent = new Intent(Register.this,GroceryStores.class);
-                    intent.putExtra("userID",Integer.parseInt(result.get(0).get(0)));
+                    intent.putExtra("userID",result.get(0).get(0));
                     intent.putExtra("userName",result.get(0).get(1));
                     startActivity(intent);
                 } else {
@@ -66,17 +66,6 @@ public class Register extends AppCompatActivity {
 
         Sign_in.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                // Check user information
-//                ArrayList<ArrayList<String>> result = DBUtil.Query("select id, UserName from Customers where Email = '"+Email.getText()+"' and Password = '"+Password.getText()+"'");
-//                if (result.isEmpty()) {
-//                    Toast.makeText(Register.this,"Incorrect email or password!", Toast.LENGTH_LONG).show();
-//                } else {
-//                    // Jump to next page with user id and user name
-//                    Intent intent = new Intent(Register.this,GroceryStores.class);
-//                    intent.putExtra("userID",Integer.parseInt(result.get(0).get(0)));
-//                    intent.putExtra("userName",result.get(0).get(1));
-//                    startActivity(intent);
-//                }
                 // Jump to sign in page
                 Intent intent = new Intent(Register.this, Signin.class);
                 startActivity(intent);

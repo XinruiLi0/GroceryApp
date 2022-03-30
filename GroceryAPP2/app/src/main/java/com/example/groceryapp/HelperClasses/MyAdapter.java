@@ -38,6 +38,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         StoreHelperClass storeHelperClass = locations.get(position);
         holder.storeName.setText(storeHelperClass.getStoreName());
         holder.storeId.setText(storeHelperClass.getStoreId());
+        holder.userId = storeHelperClass.getUserId();
+        holder.userName = storeHelperClass.getUserName();
     }
 
     @Override
@@ -46,6 +48,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        String userId;
+        String userName;
+
         TextView storeName;
         TextView storeId;
         ImageButton next;
@@ -65,7 +70,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), shopCategory.class);
-                    intent.putExtra("storeID", storeId.getText());
+                    intent.putExtra("userName", userName);
+                    intent.putExtra("userId", userId);
+                    intent.putExtra("storeName", (String) storeName.getText());
+                    intent.putExtra("storeID", (String) storeId.getText());
                     view.getContext().startActivity(intent);
                 }
             });
@@ -74,7 +82,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), shopCategory.class);
-                    intent.putExtra("storeID", storeId.getText());
+                    intent.putExtra("userName", userName);
+                    intent.putExtra("userId", userId);
+                    intent.putExtra("storeName", (String) storeName.getText());
+                    intent.putExtra("storeID", (String) storeId.getText());
                     view.getContext().startActivity(intent);
                 }
             });
@@ -83,7 +94,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), Map.class);
-                    intent.putExtra("storeID", storeId.getText());
+                    intent.putExtra("storeName", (String) storeName.getText());
+                    intent.putExtra("storeID", (String) storeId.getText());
                     view.getContext().startActivity(intent);
                 }
             });
