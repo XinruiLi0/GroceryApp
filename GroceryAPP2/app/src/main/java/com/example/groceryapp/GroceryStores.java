@@ -40,9 +40,9 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
 
 
         // Extract user name from local
-        Intent i = getIntent();
-        userID = i.getStringExtra("userID");
-        userName = i.getStringExtra("userName");
+        Intent intent = getIntent();
+        userID = intent.getStringExtra("userID");
+        userName = intent.getStringExtra("userName");
         // 跳到后一个页面时不仅要传这2个，也要传store id
 
         // Request store list from db
@@ -56,75 +56,15 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
 
         ArrayList<StoreHelperClass> locations = new ArrayList<>();
 
-        locations.add(new StoreHelperClass("Costco"));
-        locations.add(new StoreHelperClass("Loblaw"));
+        for (int i = 0; i < result.size(); ++i) {
+            locations.add(new StoreHelperClass(result.get(i).get(1), result.get(i).get(0)));
+        }
 
         adapter = new MyAdapter(locations);
         recyclerView.setAdapter(adapter);
 
-
-
-//        for (int i = 0; i < result.size(); ++i) {
-//            LinearLayout store = new LinearLayout(this);
-//            store.setBackgroundResource(R.drawable.btn_4);
-//            store.setOrientation(LinearLayout.HORIZONTAL);
-//            LinearLayout.LayoutParams p1 = new LayoutParams(dpToPx(380), dpToPx(110));
-//            p1.gravity = Gravity.CENTER;
-//            p1.setMargins(0, 0, 0, dpToPx(10));
-//            store.setLayoutParams(p1);
-//
-//            TextView name = new TextView(this);
-//            name.setText(result.get(i).get(1));
-//            name.setTextSize(TypedValue.COMPLEX_UNIT_SP, 34.0F);
-//            name.setTextColor(Color.parseColor("#2E5418"));
-//            name.setTypeface(null, Typeface.BOLD_ITALIC);
-//            LinearLayout.LayoutParams p2 = new LayoutParams(dpToPx(300), dpToPx(108));
-//            p2.gravity = Gravity.CENTER;
-//            p2.setMargins(0, dpToPx(5), 0, 0);
-//            name.setLayoutParams(p2);
-//
-//            LinearLayout buttons = new LinearLayout(this);
-//            buttons.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
-//            store.setOrientation(LinearLayout.VERTICAL);
-//            LinearLayout.LayoutParams p3 = new LayoutParams(dpToPx(40), dpToPx(100));
-//            p3.gravity = Gravity.RIGHT;
-//            p3.weight = 1;
-//            p3.setMargins(0, dpToPx(5), dpToPx(30), dpToPx(5));
-//            buttons.setLayoutParams(p3);
-//
-//            ImageButton next = new ImageButton(this);
-//            next.setBackgroundColor(Color.parseColor("#00FFFFFF"));
-//            next.setScaleType(ImageView.ScaleType.FIT_END);
-//            next.setImageResource(R.drawable.next);
-//            LinearLayout.LayoutParams p4 = new LayoutParams(dpToPx(28), dpToPx(28));
-//            next.setLayoutParams(p4);
-//
-//            ImageButton map = new ImageButton(this);
-//            map.setBackgroundColor(Color.parseColor("#00FFFFFF"));
-//            map.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//            map.setImageResource(R.drawable.map2);
-//            LinearLayout.LayoutParams p5 = new LayoutParams(dpToPx(40), dpToPx(30));
-//            map.setLayoutParams(p5);
-//
-//            ImageButton share = new ImageButton(this);
-//            share.setBackgroundColor(Color.parseColor("#00FFFFFF"));
-//            share.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-//            share.setImageResource(R.drawable.share);
-//            LinearLayout.LayoutParams p6 = new LayoutParams(dpToPx(30), dpToPx(30));
-//            share.setLayoutParams(p6);
-//
-//            buttons.addView(next);
-//            buttons.addView(map);
-//            buttons.addView(share);
-//            store.addView(name);
-//            store.addView(buttons);
-//            container.addView(store);
-//        }
     }
-
-
-
-
+    
     // navigation view
 //    CustomerAccount customerAccount = new CustomerAccount();
 //    @Override

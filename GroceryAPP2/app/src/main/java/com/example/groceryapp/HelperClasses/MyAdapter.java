@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groceryapp.Map;
 import com.example.groceryapp.R;
 import com.example.groceryapp.shopCategory;
 
@@ -35,6 +37,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         StoreHelperClass storeHelperClass = locations.get(position);
         holder.storeName.setText(storeHelperClass.getStoreName());
+        holder.storeId.setText(storeHelperClass.getStoreId());
     }
 
     @Override
@@ -44,6 +47,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView storeName;
+        TextView storeId;
         ImageButton next;
         ImageButton map;
         ImageButton share;
@@ -52,35 +56,46 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             super(itemView);
 
             storeName = itemView.findViewById(R.id.storeName);
+            storeId = itemView.findViewById(R.id.storeId);
             next = itemView.findViewById(R.id.next);
             map = itemView.findViewById(R.id.map);
             share = itemView.findViewById(R.id.share);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            storeName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemView.getContext().startActivity(new Intent(itemView.getContext(), shopCategory.class));
+                    Intent intent = new Intent(view.getContext(), shopCategory.class);
+                    intent.putExtra("storeID", storeId.getText());
+                    view.getContext().startActivity(intent);
                 }
             });
 
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    next.getContext().startActivity(new Intent(next.getContext(), shopCategory.class));
+                    Intent intent = new Intent(view.getContext(), shopCategory.class);
+                    intent.putExtra("storeID", storeId.getText());
+                    view.getContext().startActivity(intent);
                 }
             });
 
             map.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    map.getContext().startActivity(new Intent(map.getContext(), shopCategory.class));
+                    Intent intent = new Intent(view.getContext(), Map.class);
+                    intent.putExtra("storeID", storeId.getText());
+                    view.getContext().startActivity(intent);
                 }
             });
 
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    share.getContext().startActivity(new Intent(share.getContext(), shopCategory.class));
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_TEXT,"Share this store");
+                    intent.setType("text/plain");
+                    view.getContext().startActivity(intent);
                 }
             });
 
