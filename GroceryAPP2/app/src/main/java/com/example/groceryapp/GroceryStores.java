@@ -21,11 +21,6 @@ import java.util.ArrayList;
 
 public class GroceryStores extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
-    ImageButton Share1;
-    ImageButton Map1;
-
-    ImageButton store1;
-    Button Share2; //may need to change to ImageButton later
 
     private String userID;
     private String userName;
@@ -43,16 +38,12 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
         bottomNavigationView.setSelectedItemId(R.id.home);
 
 
-        Share1 = (ImageButton) findViewById(R.id.storeShare1);
-        Map1 = (ImageButton) findViewById(R.id.StoreLocation1);
-        store1 = (ImageButton) findViewById(R.id.Store1);
-        Share2 = (Button) findViewById(R.id.storeShare2); //may need to change to ImageButton later
 
         // Extract user name from local
         Intent i = getIntent();
         userID = i.getStringExtra("userID");
         userName = i.getStringExtra("userName");
-// 跳到后一个页面时不仅要传这2个，也要传store id
+        // 跳到后一个页面时不仅要传这2个，也要传store id
 
         // Request store list from db
         ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers");
@@ -71,44 +62,7 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
         adapter = new MyAdapter(locations);
         recyclerView.setAdapter(adapter);
 
-        Share1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // To selection menu
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT,"Share this store");
-                intent.setType("text/plain");
-                startActivity(intent);
 
-            }
-        });
-
-        Map1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // To selection menu
-                Intent intent = new Intent(GroceryStores.this,Map.class);
-                startActivity(intent);
-
-            }
-        });
-        store1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // To selection menu
-                Intent intent = new Intent(GroceryStores.this,shopCategory.class);
-
-                startActivity(intent);
-
-            }
-        });
-
-        Share2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // To selection menu
-                Intent intent = new Intent(GroceryStores.this,Cart.class);
-                startActivity(intent);
-
-            }
-        });
 
 //        for (int i = 0; i < result.size(); ++i) {
 //            LinearLayout store = new LinearLayout(this);
