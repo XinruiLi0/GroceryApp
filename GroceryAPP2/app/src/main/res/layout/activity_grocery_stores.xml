@@ -7,63 +7,7 @@
     android:background="#F8FFF8"
     tools:context=".GroceryStores">
 
-    <Button
-        android:id="@+id/storeShare2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Share store on social media"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.534"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.792" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Not available, will come sson"
-        app:layout_constraintBottom_toBottomOf="@+id/storeShare2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView22"
-        android:layout_width="105dp"
-        android:layout_height="77dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.633"
-        app:srcCompat="@drawable/notopen" />
-
-    <Button
-        android:id="@+id/storeLocation2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="See location on Google Map"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.463"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.878" />
-
-    <Button
-        android:id="@+id/store"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Shop this store"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.486"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.721" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -80,8 +24,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/storeRecyclerView"
-        android:layout_width="411dp"
-        android:layout_height="388dp"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

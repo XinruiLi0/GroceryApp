@@ -37,7 +37,7 @@ public class Signin extends AppCompatActivity {
                 } else {
                     // Jump to next page
                     Intent intent = new Intent(Signin.this, GroceryStores.class);
-                    intent.putExtra("userID",Integer.parseInt(result.get(0).get(0)));
+                    intent.putExtra("userID",result.get(0).get(0));
                     intent.putExtra("userName",result.get(0).get(1));
                     startActivity(intent);
                 }
@@ -48,9 +48,6 @@ public class Signin extends AppCompatActivity {
             public void onClick(View v) {
                 // Jump to register page
                 Intent intent = new Intent(Signin.this, Register.class);
-//                    intent.putExtra("userID",Integer.parseInt(result.get(0).get(0)));
-//                    intent.putExtra("userName",result.get(0).get(1));
-//                    startActivity(intent);
                 startActivity(intent);
             }
         });
