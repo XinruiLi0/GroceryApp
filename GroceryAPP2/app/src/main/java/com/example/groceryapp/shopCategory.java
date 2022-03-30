@@ -41,7 +41,7 @@ public class shopCategory extends AppCompatActivity {
         cart .setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // To selection menu
-                Intent intent = new Intent(shopCategory.this,Cart.class);
+                Intent intent = new Intent(shopCategory.this, Cart.class);
                 startActivity(intent);
 
             }

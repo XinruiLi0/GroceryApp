@@ -1,14 +1,8 @@
 package com.example.groceryapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -55,7 +49,7 @@ public class Cart extends AppCompatActivity {
                 // int temp = DBUtil.Update("update Products set ItemStock = ItemStock - "+Amount+" where id = "+itemID);
 
                 // To selection menu
-                Intent intent = new Intent(Cart.this,HistoryOrder.class);
+                Intent intent = new Intent(Cart.this, HistoryOrder.class);
                 startActivity(intent);
 
             }
