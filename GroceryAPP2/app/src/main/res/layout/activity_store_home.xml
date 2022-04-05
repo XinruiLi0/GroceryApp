@@ -94,8 +94,8 @@
                 android:layout_weight="1"
                 android:background="#FFFFFFFF"
                 android:scaleType="fitCenter"
-                android:tint="#0070C8"
-                app:srcCompat="@drawable/next" />
+                app:srcCompat="@drawable/next"
+                app:tint="#0070C8" />
         </LinearLayout>
     </LinearLayout>
 

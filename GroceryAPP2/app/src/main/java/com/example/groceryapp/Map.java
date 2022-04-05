@@ -17,6 +17,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -42,7 +43,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Locati
 
     private GoogleMap map;
     private LocationManager locationManager;
-
+    ImageButton back;
     private List<LatLng> list = new ArrayList<>();
 
 
@@ -72,7 +73,14 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Locati
 
             }
         });
-
+        back = (ImageButton) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // go back
+                Intent intent = new Intent(Map.this, GroceryStores.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
