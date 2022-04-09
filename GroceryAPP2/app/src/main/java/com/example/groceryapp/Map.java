@@ -44,6 +44,10 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Locati
     private GoogleMap map;
     private LocationManager locationManager;
     ImageButton back;
+    private String storeID;
+    private String storeName;
+    private ArrayList<String> storeLatLng;
+
     private List<LatLng> list = new ArrayList<>();
 
 
@@ -51,6 +55,15 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Locati
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        // Extract store name from local
+        Intent intent = getIntent();
+        storeID = intent.getStringExtra("storeID");
+        storeName = intent.getStringExtra("storeName");
+
+        // Request store position from db
+        ArrayList<ArrayList<String>> result = DBUtil.Query("select latitude, longitude from Retailers where id = "+storeID);
+        storeLatLng = result.get(0);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -125,7 +138,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Locati
             return;
         }
         map.setMyLocationEnabled(true);
-        LatLng store = new LatLng(45.4233, -75.68452);
+        LatLng store = new LatLng(Double.parseDouble(storeLatLng.get(0)), Double.parseDouble(storeLatLng.get(1)));
         list.add(0,store);
         map.addMarker(new MarkerOptions().position(store).title("Our store is here!"));
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(store,12));

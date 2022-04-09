@@ -37,8 +37,6 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
-
-
         // Extract user name from local
         Intent intent = getIntent();
         userID = intent.getStringExtra("userID");
