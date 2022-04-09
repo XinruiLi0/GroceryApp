@@ -36,20 +36,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        ItemHelperClass storeHelperClass = locations.get(position);
-        holder.itemName.setText(storeHelperClass.getItemName());
-        holder.itemId = storeHelperClass.getItemId();
-        holder.itemStock = storeHelperClass.getItemStock();
-        holder.restockTime = storeHelperClass.getRestockTime();
-        holder.itemPrice.setText("$ " +storeHelperClass.getItemPrice());
-        holder.itemCategory = storeHelperClass.getItemCategory();
+        ItemHelperClass itemHelperClass = locations.get(position);
+        holder.itemName.setText(itemHelperClass.getItemName());
+        holder.itemId = itemHelperClass.getItemId();
+        holder.itemStock = itemHelperClass.getItemStock();
+        holder.restockTime = itemHelperClass.getRestockTime();
+        holder.itemPrice.setText("$ " +itemHelperClass.getItemPrice());
+        holder.itemCategory = itemHelperClass.getItemCategory();
         ArrayList<Integer> itemList = new ArrayList<Integer> ();
         itemList.add(R.drawable.costco);
         itemList.add(R.drawable.cucumber);
         itemList.add(R.drawable.blueberry);
         itemList.add(R.drawable.eggs);
         itemList.add(R.drawable.garlic);
-        int imageIndex = Integer.parseInt(storeHelperClass.getItemImage());
+        int imageIndex = Integer.parseInt(itemHelperClass.getItemImage());
         holder.itemImage.setImageResource(itemList.get(imageIndex));
     }
 
