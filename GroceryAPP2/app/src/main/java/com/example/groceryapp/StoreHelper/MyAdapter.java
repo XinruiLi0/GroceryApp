@@ -1,11 +1,10 @@
-package com.example.groceryapp.HelperClasses;
+package com.example.groceryapp.StoreHelper;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
