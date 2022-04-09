@@ -14,6 +14,7 @@ public class shopCategory extends AppCompatActivity {
 
     private int storeID;
     private String userName;
+    ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class shopCategory extends AppCompatActivity {
         EditText garlic = (EditText) findViewById(R.id.garlicnumber);
 
         ImageButton cart = (ImageButton) findViewById(R.id.imageButton);
+        back = (ImageButton) findViewById(R.id.imageButton2);
 
         // Extract store id and user name from local
         // TODO
@@ -44,6 +46,14 @@ public class shopCategory extends AppCompatActivity {
                 Intent intent = new Intent(shopCategory.this, Cart.class);
                 startActivity(intent);
 
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // go back
+                Intent intent = new Intent(shopCategory.this, GroceryStores.class);
+                startActivity(intent);
             }
         });
     }

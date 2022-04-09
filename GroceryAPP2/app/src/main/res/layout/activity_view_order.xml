@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDFBFF"
+    android:backgroundTint="#EDFBFF"
     tools:context=".viewOrder">
 
     <TextView
@@ -364,10 +365,11 @@
         app:layout_constraintVertical_bias="0.022" />
 
 
-    <ImageView
-        android:id="@+id/imageView27"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:backgroundTint="#EDFBFF"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -392,4 +394,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.968" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
