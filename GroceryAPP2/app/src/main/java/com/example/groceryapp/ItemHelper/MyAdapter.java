@@ -41,7 +41,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.itemId = storeHelperClass.getItemId();
         holder.itemStock = storeHelperClass.getItemStock();
         holder.restockTime = storeHelperClass.getRestockTime();
-        holder.itemPrice.setText(storeHelperClass.getItemPrice());
+        holder.itemPrice.setText("$ " +storeHelperClass.getItemPrice());
         holder.itemCategory = storeHelperClass.getItemCategory();
         ArrayList<Integer> itemList = new ArrayList<Integer> ();
         itemList.add(R.drawable.costco);
