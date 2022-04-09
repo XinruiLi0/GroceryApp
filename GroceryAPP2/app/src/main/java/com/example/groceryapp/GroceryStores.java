@@ -37,13 +37,10 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
-
-
         // Extract user name from local
         Intent intent = getIntent();
         userID = intent.getStringExtra("userID");
         userName = intent.getStringExtra("userName");
-        // 跳到后一个页面时不仅要传这2个，也要传store id
 
         // Request store list from db
         ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers");
