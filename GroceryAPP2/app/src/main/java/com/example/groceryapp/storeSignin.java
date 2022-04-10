@@ -30,7 +30,7 @@ public class storeSignin extends AppCompatActivity {
                     Toast.makeText(storeSignin.this,"Incorrect email or password!", Toast.LENGTH_LONG).show();
                 } else {
                     // Jump to next page with store id and store name
-                    Intent intent = new Intent(storeSignin.this,addproduct.class);
+                    Intent intent = new Intent(storeSignin.this, StoreHome.class);
                     intent.putExtra("storeID",result.get(0).get(0));
                     intent.putExtra("storeName",result.get(0).get(1));
                     startActivity(intent);

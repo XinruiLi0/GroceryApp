@@ -45,7 +45,7 @@ public class storeRegister extends AppCompatActivity {
                     ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers where Email = '"+email.getText()+"' and Password = '"+password.getText()+"'");
 
                     // Jump to next page with store id and store name
-                    Intent intent = new Intent(storeRegister.this,addproduct.class);
+                    Intent intent = new Intent(storeRegister.this, StoreHome.class);
                     intent.putExtra("storeID",result.get(0).get(0));
                     intent.putExtra("storeName",result.get(0).get(1));
                     startActivity(intent);
@@ -61,7 +61,6 @@ public class storeRegister extends AppCompatActivity {
                 // To selection menu
                 Intent intent = new Intent(storeRegister.this,storeSignin.class);
                 startActivity(intent);
-
             }
         });
     }

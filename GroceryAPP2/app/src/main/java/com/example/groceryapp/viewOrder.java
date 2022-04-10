@@ -32,7 +32,7 @@ public class viewOrder extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // go back
-                Intent intent = new Intent(viewOrder.this, storeHome.class);
+                Intent intent = new Intent(viewOrder.this, StoreAccount.class);
                 startActivity(intent);
             }
         });
