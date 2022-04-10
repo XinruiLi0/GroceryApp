@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Cart extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class Cart extends AppCompatActivity {
     private int storeID;
     private int userID;
     private String userName;
+    private ArrayList<ArrayList<String>> itemList;
     ImageButton back;
 
     @Override
@@ -29,16 +31,18 @@ public class Cart extends AppCompatActivity {
         TextView eggs = (TextView) findViewById(R.id.eggcart);
         TextView garlic = (TextView) findViewById(R.id.garliccart);
 
+        // Extract store id and user id from local
+        // TODO
+        Intent intent = getIntent();
+        itemList = (ArrayList<ArrayList<String>>) intent.getSerializableExtra("itemList");
+
+        // Transfer item to a list
+        // TODO
+
         Button checkout = (Button) findViewById(R.id.checkout);
 
         checkout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Extract store id and user id from local
-                // TODO
-
-                // Transfer item to a list
-                // TODO
-
                 // Get order date and time
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 Date date = new Date();

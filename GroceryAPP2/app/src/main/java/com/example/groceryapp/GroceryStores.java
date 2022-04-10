@@ -8,13 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 
-import com.example.groceryapp.HelperClasses.MyAdapter;
-import com.example.groceryapp.HelperClasses.StoreHelperClass;
+import com.example.groceryapp.StoreHelper.MyAdapter;
+import com.example.groceryapp.StoreHelper.StoreHelperClass;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
