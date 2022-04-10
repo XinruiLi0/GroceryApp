@@ -6,178 +6,227 @@
     android:layout_height="match_parent"
     android:background="#ACCBE0"
     tools:context=".storeRegister">
-
-    <EditText
-        android:id="@+id/longitude"
-        android:layout_width="120dp"
-        android:layout_height="46dp"
-        android:background="@drawable/txt_1"
-        android:ems="10"
-        android:hint="Longitude"
-        android:inputType="numberSigned|numberDecimal"
-        android:textAlignment="center"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.226"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintTop_toTopOf="parent">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.015" />
+        <ImageView
+            android:id="@+id/imageView25"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.35"
+            android:scaleType="fitCenter"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:srcCompat="@drawable/logo" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-    <EditText
-        android:id="@+id/latitude"
-        android:layout_width="120dp"
-        android:layout_height="46dp"
-        android:background="@drawable/txt_1"
-        android:ems="10"
-        android:hint="Latitude"
-        android:inputType="numberSigned|numberDecimal"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.759"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        <EditText
+            android:id="@+id/storenameregister"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/txt_1"
+            android:ems="10"
+            android:hint="Store Name"
+            android:inputType="textPersonName"
+            android:textAlignment="center" />
+    </LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.01" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-    <EditText
-        android:id="@+id/emailregister"
-        android:layout_width="326dp"
-        android:layout_height="45dp"
-        android:background="@drawable/txt_1"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.557" />
+        <EditText
+            android:id="@+id/storeaddressregister"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/txt_1"
+            android:ems="10"
+            android:hint="Store Address"
+            android:inputType="textPersonName"
+            android:textAlignment="center" />
+    </LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.01" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-    <EditText
-        android:id="@+id/passwordregister"
-        android:layout_width="326dp"
-        android:layout_height="45dp"
-        android:background="@drawable/txt_1"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.637" />
+        <EditText
+            android:id="@+id/emailregister"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/txt_1"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:textAlignment="center" />
+    </LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.01" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-    <EditText
-        android:id="@+id/storeaddressregister"
-        android:layout_width="326dp"
-        android:layout_height="45dp"
-        android:background="@drawable/txt_1"
-        android:ems="10"
-        android:hint="Store Address"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.477" />
+        <EditText
+            android:id="@+id/passwordregister"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/txt_1"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPersonName"
+            android:textAlignment="center" />
+    </LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.01" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-    <EditText
-        android:id="@+id/phoneregister"
-        android:layout_width="326dp"
-        android:layout_height="45dp"
-        android:background="@drawable/txt_1"
-        android:ems="10"
-        android:hint="Phone Number"
-        android:inputType="phone"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.717" />
+        <EditText
+            android:id="@+id/phoneregister"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/txt_1"
+            android:ems="10"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:textAlignment="center"
+            android:textAllCaps="false" />
+    </LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.01" />
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-    <EditText
-        android:id="@+id/storenameregister"
-        android:layout_width="326dp"
-        android:layout_height="45dp"
-        android:background="@drawable/txt_1"
-        android:ems="10"
-        android:hint="Store Name"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.397" />
+            <EditText
+                android:id="@+id/longitude"
+                android:layout_width="0dp"
+                android:layout_weight="0.4"
+                android:layout_height="match_parent"
+                android:background="@drawable/txt_1"
+                android:ems="10"
+                android:hint="Longitude"
+                android:inputType="numberSigned|numberDecimal"
+                android:textAlignment="center" />
 
-    <Button
-        android:id="@+id/registerstore"
-        android:layout_width="238dp"
-        android:layout_height="57dp"
-        android:background="@drawable/btn_2"
-        android:text="Register"
-        android:textAlignment="center"
-        android:textColor="#FFFFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
+            <EditText
+                android:id="@+id/latitude"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:background="@drawable/txt_1"
+                android:ems="10"
+                android:hint="Latitude"
+                android:inputType="numberSigned|numberDecimal"
+                android:textAlignment="center" />
+    </LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.01" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Already have an account?"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.346"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.941" />
 
-    <Button
-        android:id="@+id/registerstore2"
-        android:layout_width="63dp"
-        android:layout_height="31dp"
-        android:background="@color/material_on_background_disabled"
+        <Button
+            android:id="@+id/registerstore"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:background="@drawable/btn_2"
+            android:text="Register"
+            android:textAlignment="center"
+            android:textColor="#FFFFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.05"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-        android:text="Sign in"
-        android:textColor="#0070C8"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Already have an account?"
+            android:textStyle="bold" />
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.715"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.95" />
-
-    <ImageView
-        android:id="@+id/imageView25"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="65dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="66dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/storenameregister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
+        <Button
+            android:id="@+id/registerstore2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/material_on_background_disabled"
+            android:text="Sign in"
+            android:textColor="#0070C8"
+            android:textStyle="italic" />
+    </LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.01" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

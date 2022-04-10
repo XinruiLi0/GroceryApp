@@ -3,8 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_1.xml" value="0.1695" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_addproduct.xml" value="0.2864583333333333" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_cart.xml" value="0.25" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_customer_account.xml" value="0.2864583333333333" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_grocery_stores.xml" value="0.2864583333333333" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_history_order.xml" value="0.2864583333333333" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_map.xml" value="0.2864583333333333" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_maps.xml" value="0.2864583333333333" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_register.xml" value="0.2898148148148148" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_shop_category.xml" value="0.25" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_signin.xml" value="0.1" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_home.xml" value="0.2864583333333333" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_register.xml" value="0.18" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_signin.xml" value="0.2864583333333333" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_view_order.xml" value="0.2864583333333333" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/item_card_view.xml" value="0.3234375" />
+        <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/store_card_view.xml" value="0.33" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_4.xml" value="0.5078125" />
-        <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/drawable/layout_1.xml" value="0.33697916666666666" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_addproduct.xml" value="0.39945652173913043" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_cart.xml" value="0.39945652173913043" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_customer_account.xml" value="0.24583333333333332" />

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDFBFF"
+    android:weightSum="1"
     tools:context=".storeHome">
 
 
@@ -37,14 +38,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="532dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:weightSum="1"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView38"
-        app:layout_constraintVertical_bias="0.147">
+        app:layout_constraintTop_toBottomOf="@+id/textView38">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,14 +54,14 @@
             android:orientation="horizontal">
 
             <Space
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="0.1" />
 
             <LinearLayout
-                android:layout_width="136dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -85,7 +85,16 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
-
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:background="#FFFFFFFF"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="1">
             <ImageButton
                 android:id="@+id/imageButton4"
                 android:layout_width="30dp"
@@ -96,6 +105,7 @@
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/next"
                 app:tint="#0070C8" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
