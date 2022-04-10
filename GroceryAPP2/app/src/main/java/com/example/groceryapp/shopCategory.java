@@ -1,6 +1,7 @@
 package com.example.groceryapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.example.groceryapp.ItemHelper.MyAdapter;
 import com.example.groceryapp.ItemHelper.ItemHelperClass;
@@ -19,6 +21,7 @@ public class shopCategory extends AppCompatActivity {
 
     private String storeID;
     private String userName;
+    private ArrayList<ArrayList<String>> itemList;
     ImageButton back;
 
     private RecyclerView recyclerView;
@@ -35,7 +38,7 @@ public class shopCategory extends AppCompatActivity {
         userName = intent.getStringExtra("userName");
 
         // Request product list from db
-        ArrayList<ArrayList<String>> itemList = DBUtil.Query("select * from Products where RetailerId = " + storeID);
+        itemList = DBUtil.Query("select * from Products where RetailerId = " + storeID);
         // Optional: Request categories list from db
         // ArrayList<ArrayList<String>> categoryList = DBUtil.Query("select ItemCategory from Products where RetailerId = " + storeID + " group by ItemCategory");
 
@@ -66,10 +69,17 @@ public class shopCategory extends AppCompatActivity {
 
         cart.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // To selection menu
+                ArrayList<ArrayList<String>> items = new ArrayList<ArrayList<String>>();
+                for (int i = 0; i < recyclerView.getChildCount(); i++) {
+                    EditText amount = (EditText) ((CardView) recyclerView.getChildAt(i)).findViewById(R.id.number);
+                    if (!amount.getText().toString().isEmpty() && Integer.parseInt(amount.getText().toString()) > 0) {
+                        itemList.get(i).add(amount.getText().toString());
+                        items.add(itemList.get(i));
+                    }
+                }
                 Intent intent = new Intent(shopCategory.this, Cart.class);
+                intent.putExtra("itemList", items);
                 startActivity(intent);
-
             }
         });
 
