@@ -26,11 +26,6 @@ public class Cart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        TextView cucumber = (TextView) findViewById(R.id.cucumbercart);
-        TextView bluebery = (TextView) findViewById(R.id.blueberrycart);
-        TextView eggs = (TextView) findViewById(R.id.eggcart);
-        TextView garlic = (TextView) findViewById(R.id.garliccart);
-
         // Extract store id and user id from local
         // TODO
         Intent intent = getIntent();
