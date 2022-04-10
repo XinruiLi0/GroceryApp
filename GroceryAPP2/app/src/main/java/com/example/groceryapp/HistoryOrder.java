@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,7 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.example.groceryapp.ItemHelper.ItemHelperClass;
+import com.example.groceryapp.ItemHelper.MyAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -26,6 +31,11 @@ public class HistoryOrder extends AppCompatActivity implements BottomNavigationV
     BottomNavigationView bottomNavigationView;
     ImageButton Call;
     Button Notify;
+    Button Logout;
+    private String storeID;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+
 
     int phoneNum;
     @Override
@@ -37,18 +47,47 @@ public class HistoryOrder extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
+
         // Extract user id from local
         // TODO
+        Intent intent = getIntent();
+        storeID = intent.getStringExtra("storeID");
+       //需要在cart 加入intent.putExtra("userID",userID)
+        // userID = intent.getIntExtra("userID");
 
         // Request order list from db
         ArrayList<ArrayList<String>> orderList = DBUtil.Query("select * from Orders where CustomerId = "+userID);
 
         // Show the order detail in view
         // TODO
+        recyclerView = findViewById(R.id.itemRecyclerView);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        ArrayList<ItemHelperClass> locations = new ArrayList<>();
+
+        for (int i = 0; i < orderList.size(); ++i) {
+            locations.add(new ItemHelperClass(
+                    orderList.get(i).get(1),
+                    orderList.get(i).get(0),
+                    orderList.get(i).get(2),
+                    orderList.get(i).get(3),
+                    orderList.get(i).get(4),
+                    orderList.get(i).get(5),
+                    orderList.get(i).get(6)));
+        }
+
+        adapter = new MyAdapter(locations);
+        recyclerView.setAdapter(adapter);
 
         Call = (ImageButton) findViewById(R.id.cartCall);
         Notify = (Button) findViewById(R.id.cartNotify);
-        phoneNum = 123456;
+        Logout = (Button) findViewById(R.id.Logout);
+        //phoneNum = 123456;
+        //需要从数据库中读取手机号
+        ArrayList<ArrayList<String>> phonelist = DBUtil.Query("select * from Retailers where storeId = "+storeID);
+        phoneNum =  Integer.parseInt(phonelist.get(0).get(0));
 
         Call.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -60,11 +99,11 @@ public class HistoryOrder extends AppCompatActivity implements BottomNavigationV
         });
 
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
-            //创建通知渠道实例（这三个参数是必须要有的）
+
             NotificationChannel channel = new NotificationChannel("Notification","Notification", NotificationManager.IMPORTANCE_DEFAULT);
-            //创建通知渠道的通知管理器
+
             NotificationManager manager = (NotificationManager) getSystemService(NotificationManager.class);
-            //将实例交给管理器
+
             manager.createNotificationChannel(channel);
         }
 
@@ -81,7 +120,16 @@ public class HistoryOrder extends AppCompatActivity implements BottomNavigationV
                 managerCompat.notify(1,builder.build());
             }
         });
+
+        Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HistoryOrder.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
 
     // navigation view
