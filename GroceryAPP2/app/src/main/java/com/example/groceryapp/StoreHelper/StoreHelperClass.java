@@ -1,4 +1,4 @@
-package com.example.groceryapp.HelperClasses;
+package com.example.groceryapp.StoreHelper;
 
 public class StoreHelperClass {
 
