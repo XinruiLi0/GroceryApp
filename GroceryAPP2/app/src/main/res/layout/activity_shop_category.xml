@@ -5,50 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E3E9DF"
+    android:weightSum="1"
     tools:context=".shopCategory">
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="412dp"
-        android:layout_height="530dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
         android:orientation="vertical"
+        android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.676">
+        app:layout_constraintTop_toBottomOf="@+id/imageButton">
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.20"
             android:background="@drawable/layout_1"
             android:gravity="left|center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="122dp"
-                android:layout_height="93dp"
-                android:background="#00FFFFFF"
-                android:paddingLeft="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.055"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.199"
-                app:srcCompat="@drawable/cucumber" />
+            android:weightSum="1"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout">
 
             <LinearLayout
-                android:layout_width="169dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintDimensionRatio="h,122:93"
+                    android:background="#00FFFFFF"
+                    app:srcCompat="@drawable/cucumber" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -58,13 +61,7 @@
                     android:layout_height="wrap_content"
                     android:text="Cucumber (each)"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.65"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.221" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView6"
@@ -79,8 +76,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.3"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -90,26 +88,14 @@
                     android:layout_height="wrap_content"
                     android:text="Quantitive:"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.84"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.261" />
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/cucumbernumber"
                     android:layout_width="82dp"
                     android:layout_height="30dp"
                     android:ems="10"
-                    android:inputType="number"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.878"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.318" />
+                    android:inputType="number" />
 
             </LinearLayout>
 
@@ -117,31 +103,32 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
             android:background="@drawable/layout_1"
             android:gravity="left|center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="122dp"
-                android:layout_height="93dp"
-                android:paddingLeft="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.071"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.439"
-                app:srcCompat="@drawable/blueberry" />
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2">
 
             <LinearLayout
-                android:layout_width="169dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintDimensionRatio="h,122:93"
+                    app:srcCompat="@drawable/blueberry" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -172,8 +159,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.3"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -183,13 +171,7 @@
                     android:layout_height="wrap_content"
                     android:text="Quantitive:"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.84"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.442" />
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/blueberrynumber"
@@ -197,13 +179,7 @@
                     android:layout_height="30dp"
                     android:ems="10"
                     android:inputType="number"
-                    android:textColor="#FFFFFFFF"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.881"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.499" />
+                    android:textColor="#FFFFFFFF" />
 
             </LinearLayout>
 
@@ -211,7 +187,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.20"
             android:background="@drawable/layout_1"
             android:gravity="left|center_vertical"
             android:orientation="horizontal"
@@ -219,23 +196,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="122dp"
-                android:layout_height="93dp"
-                android:paddingLeft="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.114"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.63"
-                app:srcCompat="@drawable/eggs" />
-
-            <LinearLayout
-                android:layout_width="169dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:layout_constraintDimensionRatio="h,122:93"
+                app:srcCompat="@drawable/eggs" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -246,13 +224,7 @@
                     android:text="Large White Eggs (18 counts)"
                     android:textAlignment="center"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.871"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.567" />
+                    android:textStyle="bold" />
 
 
                 <TextView
@@ -268,8 +240,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.3"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -279,26 +252,14 @@
                     android:layout_height="wrap_content"
                     android:text="Quantitive:"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.84"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.61" />
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/eggnumber"
                     android:layout_width="82dp"
                     android:layout_height="30dp"
                     android:ems="10"
-                    android:inputType="number"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.881"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.683" />
+                    android:inputType="number" />
 
             </LinearLayout>
 
@@ -306,7 +267,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.20"
             android:background="@drawable/layout_1"
             android:gravity="left|center_vertical"
             android:orientation="horizontal"
@@ -314,23 +276,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="122dp"
-                android:layout_height="93dp"
-                android:paddingLeft="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.119"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.838"
-                app:srcCompat="@drawable/garlic" />
-
             <LinearLayout
-                android:layout_width="169dp"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintDimensionRatio="h,122:93"
+                    app:srcCompat="@drawable/garlic" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -340,13 +303,7 @@
                     android:layout_height="wrap_content"
                     android:text="Garlic  (3 counts)"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.644"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.755" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView15"
@@ -360,8 +317,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="0.3"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -371,26 +329,14 @@
                     android:layout_height="wrap_content"
                     android:text="Quantitive:"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.84"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.794" />
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/garlicnumber"
                     android:layout_width="82dp"
                     android:layout_height="30dp"
                     android:ems="10"
-                    android:inputType="number"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.881"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.85" />
+                    android:inputType="number" />
             </LinearLayout>
         </LinearLayout>
 
@@ -398,8 +344,8 @@
 
     <ImageButton
         android:id="@+id/imageButton2"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:backgroundTint="#D0D5CD"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
