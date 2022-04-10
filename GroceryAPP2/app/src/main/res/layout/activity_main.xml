@@ -30,7 +30,6 @@
             android:layout_gravity="center"
             android:layout_weight="0.4"
             android:scaleType="fitCenter"
-            app:layout_constraintBottom_toTopOf="@+id/Customer"
             app:layout_constraintDimensionRatio="h,1:1"
             app:srcCompat="@drawable/logo" />
 

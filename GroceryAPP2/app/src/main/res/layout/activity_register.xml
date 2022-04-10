@@ -6,50 +6,127 @@
     android:layout_height="match_parent"
     android:background="#E3E9DF"
     tools:context=".Register">
-
-    <!--    <Button-->
-    <!--        android:id="@+id/registerSignin"-->
-    <!--        android:layout_width="173dp"-->
-    <!--        android:layout_height="70dp"-->
-    <!--        android:text="Sign in"-->
-    <!--        android:visibility="invisible"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:layout_constraintVertical_bias="0.874" />-->
-
-    <Button
-        android:id="@+id/registerRegis"
-        android:layout_width="238dp"
-        android:layout_height="57dp"
-        android:background="@drawable/btn_1"
-        android:text="Register"
-        android:textColor="#FFFFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.804" />
+        app:layout_constraintTop_toTopOf="parent">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.02" />
 
-    <Button
-        android:id="@+id/registerSignin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#E3E9DF"
-        android:text="Sign In"
-        android:textColor="#47C814"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.743"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.891" />
+        <ImageView
+            android:id="@+id/imageView23"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.4"
+            android:scaleType="fitCenter"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:srcCompat="@drawable/logo" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
+        <EditText
+            android:id="@+id/registerName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/txt_1"
+            android:ems="10"
+            android:hint="Username (For Register)"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="#419144" />
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.01" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/registerEmail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/txt_1"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="#FF419144" />
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.01" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/registerPassword"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:background="@drawable/txt_1"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textColor="#FF419144" />
+    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.02" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/registerRegis"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:background="@drawable/btn_1"
+            android:text="Register"
+            android:textColor="#FFFFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
     <TextView
         android:id="@+id/textView47"
         android:layout_width="wrap_content"
@@ -63,67 +140,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.876" />
 
-    <EditText
-        android:id="@+id/registerPassword"
-        android:layout_width="326dp"
-        android:layout_height="50dp"
-        android:background="@drawable/txt_1"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        android:textColor="#FF419144"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.669" />
+        <Button
+            android:id="@+id/registerSignin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#E3E9DF"
+            android:text="Sign In"
+            android:textColor="#47C814"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.743"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.891" />
 
-    <EditText
-        android:id="@+id/registerEmail"
-        android:layout_width="326dp"
-        android:layout_height="50dp"
-        android:background="@drawable/txt_1"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        android:textColor="#FF419144"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.568" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/registerName"
-        android:layout_width="326dp"
-        android:layout_height="50dp"
-        android:background="@drawable/txt_1"
-        android:ems="10"
-        android:hint="Username (For Register)"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        android:textColor="#419144"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.465" />
-
-    <ImageView
-        android:id="@+id/imageView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/registerName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
