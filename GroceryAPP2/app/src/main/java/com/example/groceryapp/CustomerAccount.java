@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class CustomerAccount extends AppCompatActivity {
     ImageButton back;
 
-    private int userID;
+    private String userID;
     private String userName;
     private String storeID;
     private RecyclerView recyclerView;
@@ -36,16 +36,14 @@ public class CustomerAccount extends AppCompatActivity {
 
 
         // Extract user id from local
-        // TODO
         Intent intent = getIntent();
-        storeID = intent.getStringExtra("storeID");
-        //需要在cart 加入intent.putExtra("userID",userID)
+        userID = intent.getStringExtra("userID");
         // userID = intent.getIntExtra("userID");
 
         // Request order list from db
-        ArrayList<ArrayList<String>> orderList = DBUtil.Query("select OrderNumber, PurchaseTime, PhoneNumber, StoreName " +
-                "from Orders join Retailers on Orders.RetailerId = Retailers.id where CustomerId = "
-                +userID +"group by OrderNumber, PurchaseTime, PhoneNumber, StoreName");
+        ArrayList<ArrayList<String>> orderList = DBUtil.Query("select OrderNumber, PurchaseTime, PhoneNumber, StoreName "
+                + "from Orders join Retailers on Orders.RetailerId = Retailers.id where CustomerId = "
+                + userID + " group by OrderNumber, PurchaseTime, PhoneNumber, StoreName");
 
         // Show the order detail in view
         // TODO
