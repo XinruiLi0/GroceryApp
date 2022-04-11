@@ -5,27 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDFBFF"
-    android:weightSum="1"
-    tools:context=".storeHome">
-
+    tools:context=".StoreHome"
+    android:weightSum="1">
 
     <TextView
-        android:id="@+id/textView38"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Customer Orders"
+        android:text="Products in Stores"
         android:textColor="#0070C8"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.022" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView3"
+        android:id="@+id/bottomNavigationView2"
         android:layout_width="413dp"
         android:layout_height="52dp"
         android:background="#ACCBE0"
@@ -33,80 +32,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/customer_bottom_nav_menu" >
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+        app:menu="@menu/customer_bottom_nav_menu" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.7"
-        android:weightSum="1"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView3"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/storeProductRecyclerView"
+        android:layout_width="409dp"
+        android:layout_height="391dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomNavigationView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView38">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.289" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@drawable/layout_1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/customerOrderNum"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Order Number:"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp" />
-
-                <TextView
-                    android:id="@+id/orderDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Order Date:"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:background="#FFFFFFFF"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:weightSum="1">
-            <ImageButton
-                android:id="@+id/imageButton4"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="#FFFFFFFF"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/next"
-                app:tint="#0070C8" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+    <Button
+        android:id="@+id/addProductButton"
+        android:layout_width="185dp"
+        android:layout_height="53dp"
+        android:text="Add Product"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomNavigationView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.848" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

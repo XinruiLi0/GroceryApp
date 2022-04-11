@@ -11,13 +11,13 @@ import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class storeHome extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class StoreAccount extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     ImageButton next;
     BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_store_home);
+        setContentView(R.layout.activity_store_account);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView3);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -27,7 +27,7 @@ public class storeHome extends AppCompatActivity implements BottomNavigationView
         next.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // forward
-                Intent intent = new Intent(storeHome.this, viewOrder.class);
+                Intent intent = new Intent(StoreAccount.this, viewOrder.class);
                 startActivity(intent);
             }
         });
@@ -36,13 +36,13 @@ public class storeHome extends AppCompatActivity implements BottomNavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home:
-                Intent homeIntent = new Intent( storeHome.this, addproduct.class);
+                Intent homeIntent = new Intent( StoreAccount.this, StoreHome.class);
                 startActivity(homeIntent);
                 return true;
 
             // jump to account page
             case R.id.account:
-//                Intent accountIntent = new Intent(addproduct.this, storeHome.class);
+//                Intent accountIntent = new Intent(StoreHome.this, StoreAccount.class);
 //                startActivity(accountIntent);
                 return true;
         }
