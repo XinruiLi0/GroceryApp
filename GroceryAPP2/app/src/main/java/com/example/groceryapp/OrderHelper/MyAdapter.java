@@ -30,7 +30,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.order_card_view, null, false);
+        View view = inflater.inflate(R.layout.order_card_view, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -38,8 +38,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         OrderHelperClass orderHelperClass = locations.get(position);
         holder.id = orderHelperClass.getId();
-        holder.orderNumber.setText(orderHelperClass.getOrderNumber());
-        holder.orderDate.setText(orderHelperClass.getOrderDate());
+        holder.orderNumber.setText("Order Number: "+orderHelperClass.getOrderNumber());
+        holder.orderDate.setText("Order Date: "+orderHelperClass.getOrderDate());
         holder.name = orderHelperClass.getName();
         holder.phoneNumber = orderHelperClass.getPhoneNumber();
     }
@@ -63,13 +63,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             order = itemView.findViewById(R.id.order);
             orderNumber = itemView.findViewById(R.id.orderNum);
             orderDate = itemView.findViewById(R.id.orderDate);
-            
+
             order.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), HistoryOrder.class);
                     intent.putExtra("id", id);
                     intent.putExtra("orderNumber", (String) orderNumber.getText());
+                    intent.putExtra("name", name);
+                    intent.putExtra("phoneNumber", phoneNumber);
                     view.getContext().startActivity(intent);
                 }
             });

@@ -11,10 +11,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.example.groceryapp.CartHelper.CartHelperClass;
-import com.example.groceryapp.ItemHelper.ItemHelperClass;
-import com.example.groceryapp.ItemHelper.MyAdapter;
-import com.example.groceryapp.StoreHelper.StoreHelperClass;
+import com.example.groceryapp.OrderHelper.OrderHelperClass;
+import com.example.groceryapp.OrderHelper.MyAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -46,35 +44,23 @@ public class CustomerAccount extends AppCompatActivity {
                 + userID + " group by OrderNumber, PurchaseTime, PhoneNumber, StoreName");
 
         // Show the order detail in view
-        // TODO
-        recyclerView = findViewById(R.id.itemRecyclerView);
+        recyclerView = findViewById(R.id.orderRecyclerView);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        ArrayList<ItemHelperClass> locations = new ArrayList<>();
+        ArrayList<OrderHelperClass> locations = new ArrayList<>();
         for (int i = 0; i < orderList.size(); ++i) {
-
+            locations.add(new OrderHelperClass(
+                    userID,
+                    orderList.get(i).get(0),
+                    orderList.get(i).get(1),
+                    orderList.get(i).get(3),
+                    orderList.get(i).get(2)));
         }
-
 
         adapter = new MyAdapter(locations);
         recyclerView.setAdapter(adapter);
 
-        back = (ImageButton) findViewById(R.id.accountBack);
-        back.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        Logout = (Button) findViewById(R.id.customerlogout);
-        Logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CustomerAccount.this,MainActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 }
