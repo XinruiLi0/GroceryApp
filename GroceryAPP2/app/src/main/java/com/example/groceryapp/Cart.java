@@ -1,13 +1,20 @@
 package com.example.groceryapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.example.groceryapp.CartHelper.CartHelperClass;
+import com.example.groceryapp.CartHelper.MyAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,11 +22,15 @@ import java.util.Date;
 
 public class Cart extends AppCompatActivity {
 
-    private int storeID;
-    private int userID;
+    private String storeID;
+    private String userID;
     private String userName;
     private ArrayList<ArrayList<String>> itemList;
     ImageButton back;
+    private double price;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,33 +40,68 @@ public class Cart extends AppCompatActivity {
         // Extract store id and user id from local
         // TODO
         Intent intent = getIntent();
+        storeID = intent.getStringExtra("storeID");
+        userID = intent.getStringExtra("userID");
         itemList = (ArrayList<ArrayList<String>>) intent.getSerializableExtra("itemList");
 
-        // Transfer item to a list
-        // TODO
+        // Show the items in view
+        recyclerView = findViewById(R.id.CardRecyclerView);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        ArrayList<CartHelperClass> locations = new ArrayList<>();
+
+        price = 0;
+        for (int i = 0; i < itemList.size(); ++i) {
+            locations.add(new CartHelperClass(
+                    itemList.get(i).get(1),
+                    itemList.get(i).get(0),
+                    itemList.get(i).get(2),
+                    itemList.get(i).get(3),
+                    itemList.get(i).get(4),
+                    itemList.get(i).get(5),
+                    itemList.get(i).get(6),
+                    itemList.get(i).get(8)));
+            price += Double.parseDouble(itemList.get(i).get(4)) * Integer.parseInt(itemList.get(i).get(8));
+        }
+        price = (double) Math.round(price * 100) / 100;
+
+        adapter = new MyAdapter(locations);
+        recyclerView.setAdapter(adapter);
+
+        TextView totalPrice = (TextView) findViewById(R.id.totalPrice);
+        totalPrice.setText("Total: $" + price);
 
         Button checkout = (Button) findViewById(R.id.checkout);
 
         checkout.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Get order date and time
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date();
                 String currentTime = formatter.format(date);
+                String orderNumber = currentTime.replaceAll("[[\\s-:punct:]]", "");
 
-                // Submit the order
-                // TODO for each item (will be better to execute sql in parallel)
-                // int temp = DBUtil.Update("insert into Orders(PurchaseTime, RetailerId, CustomerId, ItemId, Amount) values ('"+currentTime+"', "+storeID+", "+userID+", "+itemID+", "+Amount+")");
-                // Adjust item stock in database
-                // int temp = DBUtil.Update("update Products set ItemStock = ItemStock - "+Amount+" where id = "+itemID);
+                for (int i = 0; i < itemList.size(); ++i) {
+                    // Submit the order
+                    int temp = DBUtil.Update("insert into Orders(OrderNumber, PurchaseTime, RetailerId, CustomerId, ItemId, Quantities, Price, TotalPrice) \n" +
+                            "values ('"+orderNumber+"', '"+currentTime+"', "+storeID+", "+userID+", "+itemList.get(i).get(0)+", "+itemList.get(i).get(8)+", "+itemList.get(i).get(4)+", "+price+")");
+                    if (temp == 1) {
+                        // Adjust item stock in database
+                        DBUtil.Update("update Products set ItemStock = ItemStock - "+itemList.get(i).get(8)+" where id = "+itemList.get(i).get(0));
+                    }
+                }
 
                 // To selection menu
                 Intent intent = new Intent(Cart.this, HistoryOrder.class);
+                intent.putExtra("userID", userID);
                 startActivity(intent);
 
 
             }
         });
+
         back = (ImageButton) findViewById(R.id.imageButton3);
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

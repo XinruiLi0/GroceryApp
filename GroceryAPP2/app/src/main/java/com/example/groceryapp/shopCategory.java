@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class shopCategory extends AppCompatActivity {
 
     private String storeID;
-    private String userName;
+    private String userID;
     private ArrayList<ArrayList<String>> itemList;
     ImageButton back;
 
@@ -35,7 +35,7 @@ public class shopCategory extends AppCompatActivity {
         // Extract store id and user name from local
         Intent intent = getIntent();
         storeID = intent.getStringExtra("storeID");
-        userName = intent.getStringExtra("userName");
+        userID = intent.getStringExtra("userID");
 
         // Request product list from db
         itemList = DBUtil.Query("select * from Products where RetailerId = " + storeID);
@@ -78,6 +78,8 @@ public class shopCategory extends AppCompatActivity {
                     }
                 }
                 Intent intent = new Intent(shopCategory.this, Cart.class);
+                intent.putExtra("storeID", storeID);
+                intent.putExtra("userID", userID);
                 intent.putExtra("itemList", items);
                 startActivity(intent);
             }
