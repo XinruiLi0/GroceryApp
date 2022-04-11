@@ -36,6 +36,7 @@ public class HistoryOrder extends AppCompatActivity implements BottomNavigationV
     ImageButton Call;
     Button Notify;
 
+    private ImageButton back;
     private double price;
 
     private String storeID;
@@ -56,7 +57,7 @@ public class HistoryOrder extends AppCompatActivity implements BottomNavigationV
 
         // Extract user id from local
         Intent intent = getIntent();
-        userID = intent.getStringExtra("userID");
+        userID = intent.getStringExtra("id");
         orderNumber = intent.getStringExtra("orderNumber");
         name = intent.getStringExtra("name");
         phoneNumber = intent.getStringExtra("phoneNumber");
@@ -93,6 +94,16 @@ public class HistoryOrder extends AppCompatActivity implements BottomNavigationV
 
         TextView totalPrice = (TextView) findViewById(R.id.totalPrice);
         totalPrice.setText("Total: $" + price);
+
+        back = (ImageButton) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // go back
+                Intent intent = new Intent(HistoryOrder.this, CustomerAccount.class);
+                intent.putExtra("id", userID);
+                startActivity(intent);
+            }
+        });
 
         Call = (ImageButton) findViewById(R.id.cartCall);
         Notify = (Button) findViewById(R.id.cartNotify);
