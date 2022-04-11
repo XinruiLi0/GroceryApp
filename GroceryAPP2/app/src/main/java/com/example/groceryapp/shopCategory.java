@@ -93,6 +93,7 @@ public class shopCategory extends AppCompatActivity {
             public void onClick(View v) {
                 // go back
                 Intent intent = new Intent(shopCategory.this, GroceryStores.class);
+                intent.putExtra("userID", userID);
                 startActivity(intent);
             }
         });
