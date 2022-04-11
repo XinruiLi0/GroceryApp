@@ -2,7 +2,9 @@ package com.example.groceryapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,10 +31,14 @@ public class storeSignin extends AppCompatActivity {
                 if (result.isEmpty()) {
                     Toast.makeText(storeSignin.this,"Incorrect email or password!", Toast.LENGTH_LONG).show();
                 } else {
+                    // create the Shared Preferences to share the store id to local
+                    SharedPreferences sharedPreferences = getSharedPreferences("StorePrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor =  sharedPreferences.edit();
+                    editor.putString("storeId", result.get(0).get(0));
+                    editor.commit();
+
                     // Jump to next page with store id and store name
                     Intent intent = new Intent(storeSignin.this, StoreHome.class);
-                    intent.putExtra("storeID",result.get(0).get(0));
-                    intent.putExtra("storeName",result.get(0).get(1));
                     startActivity(intent);
                 }
             }

@@ -38,17 +38,8 @@ public class StoreHome extends AppCompatActivity implements BottomNavigationView
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
-        // Extract store id from previous page
-        Intent intent = getIntent();
-        storeID = intent.getStringExtra("storeID");
-
-        // create the Shared Preferences to share the store id to local
-        sharedPreferences = getSharedPreferences("StorePrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor =  sharedPreferences.edit();
-        editor.putString("storeId", storeID);
-        editor.commit();
-
         // Extract store id from local
+        sharedPreferences = getSharedPreferences("StorePrefs", Context.MODE_PRIVATE);
         sharedStoreId = sharedPreferences.getString("storeId", null);
 
         // Request product list from db
