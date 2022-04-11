@@ -71,7 +71,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), HistoryOrder.class);
                     intent.putExtra("id", id);
-                    intent.putExtra("orderNumber", (String) orderNumber.getText());
+                    intent.putExtra("orderNumber", ((String) orderNumber.getText()).split("Order Number: ")[1]);
                     intent.putExtra("name", name);
                     intent.putExtra("phoneNumber", phoneNumber);
                     view.getContext().startActivity(intent);
@@ -82,7 +82,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), HistoryOrder.class);
                     intent.putExtra("id", id);
-                    intent.putExtra("orderNumber", (String) orderNumber.getText());
+                    intent.putExtra("orderNumber", ((String) orderNumber.getText()).split("Order Number: ")[1]);
                     intent.putExtra("name", name);
                     intent.putExtra("phoneNumber", phoneNumber);
                     view.getContext().startActivity(intent);

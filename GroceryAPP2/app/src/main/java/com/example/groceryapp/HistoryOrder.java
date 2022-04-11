@@ -28,7 +28,10 @@ import java.util.ArrayList;
 
 public class HistoryOrder extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private int userID;
+    private String userID;
+    private String orderNumber;
+    private String name;
+    private String phoneNumber;
     BottomNavigationView bottomNavigationView;
     ImageButton Call;
     Button Notify;
@@ -48,56 +51,56 @@ public class HistoryOrder extends AppCompatActivity implements BottomNavigationV
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setSelectedItemId(R.id.account);
 
 
         // Extract user id from local
-        // TODO
         Intent intent = getIntent();
-        storeID = intent.getStringExtra("storeID");
-        //需要在cart 加入intent.putExtra("userID",userID)
-        // userID = intent.getIntExtra("userID");
+        userID = intent.getStringExtra("userID");
+        orderNumber = intent.getStringExtra("orderNumber");
+        name = intent.getStringExtra("name");
+        phoneNumber = intent.getStringExtra("phoneNumber");
 
         // Request order list from db
-        ArrayList<ArrayList<String>> orderList = DBUtil.Query("select * from Orders where OrderNumber = "+userID);
+        String temp = "select ItemName, ItemImage, Quantities, Price, TotalPrice from Orders join Products on Orders.ItemId = Products.id where OrderNumber = "+orderNumber;
+        ArrayList<ArrayList<String>> orderDetail = DBUtil.Query("select ItemName, ItemImage, Quantities, Price, TotalPrice from Orders join Products on Orders.ItemId = Products.id where OrderNumber = "+orderNumber);
 
         // Show the order detail in view
-        // TODO
-        recyclerView = findViewById(R.id.itemRecyclerView);
+        recyclerView = findViewById(R.id.orderDetailRecyclerView);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         ArrayList<CartHelperClass> locations = new ArrayList<>();
 
-
-        for (int i = 0; i < orderList.size(); ++i) {
+        price = 0;
+        for (int i = 0; i < orderDetail.size(); ++i) {
+            price = Double.parseDouble(orderDetail.get(i).get(4));
             locations.add(new CartHelperClass(
-                    orderList.get(i).get(1),
-                    orderList.get(i).get(0),
-                    orderList.get(i).get(2),
-                    orderList.get(i).get(3),
-                    orderList.get(i).get(4),
-                    orderList.get(i).get(5),
-                    orderList.get(i).get(6),
-                    orderList.get(i).get(8)));
+                    orderDetail.get(i).get(0),
+                    "",
+                    "",
+                    "",
+                    orderDetail.get(i).get(3),
+                    "",
+                    orderDetail.get(i).get(1),
+                    orderDetail.get(i).get(2)));
         }
+        price = (double) Math.round(price * 100) / 100;
 
         adapter = new MyAdapter(locations);
         recyclerView.setAdapter(adapter);
 
+        TextView totalPrice = (TextView) findViewById(R.id.totalPrice);
+        totalPrice.setText("Total: $" + price);
+
         Call = (ImageButton) findViewById(R.id.cartCall);
         Notify = (Button) findViewById(R.id.cartNotify);
-
-        //phoneNum = 123456;
-        //需要从数据库中读取手机号
-        ArrayList<ArrayList<String>> phonelist = DBUtil.Query("select phoneNumber from Orders where OrderNumber = ");
-        phoneNum =  Integer.parseInt(phonelist.get(0).get(0));
 
         Call.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                Uri data = Uri.parse("tel:" + phoneNum);
+                Uri data = Uri.parse("tel:" + phoneNumber);
                 intent.setData(data);
                 startActivity(intent);
             }
@@ -128,28 +131,22 @@ public class HistoryOrder extends AppCompatActivity implements BottomNavigationV
 
     }
 
-
-
     // navigation view
-//    CustomerAccount customerAccount = new CustomerAccount();
-//    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            // jump to customer home page
+            // jump to home page
             case R.id.home:
-                Intent homeIntent = new Intent(HistoryOrder.this, GroceryStores.class);
-                startActivity(homeIntent);
+                Intent intent = new Intent(HistoryOrder.this, GroceryStores.class);
+                intent.putExtra("userID", userID);
+                startActivity(intent);
                 return true;
 
             case R.id.account:
-//                Intent accountIntent = new Intent(GroceryStores.this, CustomerAccount.class);
-//                startActivity(accountIntent);
                 return true;
         }
 
         return false;
     }
-
 
 }
 
