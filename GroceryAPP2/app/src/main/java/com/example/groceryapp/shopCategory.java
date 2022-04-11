@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class shopCategory extends AppCompatActivity {
 
     private String storeID;
-    private String userName;
+    private String userID;
     private ArrayList<ArrayList<String>> itemList;
     ImageButton back;
 
@@ -35,7 +35,7 @@ public class shopCategory extends AppCompatActivity {
         // Extract store id and user name from local
         Intent intent = getIntent();
         storeID = intent.getStringExtra("storeID");
-        userName = intent.getStringExtra("userName");
+        userID = intent.getStringExtra("userID");
 
         // Request product list from db
         itemList = DBUtil.Query("select * from Products where RetailerId = " + storeID);
@@ -73,11 +73,17 @@ public class shopCategory extends AppCompatActivity {
                 for (int i = 0; i < recyclerView.getChildCount(); i++) {
                     EditText amount = (EditText) ((CardView) recyclerView.getChildAt(i)).findViewById(R.id.number);
                     if (!amount.getText().toString().isEmpty() && Integer.parseInt(amount.getText().toString()) > 0) {
-                        itemList.get(i).add(amount.getText().toString());
+                        if (itemList.get(i).size() == 8) {
+                            itemList.get(i).add(amount.getText().toString());
+                        } else {
+                            itemList.get(i).set(8, amount.getText().toString());
+                        }
                         items.add(itemList.get(i));
                     }
                 }
                 Intent intent = new Intent(shopCategory.this, Cart.class);
+                intent.putExtra("storeID", storeID);
+                intent.putExtra("userID", userID);
                 intent.putExtra("itemList", items);
                 startActivity(intent);
             }

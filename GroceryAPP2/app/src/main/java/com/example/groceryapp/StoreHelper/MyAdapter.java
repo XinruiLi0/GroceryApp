@@ -70,7 +70,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), shopCategory.class);
                     intent.putExtra("userName", userName);
-                    intent.putExtra("userId", userId);
+                    intent.putExtra("userID", userId);
                     intent.putExtra("storeName", (String) storeName.getText());
                     intent.putExtra("storeID", (String) storeId.getText());
                     view.getContext().startActivity(intent);
@@ -82,7 +82,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), shopCategory.class);
                     intent.putExtra("userName", userName);
-                    intent.putExtra("userId", userId);
+                    intent.putExtra("userID", userId);
                     intent.putExtra("storeName", (String) storeName.getText());
                     intent.putExtra("storeID", (String) storeId.getText());
                     view.getContext().startActivity(intent);
