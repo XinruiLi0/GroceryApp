@@ -52,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     public class MyViewHolder extends RecyclerView.ViewHolder {
         String id;
         LinearLayout order;
-        LinearLayout next;
+        ImageButton next;
         TextView orderNumber;
         TextView orderDate;
         String name;
@@ -62,7 +62,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             super(itemView);
 
             order = itemView.findViewById(R.id.order);
-            order = itemView.findViewById(R.id.next);
+            next = itemView.findViewById(R.id.next);
             orderNumber = itemView.findViewById(R.id.orderNum);
             orderDate = itemView.findViewById(R.id.orderDate);
 
