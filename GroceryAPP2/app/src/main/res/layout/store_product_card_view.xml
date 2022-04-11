@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/layout_1"
         android:gravity="left|center_vertical"
         android:orientation="horizontal"
@@ -63,20 +63,15 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="93dp"
+            android:layout_width="113dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/next2"
-                android:layout_width="48dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0.30"
-                android:background="#00FFFFFF"
-                android:scaleType="fitCenter"
-                app:layout_constraintDimensionRatio="h,1:1"
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="16dp"
+                android:layout_height="66dp"
                 app:srcCompat="@drawable/next" />
         </LinearLayout>
 

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +23,12 @@ import java.util.ArrayList;
 public class StoreHome extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
     private String storeID;
+    private String sharedStoreId;
 
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +38,23 @@ public class StoreHome extends AppCompatActivity implements BottomNavigationView
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
-        // Extract store id from local
+        // Extract store id from previous page
         Intent intent = getIntent();
         storeID = intent.getStringExtra("storeID");
-        System.out.println(storeID);
+
+        // create the Shared Preferences to share the store id to local
+        sharedPreferences = getSharedPreferences("StorePrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =  sharedPreferences.edit();
+        editor.putString("storeId", storeID);
+        editor.commit();
+
+        // Extract store id from local
+        sharedStoreId = sharedPreferences.getString("storeId", null);
 
         // Request product list from db
-        ArrayList<ArrayList<String>> productList = DBUtil.Query("select * from Products where RetailerId = " + storeID);
+        ArrayList<ArrayList<String>> productList = DBUtil.Query("select * from Products where RetailerId = " + sharedStoreId);
 
         // Show the products in view
-        // TODO
         recyclerView = findViewById(R.id.storeProductRecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
