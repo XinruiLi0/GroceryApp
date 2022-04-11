@@ -33,12 +33,14 @@ public class HistoryOrder extends AppCompatActivity implements BottomNavigationV
     ImageButton Call;
     Button Notify;
 
+    private double price;
+
     private String storeID;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
 
-
     int phoneNum;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
