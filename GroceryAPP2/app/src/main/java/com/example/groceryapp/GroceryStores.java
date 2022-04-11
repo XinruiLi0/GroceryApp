@@ -70,8 +70,9 @@ public class GroceryStores extends AppCompatActivity implements BottomNavigation
 
             // jump to account page
             case R.id.account:
-                Intent accountIntent = new Intent(GroceryStores.this, CustomerAccount.class);
-                startActivity(accountIntent);
+                Intent intent = new Intent(GroceryStores.this, CustomerAccount.class);
+                intent.putExtra("userID", userID);
+                startActivity(intent);
                 return true;
         }
 
