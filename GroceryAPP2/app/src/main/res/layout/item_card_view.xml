@@ -70,10 +70,10 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/quantities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quantitive:"
+                android:text="Quantities:"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
