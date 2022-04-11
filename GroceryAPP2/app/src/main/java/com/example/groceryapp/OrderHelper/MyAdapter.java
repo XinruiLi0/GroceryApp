@@ -52,6 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     public class MyViewHolder extends RecyclerView.ViewHolder {
         String id;
         LinearLayout order;
+        LinearLayout next;
         TextView orderNumber;
         TextView orderDate;
         String name;
@@ -61,10 +62,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             super(itemView);
 
             order = itemView.findViewById(R.id.order);
+            order = itemView.findViewById(R.id.next);
             orderNumber = itemView.findViewById(R.id.orderNum);
             orderDate = itemView.findViewById(R.id.orderDate);
 
             order.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), HistoryOrder.class);
+                    intent.putExtra("id", id);
+                    intent.putExtra("orderNumber", (String) orderNumber.getText());
+                    intent.putExtra("name", name);
+                    intent.putExtra("phoneNumber", phoneNumber);
+                    view.getContext().startActivity(intent);
+                }
+            });
+            next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), HistoryOrder.class);

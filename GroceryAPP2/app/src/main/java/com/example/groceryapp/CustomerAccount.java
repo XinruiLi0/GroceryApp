@@ -40,7 +40,9 @@ public class CustomerAccount extends AppCompatActivity implements BottomNavigati
         // Extract user id from local
         Intent intent = getIntent();
         userID = intent.getStringExtra("userID");
-        // userID = intent.getIntExtra("userID");
+        if (userID == null) {
+            userID = intent.getStringExtra("id");
+        }
 
         // Request order list from db
         ArrayList<ArrayList<String>> orderList = DBUtil.Query("select OrderNumber, PurchaseTime, PhoneNumber, StoreName "
