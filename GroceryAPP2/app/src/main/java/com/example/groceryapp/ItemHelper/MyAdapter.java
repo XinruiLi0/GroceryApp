@@ -1,12 +1,18 @@
 package com.example.groceryapp.ItemHelper;
 
+import static android.widget.Toast.LENGTH_LONG;
+
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,6 +72,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         TextView itemPrice;
         String itemCategory;
         ImageView itemImage;
+        EditText itemNumber;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -73,6 +80,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             itemName = itemView.findViewById(R.id.itemName);
             itemPrice = itemView.findViewById(R.id.itemPrice);
             itemImage = itemView.findViewById(R.id.itemImage);
+
+            itemNumber = itemView.findViewById(R.id.number);
+
+            itemNumber.addTextChangedListener(new TextWatcher() {
+
+                public void afterTextChanged(Editable s) {
+
+                    if (s.toString().isEmpty()) { return; }
+                    int temp = Integer.parseInt(s.toString());
+                    if (temp > Double.parseDouble(itemStock)) {
+                        Toast.makeText(itemView.getContext(), "Your amount exceed the item storage, the storage for "+itemName.getText()+" is "+itemStock, LENGTH_LONG).show();
+                        s.clear();
+                    }
+                }
+
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            });
         }
     }
 }

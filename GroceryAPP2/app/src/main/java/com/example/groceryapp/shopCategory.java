@@ -73,7 +73,11 @@ public class shopCategory extends AppCompatActivity {
                 for (int i = 0; i < recyclerView.getChildCount(); i++) {
                     EditText amount = (EditText) ((CardView) recyclerView.getChildAt(i)).findViewById(R.id.number);
                     if (!amount.getText().toString().isEmpty() && Integer.parseInt(amount.getText().toString()) > 0) {
-                        itemList.get(i).add(amount.getText().toString());
+                        if (itemList.get(i).size() == 8) {
+                            itemList.get(i).add(amount.getText().toString());
+                        } else {
+                            itemList.get(i).set(8, amount.getText().toString());
+                        }
                         items.add(itemList.get(i));
                     }
                 }

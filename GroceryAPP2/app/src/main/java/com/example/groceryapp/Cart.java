@@ -94,11 +94,9 @@ public class Cart extends AppCompatActivity {
                 }
 
                 // To selection menu
-                Intent intent = new Intent(Cart.this, HistoryOrder.class);
+                Intent intent = new Intent(Cart.this, CustomerAccount.class);
                 intent.putExtra("userID", userID);
                 startActivity(intent);
-
-
             }
         });
 
@@ -107,6 +105,8 @@ public class Cart extends AppCompatActivity {
             public void onClick(View v) {
                 // go back
                 Intent intent = new Intent(Cart.this, shopCategory.class);
+                intent.putExtra("userID", userID);
+                intent.putExtra("storeID", storeID);
                 startActivity(intent);
             }
         });
