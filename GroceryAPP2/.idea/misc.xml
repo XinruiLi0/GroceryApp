@@ -3,6 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_add_product.xml" value="0.31145833333333334" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_cart.xml" value="0.3038949275362319" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_customer_account.xml" value="0.3038949275362319" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_grocery_stores.xml" value="0.3038949275362319" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_store_account.xml" value="0.31145833333333334" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_store_home.xml" value="0.2833333333333333" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_store_signin.xml" value="0.19275582573454914" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/item_card_view.xml" value="0.3038949275362319" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/store_card_view.xml" value="0.3038949275362319" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/store_product_card_view.xml" value="0.2740036231884058" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/store_product_view.xml" value="0.25" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_1.xml" value="0.1695" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_addproduct.xml" value="0.2864583333333333" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_cart.xml" value="0.25" />

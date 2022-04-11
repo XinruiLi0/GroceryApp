@@ -2,7 +2,9 @@ package com.example.groceryapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -44,10 +46,13 @@ public class storeRegister extends AppCompatActivity {
                     Toast.makeText(storeRegister.this,"Success!", Toast.LENGTH_LONG).show();
                     ArrayList<ArrayList<String>> result = DBUtil.Query("select id, StoreName from Retailers where Email = '"+email.getText()+"' and Password = '"+password.getText()+"'");
 
+                    SharedPreferences sharedPreferences = getSharedPreferences("StorePrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor =  sharedPreferences.edit();
+                    editor.putString("storeId", result.get(0).get(0));
+                    editor.commit();
+
                     // Jump to next page with store id and store name
-                    Intent intent = new Intent(storeRegister.this,addproduct.class);
-                    intent.putExtra("storeID",result.get(0).get(0));
-                    intent.putExtra("storeName",result.get(0).get(1));
+                    Intent intent = new Intent(storeRegister.this, StoreHome.class);
                     startActivity(intent);
                 } else {
                     // Error
@@ -61,7 +66,6 @@ public class storeRegister extends AppCompatActivity {
                 // To selection menu
                 Intent intent = new Intent(storeRegister.this,storeSignin.class);
                 startActivity(intent);
-
             }
         });
     }
