@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:weightSum="1">
@@ -44,6 +44,8 @@
                 android:text="Item Name"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="#3f3f3f"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.65"
@@ -58,6 +60,7 @@
                 android:text="$"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="#3f3f3f"
                 tools:layout_editor_absoluteX="197dp"
                 tools:layout_editor_absoluteY="236dp" />
 
@@ -76,6 +79,7 @@
                 android:text="Quantities:"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="#3f3f3f"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.84"
@@ -86,9 +90,12 @@
             <EditText
                 android:id="@+id/number"
                 android:layout_width="82dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:ems="10"
                 android:inputType="number"
+                android:textColor="#3f3f3f"
+                android:textSize="16sp"
+                android:paddingTop="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.878"
