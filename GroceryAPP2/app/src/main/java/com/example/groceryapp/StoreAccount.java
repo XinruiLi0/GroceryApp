@@ -46,6 +46,8 @@ public class StoreAccount extends AppCompatActivity implements BottomNavigationV
 
         // Extract user id from local
         Intent intent = getIntent();
+        intent.putExtra("current","retailer");
+
         storeID = intent.getStringExtra("userID");
         if (storeID == null) {
             storeID = intent.getStringExtra("id");
@@ -71,7 +73,7 @@ public class StoreAccount extends AppCompatActivity implements BottomNavigationV
                     orderList.get(i).get(2)));
         }
 
-        adapter = new MyAdapter(locations);
+        adapter = new MyAdapter(locations, "retailer");
         recyclerView.setAdapter(adapter);
 
 

@@ -65,7 +65,7 @@ public class CustomerAccount extends AppCompatActivity implements BottomNavigati
                     orderList.get(i).get(2)));
         }
 
-        adapter = new MyAdapter(locations);
+        adapter = new MyAdapter(locations,"customer");
         recyclerView.setAdapter(adapter);
 
     }

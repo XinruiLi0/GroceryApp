@@ -1,6 +1,7 @@
 package com.example.groceryapp.OrderHelper;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,17 @@ import com.example.groceryapp.Map;
 import com.example.groceryapp.R;
 import com.example.groceryapp.OrderHelper.OrderHelperClass;
 import com.example.groceryapp.shopCategory;
+import com.example.groceryapp.viewOrder;
 
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     ArrayList<OrderHelperClass> locations;
+    String current_page;
 
-    public MyAdapter(ArrayList<OrderHelperClass> locations) {
+    public MyAdapter(ArrayList<OrderHelperClass> locations,String current_page) {
         this.locations = locations;
+        this.current_page = current_page;
     }
 
     @NonNull
@@ -67,28 +71,55 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             orderDate = itemView.findViewById(R.id.orderDate);
 
 
-            order.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), HistoryOrder.class);
-                    intent.putExtra("id", id);
-                    intent.putExtra("orderNumber", ((String) orderNumber.getText()).split("Order Number: ")[1]);
-                    intent.putExtra("name", name);
-                    intent.putExtra("phoneNumber", phoneNumber);
-                    view.getContext().startActivity(intent);
-                }
-            });
-            next.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), HistoryOrder.class);
-                    intent.putExtra("id", id);
-                    intent.putExtra("orderNumber", ((String) orderNumber.getText()).split("Order Number: ")[1]);
-                    intent.putExtra("name", name);
-                    intent.putExtra("phoneNumber", phoneNumber);
-                    view.getContext().startActivity(intent);
-                }
-            });
+            if (current_page == "retailer")
+            {
+                order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), viewOrder.class);
+                        intent.putExtra("id", id);
+                        intent.putExtra("orderNumber", ((String) orderNumber.getText()).split("Order Number: ")[1]);
+                        intent.putExtra("name", name);
+                        intent.putExtra("phoneNumber", phoneNumber);
+                        view.getContext().startActivity(intent);
+                    }
+                });
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), viewOrder.class);
+                        intent.putExtra("id", id);
+                        intent.putExtra("orderNumber", ((String) orderNumber.getText()).split("Order Number: ")[1]);
+                        intent.putExtra("name", name);
+                        intent.putExtra("phoneNumber", phoneNumber);
+                        view.getContext().startActivity(intent);
+                    }
+                });
+            } else {
+                order.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), HistoryOrder.class);
+                        intent.putExtra("id", id);
+                        intent.putExtra("orderNumber", ((String) orderNumber.getText()).split("Order Number: ")[1]);
+                        intent.putExtra("name", name);
+                        intent.putExtra("phoneNumber", phoneNumber);
+                        view.getContext().startActivity(intent);
+                    }
+                });
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), HistoryOrder.class);
+                        intent.putExtra("id", id);
+                        intent.putExtra("orderNumber", ((String) orderNumber.getText()).split("Order Number: ")[1]);
+                        intent.putExtra("name", name);
+                        intent.putExtra("phoneNumber", phoneNumber);
+                        view.getContext().startActivity(intent);
+                    }
+                });
+            }
+
         }
     }
 }
