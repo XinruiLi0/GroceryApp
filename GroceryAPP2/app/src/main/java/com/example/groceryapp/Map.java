@@ -46,6 +46,8 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Locati
     ImageButton back;
     private String storeID;
     private String storeName;
+    private String userID;
+    private String userName;
     private ArrayList<String> storeLatLng;
 
     private List<LatLng> list = new ArrayList<>();
@@ -60,6 +62,8 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Locati
         Intent intent = getIntent();
         storeID = intent.getStringExtra("storeID");
         storeName = intent.getStringExtra("storeName");
+        userID = intent.getStringExtra("userID");
+        userName = intent.getStringExtra("userName");
 
         // Request store position from db
         ArrayList<ArrayList<String>> result = DBUtil.Query("select latitude, longitude from Retailers where id = "+storeID);
@@ -86,11 +90,14 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Locati
 
             }
         });
+
         back = (ImageButton) findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // go back
                 Intent intent = new Intent(Map.this, GroceryStores.class);
+                intent.putExtra("userID", userID);
+                intent.putExtra("userName", userName);
                 startActivity(intent);
             }
         });

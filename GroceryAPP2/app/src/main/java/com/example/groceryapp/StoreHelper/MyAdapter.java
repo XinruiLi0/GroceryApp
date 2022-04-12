@@ -93,6 +93,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), Map.class);
+                    intent.putExtra("userName", userName);
+                    intent.putExtra("userID", userId);
                     intent.putExtra("storeName", (String) storeName.getText());
                     intent.putExtra("storeID", (String) storeId.getText());
                     view.getContext().startActivity(intent);
