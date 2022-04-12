@@ -9,31 +9,32 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:background="@drawable/layout_1"
-        android:gravity="left|center_vertical"
+        android:gravity="center"
         android:orientation="horizontal"
+        android:weightSum="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:gravity="center"
+        android:orientation="horizontal">
         <ImageView
             android:id="@+id/itemImage"
-            android:layout_width="122dp"
-            android:layout_height="93dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="h,122:93"
             android:background="#00FFFFFF"
-            android:paddingLeft="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.055"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.199"
             app:srcCompat="@drawable/costco" />
-
+    </LinearLayout>
         <LinearLayout
-            android:layout_width="169dp"
-            android:layout_height="93dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.35"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -41,34 +42,29 @@
                 android:id="@+id/itemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Item Name"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="#3f3f3f"
                 android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.65"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.221" />
+                android:text="Item Name"
+                android:textColor="#3f3f3f"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/itemPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 android:textColor="#3f3f3f"
-                tools:layout_editor_absoluteX="197dp"
-                tools:layout_editor_absoluteY="236dp" />
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+<!--                tools:layout_editor_absoluteX="197dp"-->
+<!--                tools:layout_editor_absoluteY="236dp" -->
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="93dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.35"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -76,16 +72,10 @@
                 android:id="@+id/quantities"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quantities:"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:text="Quantities"
                 android:textColor="#3f3f3f"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.84"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.261" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/number"
@@ -93,15 +83,9 @@
                 android:layout_height="40dp"
                 android:ems="10"
                 android:inputType="number"
-                android:textColor="#3f3f3f"
-                android:textSize="16sp"
                 android:paddingTop="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.878"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.318" />
+                android:textColor="#3f3f3f"
+                android:textSize="16sp" />
 
         </LinearLayout>
 

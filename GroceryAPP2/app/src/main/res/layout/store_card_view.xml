@@ -30,7 +30,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"
-
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="2dp"
                 android:gravity="center"
                 android:text="Store"
                 android:textColor="#2E5418"
