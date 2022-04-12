@@ -44,6 +44,7 @@
                 android:text="Item Name"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="#3f3f3f"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.65"
@@ -58,6 +59,7 @@
                 android:text="$"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="#3f3f3f"
                 tools:layout_editor_absoluteX="197dp"
                 tools:layout_editor_absoluteY="236dp" />
 
@@ -76,6 +78,7 @@
                 android:text="Quantities:"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="#3f3f3f"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.84"
@@ -89,6 +92,8 @@
                 android:layout_height="30dp"
                 android:ems="10"
                 android:inputType="number"
+                android:textColor="#3f3f3f"
+                android:paddingTop="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.878"
