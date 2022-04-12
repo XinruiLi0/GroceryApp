@@ -66,6 +66,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             orderNumber = itemView.findViewById(R.id.orderNum);
             orderDate = itemView.findViewById(R.id.orderDate);
 
+
             order.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
