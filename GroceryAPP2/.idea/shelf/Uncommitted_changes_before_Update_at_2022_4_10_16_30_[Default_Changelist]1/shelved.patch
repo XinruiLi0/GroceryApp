@@ -1,0 +1,29 @@
+Index: app/src/main/java/com/example/groceryapp/HelperClasses/MyAdapter.java
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/HelperClasses/MyAdapter.java b/app/src/main/java/com/example/groceryapp/HelperClasses/StoresAdapter.java
+rename from app/src/main/java/com/example/groceryapp/HelperClasses/MyAdapter.java
+rename to app/src/main/java/com/example/groceryapp/HelperClasses/StoresAdapter.java
+--- a/app/src/main/java/com/example/groceryapp/HelperClasses/MyAdapter.java	
++++ b/app/src/main/java/com/example/groceryapp/HelperClasses/StoresAdapter.java	
+@@ -5,7 +5,6 @@
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.ImageButton;
+-import android.widget.LinearLayout;
+ import android.widget.TextView;
+ 
+ import androidx.annotation.NonNull;
+@@ -17,11 +16,11 @@
+ 
+ import java.util.ArrayList;
+ 
+-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
++public class StoresAdapter extends RecyclerView.Adapter<StoresAdapter.MyViewHolder> {
+ 
+     ArrayList<StoreHelperClass> locations;
+ 
+-    public MyAdapter(ArrayList<StoreHelperClass> locations) {
++    public StoresAdapter(ArrayList<StoreHelperClass> locations) {
+         this.locations = locations;
+     }
+ 
