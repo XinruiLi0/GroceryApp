@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,11 +21,11 @@ import com.example.groceryapp.StoreProductHelper.MyAdapter;
 import com.example.groceryapp.StoreProductHelper.StoreProductHelperClass;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class StoreHome extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     BottomNavigationView bottomNavigationView;
-    private String storeID;
     private String sharedStoreId;
 
     RecyclerView recyclerView;
@@ -41,10 +44,13 @@ public class StoreHome extends AppCompatActivity implements BottomNavigationView
         // Extract store id from local
         sharedPreferences = getSharedPreferences("StorePrefs", Context.MODE_PRIVATE);
         sharedStoreId = sharedPreferences.getString("storeId", null);
+    }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
         // Request product list from db
-        ArrayList<ArrayList<String>> productList = DBUtil.Query("select * from Products where RetailerId = " + sharedStoreId);
-
+        ArrayList<ArrayList<String>> productList = DBUtil.Query("select * from Items where RetailerId = " + sharedStoreId);
         // Show the products in view
         recyclerView = findViewById(R.id.storeProductRecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -59,8 +65,8 @@ public class StoreHome extends AppCompatActivity implements BottomNavigationView
                     productList.get(i).get(2),
                     productList.get(i).get(3),
                     productList.get(i).get(4),
-                    productList.get(i).get(5)));
-//                    productList.get(i).get(6)));
+                    productList.get(i).get(5),
+                    productList.get(i).get(6)));
         }
 
         adapter = new MyAdapter(locations);
@@ -75,6 +81,7 @@ public class StoreHome extends AppCompatActivity implements BottomNavigationView
             }
         });
     }
+
 
     // navigation view
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
