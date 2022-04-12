@@ -65,7 +65,7 @@ public class shopCategory extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         ImageButton cart = (ImageButton) findViewById(R.id.imageButton);
-        back = (ImageButton) findViewById(R.id.imageButton2);
+        back = (ImageButton) findViewById(R.id.back);
 
         cart.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
