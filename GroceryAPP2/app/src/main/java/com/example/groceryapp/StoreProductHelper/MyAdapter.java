@@ -1,5 +1,8 @@
 package com.example.groceryapp.StoreProductHelper;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import com.example.groceryapp.ItemHelper.ItemHelperClass;
 import com.example.groceryapp.R;
 import com.example.groceryapp.StoreHelper.StoreHelperClass;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
@@ -40,14 +44,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.restockTime = storeProductHelperClass.getRestockTime();
         holder.itemPrice.setText("$ " + storeProductHelperClass.getItemPrice());
         holder.itemCategory = storeProductHelperClass.getItemCategory();
-//        ArrayList<Integer> itemList = new ArrayList<Integer> ();
-//        itemList.add(R.drawable.costco);
-//        itemList.add(R.drawable.cucumber);
-//        itemList.add(R.drawable.blueberry);
-//        itemList.add(R.drawable.eggs);
-//        itemList.add(R.drawable.garlic);
-//        int imageIndex = Integer.parseInt(itemHelperClass.getItemImage());
-//        holder.itemImage.setImageResource(itemList.get(imageIndex));
+        holder.itemImage.setImageBitmap(convertStringToBitImage(storeProductHelperClass.getItemImage()));
+    }
+
+    // this function is used to decode the string into image
+    public Bitmap convertStringToBitImage(String imageString){
+        // decode string to image
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        return decodedImage;
     }
 
     @Override
@@ -62,13 +68,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         String restockTime;
         TextView itemPrice;
         String itemCategory;
-//        ImageView itemImage;
+        ImageView itemImage;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.productName);
             itemPrice = itemView.findViewById(R.id.productPrice);
-//            itemImage = itemView.findViewById(R.id.itemImage);
+            itemImage = itemView.findViewById(R.id.itemImage);
         }
     }
 }

@@ -90,12 +90,23 @@
                 android:layout_height="216dp"
                 android:orientation="horizontal">
 
+                <Space
+                    android:layout_width="112dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
                 <ImageView
                     android:id="@+id/addProductImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp"
+                    android:layout_width="229dp"
+                    android:layout_height="187dp"
                     android:layout_weight="1"
-                    tools:srcCompat="@drawable/upload" />
+                    app:srcCompat="@drawable/upload" />
+
+                <Space
+                    android:layout_width="126dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
             </LinearLayout>
 
             <LinearLayout
