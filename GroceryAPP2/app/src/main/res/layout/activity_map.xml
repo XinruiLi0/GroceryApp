@@ -7,24 +7,27 @@
     android:background="#E3E9DF"
     tools:context=".Map">
 
+
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="412dp"
-        android:layout_height="566dp"
-        android:layout_marginBottom="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/Mapshowlocation"
+        android:layout_height="450dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.004"
         tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
-
 
     <Button
         android:id="@+id/Mapshowlocation"
         android:layout_width="220dp"
         android:layout_height="48dp"
         android:background="@drawable/btn_1"
+
         android:text="Show your location"
         android:textColor="#FFFFFFFF"
         android:textSize="16sp"
@@ -34,7 +37,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.865" />
+        app:layout_constraintVertical_bias="0.927" />
 
     <ImageButton
         android:id="@+id/back"

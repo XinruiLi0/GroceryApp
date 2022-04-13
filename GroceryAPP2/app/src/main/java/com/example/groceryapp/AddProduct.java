@@ -6,9 +6,13 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,11 +23,11 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 public class AddProduct extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    ImageView back, productImage;
+    ImageView back, productImage, imageTest;
     EditText productNameText, priceText, quantityText, restockTimeText;
     String productCategory;
     DatePickerDialog picker;
@@ -44,6 +48,7 @@ public class AddProduct extends AppCompatActivity implements AdapterView.OnItemS
         priceText = (EditText) findViewById(R.id.addProductPrice);
         quantityText = (EditText) findViewById(R.id.addProductQuantity);
         saveBtn = (Button) findViewById(R.id.addProductBtn);
+        productImage = (ImageView) findViewById(R.id.addProductImage);
 
         // move back if back button clicked
         back = (ImageView) findViewById(R.id.addProductBackView);
@@ -78,7 +83,6 @@ public class AddProduct extends AppCompatActivity implements AdapterView.OnItemS
         spin.setAdapter(ad);
 
         // pick image from gallery
-        productImage = (ImageView) findViewById(R.id.addProductImage);
         productImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,7 +102,6 @@ public class AddProduct extends AppCompatActivity implements AdapterView.OnItemS
         restockTimeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("clicked");
                 final Calendar cldr = Calendar.getInstance();
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);
@@ -137,14 +140,16 @@ public class AddProduct extends AppCompatActivity implements AdapterView.OnItemS
             public void onClick(View view) {
                 // check the correction
                 if (checkCorrection()){
+                    // get the encoded image string
+                    String imageString = convertProductImageToString();
                     // Update product data to database
-                    String query = ("insert into Products(ItemName, ItemStock, RestockTime, ItemPrice, ItemCategory, ItemImage, RetailerId) " + "values ('"
+                    String query = ("insert into Items(ItemName, ItemStock, RestockTime, ItemPrice, ItemCategory, ItemImage, RetailerId) " + "values ('"
                             + productNameText.getText() + "', '"
                             + new Float(quantityText.getText().toString()) + "', '"
                             + restockTimeText.getText() + "', '"
                             + new Float(priceText.getText().toString()) + "', '"
                             + productCategory + "', '"
-                            + "3" + "', '"
+                            + imageString + "', '"
                             + sharedStoreId +"')");
 
                     int temp = DBUtil.Update(query);
@@ -162,6 +167,17 @@ public class AddProduct extends AppCompatActivity implements AdapterView.OnItemS
         });
     }
 
+    // this function is used to encode the image into string
+    public String convertProductImageToString(){
+        //encode image to base64 string
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) productImage.getDrawable();
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes , Base64.DEFAULT);
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         productCategory = categories[i];
@@ -177,7 +193,8 @@ public class AddProduct extends AppCompatActivity implements AdapterView.OnItemS
                 && !priceText.getText().toString().matches("")
                 && !quantityText.getText().toString().matches("")
                 && !restockTimeText.getText().toString().matches("")
-                && !productCategory.matches("")){
+                && !productCategory.matches("")
+                && productImage != null){
             return true;
         }else{
             Toast.makeText(this, "Please complete all information", Toast.LENGTH_SHORT).show();
@@ -203,7 +220,6 @@ public class AddProduct extends AppCompatActivity implements AdapterView.OnItemS
     // selects the image from the imageChooser
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK) {
             // compare the resultCode with the
             // SELECT_PICTURE constant
@@ -217,4 +233,5 @@ public class AddProduct extends AppCompatActivity implements AdapterView.OnItemS
             }
         }
     }
+
 }

@@ -27,6 +27,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -81,7 +82,8 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, Locati
                 LatLng curLocation = list.get(1);
                 map.addMarker(new MarkerOptions()
                         .position(curLocation)
-                        .title("Your location is here"));
+                        .title("Your location is here")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(curLocation, 12));
                 PolylineOptions polyline_options = new PolylineOptions()
                         .addAll(list).color(Color.BLUE).width(10);

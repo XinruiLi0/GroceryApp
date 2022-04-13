@@ -10,14 +10,14 @@ public class StoreProductHelperClass {
     private String itemCategory;
     private String itemImage;
 
-    public StoreProductHelperClass(String itemName, String itemId, String itemStock, String restockTime, String itemPrice, String itemCategory) {
+    public StoreProductHelperClass(String itemName, String itemId, String itemStock, String restockTime, String itemPrice, String itemCategory, String itemImage) {
         this.itemName = itemName;
         this.itemId = itemId;
         this.itemStock = itemStock;
         this.restockTime = restockTime;
         this.itemPrice = itemPrice;
         this.itemCategory = itemCategory;
-//        this.itemImage = itemImage;
+        this.itemImage = itemImage;
     }
 
     public String getItemName() {
@@ -44,7 +44,7 @@ public class StoreProductHelperClass {
         return itemCategory;
     }
 
-//    public String getItemImage() {
-//        return itemImage;
-//    }
+    public String getItemImage() {
+        return itemImage;
+    }
 }
