@@ -97,13 +97,15 @@ public class Cart extends AppCompatActivity {
                 String currentTime = formatter.format(date);
                 String orderNumber = currentTime.replaceAll("[[\\s-:punct:]]", "");
 
-                for (int i = 0; i < itemList.size(); ++i) {
-                    // Submit the order
-                    int temp = DBUtil.Update("insert into Orders(OrderNumber, PurchaseTime, RetailerId, CustomerId, ItemId, Quantities, Price, TotalPrice) \n" +
-                            "values ('"+orderNumber+"', '"+currentTime+"', "+storeID+", "+userID+", "+itemList.get(i).get(0)+", "+itemList.get(i).get(8)+", "+itemList.get(i).get(4)+", "+price+")");
-                    if (temp == 1) {
-                        // Adjust item stock in database
-                        DBUtil.Update("update Products set ItemStock = ItemStock - "+itemList.get(i).get(8)+" where id = "+itemList.get(i).get(0));
+                for (ArrayList<String> list : itemList) {
+                    if (list.size() == 9) {
+                        // Submit the order
+                        int temp = DBUtil.Update("insert into Orders(OrderNumber, PurchaseTime, RetailerId, CustomerId, ItemId, Quantities, Price, TotalPrice) \n" +
+                                "values ('"+orderNumber+"', '"+currentTime+"', "+storeID+", "+userID+", "+list.get(0)+", "+list.get(8)+", "+list.get(4)+", "+price+")");
+                        if (temp == 1) {
+                            // Adjust item stock in database
+                            DBUtil.Update("update Products set ItemStock = ItemStock - "+list.get(8)+" where id = "+list.get(0));
+                        }
                     }
                 }
 
