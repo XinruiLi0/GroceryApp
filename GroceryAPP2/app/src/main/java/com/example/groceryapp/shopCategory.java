@@ -38,7 +38,7 @@ public class shopCategory extends AppCompatActivity {
         userID = intent.getStringExtra("userID");
 
         // Request product list from db
-        itemList = DBUtil.Query("select * from Products where RetailerId = " + storeID);
+        itemList = DBUtil.Query("select id, ItemName, ItemStock, RestockTime, ItemPrice, ItemCategory, ItemImage, RetailerId from Products where RetailerId = " + storeID);
         // Optional: Request categories list from db
         // ArrayList<ArrayList<String>> categoryList = DBUtil.Query("select ItemCategory from Products where RetailerId = " + storeID + " group by ItemCategory");
 
