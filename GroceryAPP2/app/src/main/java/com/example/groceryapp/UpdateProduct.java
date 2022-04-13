@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,13 +23,16 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.groceryapp.StoreProductHelper.StoreProductHelperClass;
+
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ArrayList;
 
-public class AddProduct extends AppCompatActivity{
-    ImageView back, productImage, imageTest;
+public class UpdateProduct extends AppCompatActivity{
+    ImageView back, productImage;
+    Button delete;
     EditText productNameText, priceText, quantityText, restockTimeText;
     String productCategory;
     DatePickerDialog picker;
@@ -36,6 +40,7 @@ public class AddProduct extends AppCompatActivity{
     int SELECT_PICTURE = 200;
     SharedPreferences sharedPreferences;
     private String sharedStoreId;
+    private String itemId;
 
     // create array of Strings and store name of the categories
     List<String> categories = new ArrayList<>();
@@ -43,26 +48,53 @@ public class AddProduct extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_product);
+        setContentView(R.layout.activity_update_product);
 
-        categories.add(0, "Choose Category");
         categories.add("Product");
         categories.add("Meat & Seafood");
         categories.add("Dairy & Eggs");
         categories.add("Snacks");
         categories.add("Others");
 
+        // retrieve data from previous page
+        Intent intent = getIntent();
+        itemId = intent.getStringExtra("itemId");
+        String previousItemName = intent.getStringExtra("itemName");
+        String previousItemCategory = intent.getStringExtra("itemCategory");
+        String previousItemPrice = intent.getStringExtra("itemPrice");
+        String previousItemStock = intent.getStringExtra("itemStock");
+        String previousItemRestockTime = intent.getStringExtra("restockTime");
+
         productNameText = (EditText) findViewById(R.id.updateProductName);
-        priceText = (EditText) findViewById(R.id.addProductPrice);
-        quantityText = (EditText) findViewById(R.id.addProductQuantity);
-        saveBtn = (Button) findViewById(R.id.addProductBtn);
-        productImage = (ImageView) findViewById(R.id.addProductImage);
+        priceText = (EditText) findViewById(R.id.updateProductPrice);
+        quantityText = (EditText) findViewById(R.id.updateProductQuantity);
+        saveBtn = (Button) findViewById(R.id.updateProductBtn);
+        productImage = (ImageView) findViewById(R.id.updateProductImage);
+        restockTimeText = (EditText) findViewById(R.id.updateRestockTime);
+
+        // set default values for each edit text
+        productNameText.setText(previousItemName);
+        priceText.setText(previousItemPrice);
+        quantityText.setText(previousItemStock);
+        restockTimeText.setText(previousItemRestockTime);
+        // retrieve the previous image from database and display
+        productImage.setImageBitmap(convertStringToBitImage(getImageString(itemId)));
 
         // move back if back button clicked
-        back = (ImageView) findViewById(R.id.addProductBackView);
+        back = (ImageView) findViewById(R.id.updateProductBackView);
         back.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        // delete the product if delete button clicked
+        delete = (Button) findViewById(R.id.deleteBtn);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String query = ("delete from Products where id = " + itemId);
+                updateDB(query);
             }
         });
 
@@ -72,7 +104,7 @@ public class AddProduct extends AppCompatActivity{
 
         // Take the instance of Spinner and apply OnItemSelectedListener on it which
         // tells which item of spinner is clicked
-        Spinner spin = findViewById(R.id.categoriesSpinner);
+        Spinner spin = findViewById(R.id.updateCategoriesSpinner);
 
         // Create the instance of ArrayAdapter
         ArrayAdapter ad
@@ -88,14 +120,15 @@ public class AddProduct extends AppCompatActivity{
 
         // Set the ArrayAdapter (ad) data on the Spinner which binds data to spinner
         spin.setAdapter(ad);
+        if (categories.contains(previousItemCategory)){
+            int position = ad.getPosition(previousItemCategory);
+            spin.setSelection(position);
+        }
+
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView.getItemAtPosition(i).equals("Choose Category")){
-                    productCategory = "";
-                }else{
-                    productCategory = adapterView.getItemAtPosition(i).toString();
-                }
+                productCategory = adapterView.getItemAtPosition(i).toString();
             }
 
             @Override
@@ -119,7 +152,7 @@ public class AddProduct extends AppCompatActivity{
         });
 
         // create a date picker of restock time
-        restockTimeText = (EditText) findViewById(R.id.restockTime);
+        restockTimeText = (EditText) findViewById(R.id.updateRestockTime);
         restockTimeText.setInputType(InputType.TYPE_NULL);
         restockTimeText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +163,7 @@ public class AddProduct extends AppCompatActivity{
                 int year = cldr.get(Calendar.YEAR);
 
                 // date picker dialog
-                picker = new DatePickerDialog(AddProduct.this,
+                picker = new DatePickerDialog(UpdateProduct.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -156,7 +189,7 @@ public class AddProduct extends AppCompatActivity{
             }
         });
 
-        // upload data to database if save button clicked
+        // update data to database if save button clicked
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,25 +198,16 @@ public class AddProduct extends AppCompatActivity{
                     // get the encoded image string
                     String imageString = convertProductImageToString();
                     // Update product data to database
-                    String query = ("insert into Products(ItemName, ItemStock, RestockTime, ItemPrice, ItemCategory, ItemImage, RetailerId) " + "values ('"
-                            + productNameText.getText() + "', '"
-                            + new Float(quantityText.getText().toString()) + "', '"
-                            + restockTimeText.getText() + "', '"
-                            + new Float(priceText.getText().toString()) + "', '"
-                            + productCategory + "', '"
-                            + imageString + "', '"
-                            + sharedStoreId +"')");
-
-                    int temp = DBUtil.Update(query);
-                    if (temp == 1) {
-                        // Success
-                        Toast.makeText(AddProduct.this,"Success!", Toast.LENGTH_LONG).show();
-                        // Jump to previous page
-                        finish();
-                    } else {
-                        // Error
-                        Toast.makeText(AddProduct.this,"Error!", Toast.LENGTH_LONG).show();
-                    }
+                    String query = ("update Products set "
+                            + "ItemName = '" + productNameText.getText() + "', "
+                            + "ItemStock = '" + new Float(quantityText.getText().toString()) + "', "
+                            + "RestockTime = '" + restockTimeText.getText() + "', "
+                            + "ItemPrice = '" + new Float(priceText.getText().toString()) + "', "
+                            + "ItemCategory = '" + productCategory + "', "
+                            + "ItemImage = '" + imageString + "', "
+                            + "RetailerId = '" + sharedStoreId + "' where id = " + itemId + ";"
+                            );
+                     updateDB(query);
                 }
             }
         });
@@ -195,9 +219,22 @@ public class AddProduct extends AppCompatActivity{
         BitmapDrawable bitmapDrawable = (BitmapDrawable) productImage.getDrawable();
         Bitmap bitmap = bitmapDrawable.getBitmap();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,0, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.PNG,10, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes , Base64.DEFAULT);
+    }
+
+    public void updateDB(String query){
+        int temp = DBUtil.Update(query);
+        if (temp == 1) {
+            // Success
+            Toast.makeText(UpdateProduct.this,"Success!", Toast.LENGTH_LONG).show();
+            // Jump to previous page
+            finish();
+        } else {
+            // Error
+            Toast.makeText(UpdateProduct.this,"Error!", Toast.LENGTH_LONG).show();
+        }
     }
 
     public boolean checkCorrection(){
@@ -212,6 +249,25 @@ public class AddProduct extends AppCompatActivity{
             Toast.makeText(this, "Please complete all information", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+    // this function is used to retrieve the image string from database
+    public String getImageString(String itemId){
+        // Request product list from db
+        ArrayList<ArrayList<String>> productList = DBUtil.Query(
+                "select ItemImage from Products where id = " + itemId);
+        if (productList.size() != 0) {
+            return productList.get(0).get(0);
+        }
+        return null;
+    }
+
+    // this function is used to decode the string into image
+    public Bitmap convertStringToBitImage(String imageString){
+        // decode string to image
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
     }
 
     // this function is triggered when
@@ -245,5 +301,6 @@ public class AddProduct extends AppCompatActivity{
             }
         }
     }
+
 
 }

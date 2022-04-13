@@ -50,7 +50,7 @@ public class StoreHome extends AppCompatActivity implements BottomNavigationView
     protected void onResume(){
         super.onResume();
         // Request product list from db
-        ArrayList<ArrayList<String>> productList = DBUtil.Query("select * from Items where RetailerId = " + sharedStoreId);
+        ArrayList<ArrayList<String>> productList = DBUtil.Query("select * from Products where RetailerId = " + sharedStoreId);
         // Show the products in view
         recyclerView = findViewById(R.id.storeProductRecyclerView);
         recyclerView.setHasFixedSize(true);
@@ -66,15 +66,15 @@ public class StoreHome extends AppCompatActivity implements BottomNavigationView
                     productList.get(i).get(3),
                     productList.get(i).get(4),
                     productList.get(i).get(5),
-                    productList.get(i).get(6)));
+                    productList.get(i).get(7)));
         }
 
         adapter = new MyAdapter(locations);
         recyclerView.setAdapter(adapter);
 
         // jump to add product fragment
-        Button addproduct = (Button) findViewById(R.id.addProductButton);
-        addproduct.setOnClickListener(new View.OnClickListener() {
+        Button addProduct = (Button) findViewById(R.id.addProductButton);
+        addProduct.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent addProductIntent = new Intent(StoreHome.this, AddProduct.class);
                 startActivity(addProductIntent);
