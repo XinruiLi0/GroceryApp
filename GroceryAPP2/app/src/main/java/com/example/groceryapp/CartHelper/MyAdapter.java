@@ -1,5 +1,8 @@
 package com.example.groceryapp.CartHelper;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryapp.R;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
@@ -38,15 +42,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         holder.restockTime = cartHelperClass.getRestockTime();
         holder.itemPrice.setText("$ " +cartHelperClass.getItemPrice());
         holder.itemCategory = cartHelperClass.getItemCategory();
-        ArrayList<Integer> itemList = new ArrayList<Integer> ();
-        itemList.add(R.drawable.costco);
-        itemList.add(R.drawable.cucumber);
-        itemList.add(R.drawable.blueberry);
-        itemList.add(R.drawable.eggs);
-        itemList.add(R.drawable.garlic);
-        int imageIndex = Integer.parseInt(cartHelperClass.getItemImage());
-        holder.itemImage.setImageResource(itemList.get(imageIndex));
+        holder.itemImage.setImageBitmap(convertStringToBitImage(cartHelperClass.getItemImage()));
         holder.itemAmount.setText("x " +cartHelperClass.getItemAmount());
+    }
+
+    // this function is used to decode the string into image
+    public Bitmap convertStringToBitImage(String imageString){
+        // decode string to image
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        return decodedImage;
     }
 
     @Override
