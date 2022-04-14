@@ -42,7 +42,18 @@ public class Cart extends AppCompatActivity {
         Intent intent = getIntent();
         storeID = intent.getStringExtra("storeID");
         userID = intent.getStringExtra("userID");
-        itemList = (ArrayList<ArrayList<String>>) intent.getSerializableExtra("itemList");
+        ArrayList<ArrayList<String>> selectedList = (ArrayList<ArrayList<String>>) intent.getSerializableExtra("itemList");
+
+        // Request product list from db
+        itemList = DBUtil.Query("select id, ItemName, ItemStock, RestockTime, ItemPrice, ItemCategory, ItemImage, RetailerId from Products where RetailerId = " + storeID);
+
+        for (ArrayList<String> list : itemList) {
+            for (ArrayList<String> selected : selectedList) {
+                if (list.get(0).equals(selected.get(0))) {
+                    list.add(selected.get(1));
+                }
+            }
+        }
 
         // Show the items in view
         recyclerView = findViewById(R.id.CardRecyclerView);
@@ -53,17 +64,20 @@ public class Cart extends AppCompatActivity {
         ArrayList<CartHelperClass> locations = new ArrayList<>();
 
         price = 0;
-        for (int i = 0; i < itemList.size(); ++i) {
-            locations.add(new CartHelperClass(
-                    itemList.get(i).get(1),
-                    itemList.get(i).get(0),
-                    itemList.get(i).get(2),
-                    itemList.get(i).get(3),
-                    itemList.get(i).get(4),
-                    itemList.get(i).get(5),
-                    itemList.get(i).get(6),
-                    itemList.get(i).get(8)));
-            price += Double.parseDouble(itemList.get(i).get(4)) * Integer.parseInt(itemList.get(i).get(8));
+        for (ArrayList<String> list : itemList) {
+            if (list.size() == 9) {
+                locations.add(new CartHelperClass(
+                        list.get(1),
+                        list.get(0),
+                        list.get(2),
+                        list.get(3),
+                        list.get(4),
+                        list.get(5),
+                        list.get(6),
+                        list.get(8)));
+                price += Double.parseDouble(list.get(4)) * Integer.parseInt(list.get(8));
+            }
+
         }
         price = (double) Math.round(price * 100) / 100;
 
@@ -83,13 +97,15 @@ public class Cart extends AppCompatActivity {
                 String currentTime = formatter.format(date);
                 String orderNumber = currentTime.replaceAll("[[\\s-:punct:]]", "");
 
-                for (int i = 0; i < itemList.size(); ++i) {
-                    // Submit the order
-                    int temp = DBUtil.Update("insert into Orders(OrderNumber, PurchaseTime, RetailerId, CustomerId, ItemId, Quantities, Price, TotalPrice) \n" +
-                            "values ('"+orderNumber+"', '"+currentTime+"', "+storeID+", "+userID+", "+itemList.get(i).get(0)+", "+itemList.get(i).get(8)+", "+itemList.get(i).get(4)+", "+price+")");
-                    if (temp == 1) {
-                        // Adjust item stock in database
-                        DBUtil.Update("update Products set ItemStock = ItemStock - "+itemList.get(i).get(8)+" where id = "+itemList.get(i).get(0));
+                for (ArrayList<String> list : itemList) {
+                    if (list.size() == 9) {
+                        // Submit the order
+                        int temp = DBUtil.Update("insert into Orders(OrderNumber, PurchaseTime, RetailerId, CustomerId, ItemId, Quantities, Price, TotalPrice) \n" +
+                                "values ('"+orderNumber+"', '"+currentTime+"', "+storeID+", "+userID+", "+list.get(0)+", "+list.get(8)+", "+list.get(4)+", "+price+")");
+                        if (temp == 1) {
+                            // Adjust item stock in database
+                            DBUtil.Update("update Products set ItemStock = ItemStock - "+list.get(8)+" where id = "+list.get(0));
+                        }
                     }
                 }
 
