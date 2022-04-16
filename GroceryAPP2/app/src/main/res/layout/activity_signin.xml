@@ -118,6 +118,7 @@
                 android:id="@+id/signinRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/material_on_background_disabled"
                 android:backgroundTint="#E3E9DF"
                 android:text="Register"
                 android:textColor="#47C814"
