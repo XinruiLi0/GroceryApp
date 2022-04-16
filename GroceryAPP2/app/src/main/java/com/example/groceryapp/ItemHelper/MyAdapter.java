@@ -25,8 +25,14 @@ import com.example.groceryapp.Map;
 import com.example.groceryapp.R;
 import com.example.groceryapp.ItemHelper.ItemHelperClass;
 import com.example.groceryapp.Cart;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
@@ -59,16 +65,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
         holder.itemPrice.setText("$ " +itemHelperClass.getItemPrice());
         holder.itemCategory = itemHelperClass.getItemCategory();
-        holder.itemImage.setImageBitmap(convertStringToBitImage(itemHelperClass.getItemImage()));
+        loadImage(holder, itemHelperClass.getItemImage());
     }
 
-    // this function is used to decode the string into image
-    public Bitmap convertStringToBitImage(String imageString){
-        // decode string to image
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
-        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        return decodedImage;
+    public void loadImage(MyViewHolder holder, String fileName) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + fileName);
+        try {
+            final File localFile = File.createTempFile(fileName, "image");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    holder.itemImage.setImageBitmap(bitmap);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
