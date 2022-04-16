@@ -148,6 +148,7 @@
             android:text="Sign In"
             android:textColor="#47C814"
             android:textStyle="italic"
+            android:background="@color/material_on_background_disabled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.743"

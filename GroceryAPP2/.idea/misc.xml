@@ -4,10 +4,22 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_add_product.xml" value="0.264" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_cart.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_customer_account.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_history_order.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_main.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_maps.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_register.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_signin.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_store_account.xml" value="0.26132246376811596" />
         <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_store_home.xml" value="0.16802536231884058" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_store_register.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_store_signin.xml" value="0.26132246376811596" />
         <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_update_product.xml" value="0.16802536231884058" />
         <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/cart_card_view.xml" value="0.26132246376811596" />
         <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/item_card_view.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/order_card_view.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/store_card_view.xml" value="0.26132246376811596" />
         <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/store_product_card_view.xml" value="0.16802536231884058" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_1.xml" value="0.1695" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_2.xml" value="0.145" />

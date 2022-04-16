@@ -115,6 +115,7 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/material_on_background_disabled"
             android:backgroundTint="#ACCBE0"
             android:text="Register"
             android:textColor="#0070C8"
