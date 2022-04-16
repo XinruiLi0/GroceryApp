@@ -1,0 +1,869 @@
+Index: app/src/main/java/com/example/groceryapp/AddProduct.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groceryapp;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.app.DatePickerDialog;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.content.SharedPreferences;\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.BitmapFactory;\r\nimport android.graphics.drawable.BitmapDrawable;\r\nimport android.net.Uri;\r\nimport android.os.Bundle;\r\nimport android.text.InputType;\r\nimport android.util.Base64;\r\nimport android.view.View;\r\nimport android.widget.AdapterView;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.Button;\r\nimport android.widget.DatePicker;\r\nimport android.widget.EditText;\r\nimport android.widget.ImageView;\r\nimport android.widget.Spinner;\r\nimport android.widget.Toast;\r\n\r\nimport java.io.ByteArrayOutputStream;\r\nimport java.util.Calendar;\r\n\r\npublic class AddProduct extends AppCompatActivity implements AdapterView.OnItemSelectedListener{\r\n    ImageView back, productImage, imageTest;\r\n    EditText productNameText, priceText, quantityText, restockTimeText;\r\n    String productCategory;\r\n    DatePickerDialog picker;\r\n    Button saveBtn;\r\n    int SELECT_PICTURE = 200;\r\n    SharedPreferences sharedPreferences;\r\n    private String sharedStoreId;\r\n\r\n    // create array of Strings and store name of the categories\r\n    String[] categories = { \"Product\", \"Meat & Seafood\", \"Dairy & Eggs\", \"Snacks\", \"Others\" };\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_add_product);\r\n\r\n        productNameText = (EditText) findViewById(R.id.addProductName);\r\n        priceText = (EditText) findViewById(R.id.addProductPrice);\r\n        quantityText = (EditText) findViewById(R.id.addProductQuantity);\r\n        saveBtn = (Button) findViewById(R.id.addProductBtn);\r\n        productImage = (ImageView) findViewById(R.id.addProductImage);\r\n\r\n        // move back if back button clicked\r\n        back = (ImageView) findViewById(R.id.addProductBackView);\r\n        back.setOnClickListener(new View.OnClickListener() {\r\n            public void onClick(View v) {\r\n                finish();\r\n            }\r\n        });\r\n\r\n        // Extract store id from local\r\n        sharedPreferences = getSharedPreferences(\"StorePrefs\", Context.MODE_PRIVATE);\r\n        sharedStoreId = sharedPreferences.getString(\"storeId\", null);\r\n\r\n        // Take the instance of Spinner and apply OnItemSelectedListener on it which\r\n        // tells which item of spinner is clicked\r\n        Spinner spin = findViewById(R.id.categoriesSpinner);\r\n        spin.setOnItemSelectedListener(this);\r\n\r\n        // Create the instance of ArrayAdapter\r\n        ArrayAdapter ad\r\n                = new ArrayAdapter(\r\n                this,\r\n                android.R.layout.simple_spinner_item,\r\n                categories);\r\n\r\n        // set simple layout resource file for each item of spinner\r\n        ad.setDropDownViewResource(\r\n                android.R.layout\r\n                        .simple_spinner_dropdown_item);\r\n\r\n        // Set the ArrayAdapter (ad) data on the Spinner which binds data to spinner\r\n        spin.setAdapter(ad);\r\n\r\n        // pick image from gallery\r\n        productImage.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                // create an instance of the intent of the type image\r\n                Intent i = new Intent();\r\n                i.setType(\"image/*\");\r\n                i.setAction(Intent.ACTION_GET_CONTENT);\r\n\r\n                // pass the constant to compare it with the returned requestCode\r\n                startActivityForResult(Intent.createChooser(i, \"Select Picture\"), SELECT_PICTURE);\r\n            }\r\n        });\r\n\r\n        // create a date picker of restock time\r\n        restockTimeText = (EditText) findViewById(R.id.restockTime);\r\n        restockTimeText.setInputType(InputType.TYPE_NULL);\r\n        restockTimeText.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                final Calendar cldr = Calendar.getInstance();\r\n                int day = cldr.get(Calendar.DAY_OF_MONTH);\r\n                int month = cldr.get(Calendar.MONTH);\r\n                int year = cldr.get(Calendar.YEAR);\r\n\r\n                // date picker dialog\r\n                picker = new DatePickerDialog(AddProduct.this,\r\n                        new DatePickerDialog.OnDateSetListener() {\r\n                            @Override\r\n                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {\r\n                                String monthOfYear = \"\";\r\n                                String dayOfMonth = \"\";\r\n                                if (i1 < 9){\r\n                                    monthOfYear = \"0\" + (i1 + 1);\r\n                                }else{\r\n                                    monthOfYear = \"\" + (i1 + 1);\r\n                                }\r\n                                if (i2 < 10){\r\n                                    dayOfMonth = \"0\" + i2;\r\n                                }else{\r\n                                    dayOfMonth = \"\" + i2;\r\n                                }\r\n                                restockTimeText.setText(i + \"-\" + monthOfYear + \"-\" + dayOfMonth);\r\n                            }\r\n                        }, year, month, day);\r\n\r\n                // set maximum date to be selected as today\r\n                picker.getDatePicker().setMinDate(cldr.getTimeInMillis());\r\n                picker.show();\r\n            }\r\n        });\r\n\r\n        // upload data to database if save button clicked\r\n        saveBtn.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                // check the correction\r\n                if (checkCorrection()){\r\n                    // get the encoded image string\r\n                    String imageString = convertProductImageToString();\r\n                    // Update product data to database\r\n                    String query = (\"insert into Items(ItemName, ItemStock, RestockTime, ItemPrice, ItemCategory, ItemImage, RetailerId) \" + \"values ('\"\r\n                            + productNameText.getText() + \"', '\"\r\n                            + new Float(quantityText.getText().toString()) + \"', '\"\r\n                            + restockTimeText.getText() + \"', '\"\r\n                            + new Float(priceText.getText().toString()) + \"', '\"\r\n                            + productCategory + \"', '\"\r\n                            + imageString + \"', '\"\r\n                            + sharedStoreId +\"')\");\r\n\r\n                    int temp = DBUtil.Update(query);\r\n                    if (temp == 1) {\r\n                        // Success\r\n                        Toast.makeText(AddProduct.this,\"Success!\", Toast.LENGTH_LONG).show();\r\n                        // Jump to previous page\r\n                        finish();\r\n                    } else {\r\n                        // Error\r\n                        Toast.makeText(AddProduct.this,\"Error!\", Toast.LENGTH_LONG).show();\r\n                    }\r\n                }\r\n            }\r\n        });\r\n    }\r\n\r\n    // this function is used to encode the image into string\r\n    public String convertProductImageToString(){\r\n        //encode image to base64 string\r\n        BitmapDrawable bitmapDrawable = (BitmapDrawable) productImage.getDrawable();\r\n        Bitmap bitmap = bitmapDrawable.getBitmap();\r\n        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();\r\n        bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);\r\n        byte[] bytes = byteArrayOutputStream.toByteArray();\r\n        return Base64.encodeToString(bytes , Base64.DEFAULT);\r\n    }\r\n\r\n    @Override\r\n    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {\r\n        productCategory = categories[i];\r\n    }\r\n\r\n    @Override\r\n    public void onNothingSelected(AdapterView<?> adapterView) {\r\n\r\n    }\r\n\r\n    public boolean checkCorrection(){\r\n        if (!productNameText.getText().toString().matches(\"\")\r\n                && !priceText.getText().toString().matches(\"\")\r\n                && !quantityText.getText().toString().matches(\"\")\r\n                && !restockTimeText.getText().toString().matches(\"\")\r\n                && !productCategory.matches(\"\")\r\n                && productImage != null){\r\n            return true;\r\n        }else{\r\n            Toast.makeText(this, \"Please complete all information\", Toast.LENGTH_SHORT).show();\r\n        }\r\n        return false;\r\n    }\r\n\r\n    // this function is triggered when\r\n    // the Select Image Button is clicked\r\n    void imageChooser() {\r\n        // create an instance of the\r\n        // intent of the type image\r\n        Intent i = new Intent();\r\n        i.setType(\"image/*\");\r\n        i.setAction(Intent.ACTION_GET_CONTENT);\r\n\r\n        // pass the constant to compare it\r\n        // with the returned requestCode\r\n        startActivityForResult(Intent.createChooser(i, \"Select Picture\"), SELECT_PICTURE);\r\n    }\r\n\r\n    // this function is triggered when user\r\n    // selects the image from the imageChooser\r\n    public void onActivityResult(int requestCode, int resultCode, Intent data) {\r\n        super.onActivityResult(requestCode, resultCode, data);\r\n        if (resultCode == RESULT_OK) {\r\n            // compare the resultCode with the\r\n            // SELECT_PICTURE constant\r\n            if (requestCode == SELECT_PICTURE) {\r\n                // Get the url of the image from data\r\n                Uri selectedImageUri = data.getData();\r\n                if (null != selectedImageUri) {\r\n                    // update the preview image in the layout\r\n                    productImage.setImageURI(selectedImageUri);\r\n                }\r\n            }\r\n        }\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/AddProduct.java b/app/src/main/java/com/example/groceryapp/AddProduct.java
+--- a/app/src/main/java/com/example/groceryapp/AddProduct.java	(revision bb0bbbdb612cdd92c9fb9e95e9ba08e385ed1b39)
++++ b/app/src/main/java/com/example/groceryapp/AddProduct.java	(date 1649815896135)
+@@ -7,7 +7,6 @@
+ import android.content.Intent;
+ import android.content.SharedPreferences;
+ import android.graphics.Bitmap;
+-import android.graphics.BitmapFactory;
+ import android.graphics.drawable.BitmapDrawable;
+ import android.net.Uri;
+ import android.os.Bundle;
+@@ -24,9 +23,11 @@
+ import android.widget.Toast;
+ 
+ import java.io.ByteArrayOutputStream;
++import java.util.ArrayList;
+ import java.util.Calendar;
++import java.util.List;
+ 
+-public class AddProduct extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
++public class AddProduct extends AppCompatActivity{
+     ImageView back, productImage, imageTest;
+     EditText productNameText, priceText, quantityText, restockTimeText;
+     String productCategory;
+@@ -37,14 +38,21 @@
+     private String sharedStoreId;
+ 
+     // create array of Strings and store name of the categories
+-    String[] categories = { "Product", "Meat & Seafood", "Dairy & Eggs", "Snacks", "Others" };
++    List<String> categories = new ArrayList<>();
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_add_product);
+ 
+-        productNameText = (EditText) findViewById(R.id.addProductName);
++        categories.add(0, "Choose Category");
++        categories.add("Product");
++        categories.add("Meat & Seafood");
++        categories.add("Dairy & Eggs");
++        categories.add("Snacks");
++        categories.add("Others");
++
++        productNameText = (EditText) findViewById(R.id.updateProductName);
+         priceText = (EditText) findViewById(R.id.addProductPrice);
+         quantityText = (EditText) findViewById(R.id.addProductQuantity);
+         saveBtn = (Button) findViewById(R.id.addProductBtn);
+@@ -65,7 +73,6 @@
+         // Take the instance of Spinner and apply OnItemSelectedListener on it which
+         // tells which item of spinner is clicked
+         Spinner spin = findViewById(R.id.categoriesSpinner);
+-        spin.setOnItemSelectedListener(this);
+ 
+         // Create the instance of ArrayAdapter
+         ArrayAdapter ad
+@@ -81,6 +88,21 @@
+ 
+         // Set the ArrayAdapter (ad) data on the Spinner which binds data to spinner
+         spin.setAdapter(ad);
++        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
++            @Override
++            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
++                if (adapterView.getItemAtPosition(i).equals("Choose Category")){
++                    productCategory = "";
++                }else{
++                    productCategory = adapterView.getItemAtPosition(i).toString();
++                }
++            }
++
++            @Override
++            public void onNothingSelected(AdapterView<?> adapterView) {
++
++            }
++        });
+ 
+         // pick image from gallery
+         productImage.setOnClickListener(new View.OnClickListener() {
+@@ -173,21 +195,11 @@
+         BitmapDrawable bitmapDrawable = (BitmapDrawable) productImage.getDrawable();
+         Bitmap bitmap = bitmapDrawable.getBitmap();
+         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+-        bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
++        bitmap.compress(Bitmap.CompressFormat.PNG,0, byteArrayOutputStream);
+         byte[] bytes = byteArrayOutputStream.toByteArray();
+         return Base64.encodeToString(bytes , Base64.DEFAULT);
+     }
+ 
+-    @Override
+-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+-        productCategory = categories[i];
+-    }
+-
+-    @Override
+-    public void onNothingSelected(AdapterView<?> adapterView) {
+-
+-    }
+-
+     public boolean checkCorrection(){
+         if (!productNameText.getText().toString().matches("")
+                 && !priceText.getText().toString().matches("")
+Index: app/src/main/res/layout/activity_add_product.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"#EDFBFF\"\r\n    tools:context=\".AddProduct\">\r\n\r\n    <!--Spinner widget-->\r\n\r\n    <ScrollView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        tools:layout_editor_absoluteX=\"16dp\"\r\n        tools:layout_editor_absoluteY=\"141dp\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <Space\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"23dp\" />\r\n\r\n            <ImageView\r\n                android:id=\"@+id/addProductBackView\"\r\n                android:layout_width=\"35dp\"\r\n                android:layout_height=\"41dp\"\r\n                android:layout_gravity=\"start\"\r\n                app:srcCompat=\"@drawable/back\" />\r\n\r\n            <Space\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"24dp\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/addProductName\"\r\n                android:layout_width=\"339dp\"\r\n                android:layout_height=\"48dp\"\r\n                android:layout_weight=\"0.8\"\r\n                android:background=\"@drawable/txt_1\"\r\n                android:backgroundTint=\"#ACCBE0\"\r\n                android:ems=\"10\"\r\n                android:hint=\"Product Name\"\r\n                android:inputType=\"textPersonName\"\r\n                android:textAlignment=\"center\" />\r\n\r\n            <Space\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"23dp\" />\r\n\r\n            <androidx.constraintlayout.widget.ConstraintLayout\r\n                android:layout_width=\"340dp\"\r\n                android:layout_height=\"51dp\"\r\n                android:background=\"@drawable/txt_1\"\r\n                android:backgroundTint=\"#ACCBE0\">\r\n\r\n                <Spinner\r\n                    android:id=\"@+id/categoriesSpinner\"\r\n                    android:layout_width=\"282dp\"\r\n                    android:layout_height=\"50dp\"\r\n                    android:contentDescription=\"Choose a category\"\r\n                    android:foregroundGravity=\"center\"\r\n                    android:gravity=\"center\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\" />\r\n            </androidx.constraintlayout.widget.ConstraintLayout>\r\n\r\n            <Space\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"27dp\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/textView7\"\r\n                android:layout_width=\"377dp\"\r\n                android:layout_height=\"39dp\"\r\n                android:gravity=\"center|center_vertical\"\r\n                android:text=\"Pick a photo for the product\"\r\n                android:textColor=\"#0070C8\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"216dp\"\r\n                android:orientation=\"horizontal\">\r\n\r\n                <Space\r\n                    android:layout_width=\"112dp\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_weight=\"1\" />\r\n\r\n                <ImageView\r\n                    android:id=\"@+id/addProductImage\"\r\n                    android:layout_width=\"229dp\"\r\n                    android:layout_height=\"187dp\"\r\n                    android:layout_weight=\"1\"\r\n                    app:srcCompat=\"@drawable/upload\" />\r\n\r\n                <Space\r\n                    android:layout_width=\"126dp\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_weight=\"1\" />\r\n\r\n            </LinearLayout>\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"49dp\"\r\n                android:orientation=\"horizontal\">\r\n\r\n                <Space\r\n                    android:layout_width=\"26dp\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_weight=\"1\" />\r\n\r\n                <TextView\r\n                    android:id=\"@+id/textView4\"\r\n                    android:layout_width=\"26dp\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_weight=\"1\"\r\n                    android:gravity=\"center\"\r\n                    android:text=\"$\"\r\n                    android:textSize=\"24sp\"\r\n                    android:textStyle=\"bold\" />\r\n\r\n                <EditText\r\n                    android:id=\"@+id/addProductPrice\"\r\n                    android:layout_width=\"150dp\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_weight=\"1\"\r\n                    android:background=\"@drawable/txt_1\"\r\n                    android:backgroundTint=\"#ACCBE0\"\r\n                    android:ems=\"10\"\r\n                    android:gravity=\"center\"\r\n                    android:hint=\"Price\"\r\n                    android:inputType=\"numberDecimal\" />\r\n\r\n                <Space\r\n                    android:layout_width=\"36dp\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_weight=\"1\" />\r\n\r\n                <EditText\r\n                    android:id=\"@+id/addProductQuantity\"\r\n                    android:layout_width=\"164dp\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_weight=\"1\"\r\n                    android:background=\"@drawable/txt_1\"\r\n                    android:backgroundTint=\"#ACCBE0\"\r\n                    android:ems=\"10\"\r\n                    android:gravity=\"center\"\r\n                    android:hint=\"Quantity\"\r\n                    android:inputType=\"number\" />\r\n\r\n                <Space\r\n                    android:layout_width=\"43dp\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_weight=\"1\" />\r\n            </LinearLayout>\r\n\r\n            <Space\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"29dp\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/restockTime\"\r\n                android:layout_width=\"342dp\"\r\n                android:layout_height=\"52dp\"\r\n                android:background=\"@drawable/txt_1\"\r\n                android:backgroundTint=\"#ACCBE0\"\r\n                android:ems=\"10\"\r\n                android:gravity=\"center\"\r\n                android:hint=\"Estimated Restock Time\"\r\n                android:focusable=\"false\" />\r\n\r\n            <Space\r\n                android:id=\"@+id/addProductSaveBtn\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"50dp\" />\r\n\r\n            <Button\r\n                android:id=\"@+id/addProductBtn\"\r\n                android:layout_width=\"314dp\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:background=\"@drawable/txt_1\"\r\n                android:backgroundTint=\"#0070C8\"\r\n                android:text=\"Save\"\r\n                android:textColor=\"@color/white\"\r\n                android:textSize=\"20sp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <Space\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"36dp\" />\r\n\r\n        </LinearLayout>\r\n    </ScrollView>\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_add_product.xml b/app/src/main/res/layout/activity_add_product.xml
+--- a/app/src/main/res/layout/activity_add_product.xml	(revision bb0bbbdb612cdd92c9fb9e95e9ba08e385ed1b39)
++++ b/app/src/main/res/layout/activity_add_product.xml	(date 1649810260415)
+@@ -37,7 +37,7 @@
+                 android:layout_height="24dp" />
+ 
+             <EditText
+-                android:id="@+id/addProductName"
++                android:id="@+id/updateProductName"
+                 android:layout_width="339dp"
+                 android:layout_height="48dp"
+                 android:layout_weight="0.8"
+Index: app/src/main/res/layout/activity_update_product.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_update_product.xml b/app/src/main/res/layout/activity_update_product.xml
+new file mode 100644
+--- /dev/null	(date 1649812606227)
++++ b/app/src/main/res/layout/activity_update_product.xml	(date 1649812606227)
+@@ -0,0 +1,221 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".UpdateProduct">
++
++    <ScrollView
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        tools:layout_editor_absoluteX="16dp"
++        tools:layout_editor_absoluteY="141dp">
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:gravity="center"
++            android:orientation="vertical">
++
++            <Space
++                android:layout_width="match_parent"
++                android:layout_height="23dp" />
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:orientation="horizontal">
++
++                <ImageView
++                    android:id="@+id/updateProductBackView"
++                    android:layout_width="35dp"
++                    android:layout_height="41dp"
++                    android:layout_gravity="start"
++                    app:srcCompat="@drawable/back" />
++
++                <Space
++                    android:layout_width="289dp"
++                    android:layout_height="match_parent"
++                    android:layout_weight="1" />
++
++                <Button
++                    android:id="@+id/deleteBtn"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:layout_weight="1"
++                    android:backgroundTint="#D63333"
++                    android:text="Delete" />
++            </LinearLayout>
++
++            <Space
++                android:layout_width="match_parent"
++                android:layout_height="24dp" />
++
++            <EditText
++                android:id="@+id/updateProductName"
++                android:layout_width="339dp"
++                android:layout_height="48dp"
++                android:layout_weight="0.8"
++                android:background="@drawable/txt_1"
++                android:backgroundTint="#ACCBE0"
++                android:ems="10"
++                android:hint="Product Name"
++                android:inputType="textPersonName"
++                android:textAlignment="center" />
++
++            <Space
++                android:layout_width="match_parent"
++                android:layout_height="23dp" />
++
++            <androidx.constraintlayout.widget.ConstraintLayout
++                android:layout_width="340dp"
++                android:layout_height="51dp"
++                android:background="@drawable/txt_1"
++                android:backgroundTint="#ACCBE0">
++
++                <Spinner
++                    android:id="@+id/updateCategoriesSpinner"
++                    android:layout_width="282dp"
++                    android:layout_height="50dp"
++                    android:contentDescription="Choose a category"
++                    android:foregroundGravity="center"
++                    android:gravity="center"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent" />
++            </androidx.constraintlayout.widget.ConstraintLayout>
++
++            <Space
++                android:layout_width="match_parent"
++                android:layout_height="27dp" />
++
++            <TextView
++                android:id="@+id/updateImageText"
++                android:layout_width="377dp"
++                android:layout_height="39dp"
++                android:gravity="center|center_vertical"
++                android:text="Pick a photo for the product"
++                android:textColor="#0070C8"
++                android:textSize="16sp"
++                android:textStyle="bold" />
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="216dp"
++                android:orientation="horizontal">
++
++                <Space
++                    android:layout_width="112dp"
++                    android:layout_height="match_parent"
++                    android:layout_weight="1" />
++
++                <ImageView
++                    android:id="@+id/updateProductImage"
++                    android:layout_width="229dp"
++                    android:layout_height="187dp"
++                    android:layout_weight="1"
++                    app:srcCompat="@drawable/upload" />
++
++                <Space
++                    android:layout_width="126dp"
++                    android:layout_height="match_parent"
++                    android:layout_weight="1" />
++
++            </LinearLayout>
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="49dp"
++                android:orientation="horizontal">
++
++                <Space
++                    android:layout_width="26dp"
++                    android:layout_height="match_parent"
++                    android:layout_weight="1" />
++
++                <TextView
++                    android:id="@+id/textView4"
++                    android:layout_width="26dp"
++                    android:layout_height="match_parent"
++                    android:layout_weight="1"
++                    android:gravity="center"
++                    android:text="$"
++                    android:textSize="24sp"
++                    android:textStyle="bold" />
++
++                <EditText
++                    android:id="@+id/updateProductPrice"
++                    android:layout_width="150dp"
++                    android:layout_height="match_parent"
++                    android:layout_weight="1"
++                    android:background="@drawable/txt_1"
++                    android:backgroundTint="#ACCBE0"
++                    android:ems="10"
++                    android:gravity="center"
++                    android:hint="Price"
++                    android:inputType="numberDecimal" />
++
++                <Space
++                    android:layout_width="36dp"
++                    android:layout_height="match_parent"
++                    android:layout_weight="1" />
++
++                <EditText
++                    android:id="@+id/updateProductQuantity"
++                    android:layout_width="164dp"
++                    android:layout_height="match_parent"
++                    android:layout_weight="1"
++                    android:background="@drawable/txt_1"
++                    android:backgroundTint="#ACCBE0"
++                    android:ems="10"
++                    android:gravity="center"
++                    android:hint="Quantity"
++                    android:inputType="number" />
++
++                <Space
++                    android:layout_width="43dp"
++                    android:layout_height="match_parent"
++                    android:layout_weight="1" />
++            </LinearLayout>
++
++            <Space
++                android:layout_width="match_parent"
++                android:layout_height="29dp" />
++
++            <EditText
++                android:id="@+id/updateRestockTime"
++                android:layout_width="342dp"
++                android:layout_height="52dp"
++                android:background="@drawable/txt_1"
++                android:backgroundTint="#ACCBE0"
++                android:ems="10"
++                android:gravity="center"
++                android:hint="Estimated Restock Time"
++                android:focusable="false" />
++
++            <Space
++                android:id="@+id/updateProductSaveBtn"
++                android:layout_width="match_parent"
++                android:layout_height="50dp" />
++
++            <Button
++                android:id="@+id/updateProductBtn"
++                android:layout_width="314dp"
++                android:layout_height="wrap_content"
++                android:background="@drawable/txt_1"
++                android:backgroundTint="#0070C8"
++                android:text="Save"
++                android:textColor="@color/white"
++                android:textSize="20sp"
++                android:textStyle="bold" />
++
++            <Space
++                android:layout_width="match_parent"
++                android:layout_height="36dp" />
++
++        </LinearLayout>
++    </ScrollView>
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/store_product_card_view.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.cardview.widget.CardView xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"wrap_content\">\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/linearLayout2\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:background=\"@drawable/layout_1\"\r\n        android:gravity=\"left|center_vertical\"\r\n        android:orientation=\"horizontal\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n        <ImageView\r\n            android:id=\"@+id/itemImage\"\r\n            android:layout_width=\"122dp\"\r\n            android:layout_height=\"93dp\"\r\n            android:background=\"#00FFFFFF\"\r\n            android:paddingLeft=\"1dp\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.055\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\"\r\n            app:layout_constraintVertical_bias=\"0.199\"\r\n            app:srcCompat=\"@drawable/costco\" />\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"169dp\"\r\n            android:layout_height=\"93dp\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/productName\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:gravity=\"center\"\r\n                android:text=\"Item Name\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.65\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.221\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/productPrice\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"$\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                tools:layout_editor_absoluteX=\"197dp\"\r\n                tools:layout_editor_absoluteY=\"236dp\" />\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"113dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView\"\r\n                android:layout_width=\"16dp\"\r\n                android:layout_height=\"66dp\"\r\n                app:srcCompat=\"@drawable/next\" />\r\n        </LinearLayout>\r\n\r\n    </LinearLayout>\r\n\r\n</androidx.cardview.widget.CardView>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/store_product_card_view.xml b/app/src/main/res/layout/store_product_card_view.xml
+--- a/app/src/main/res/layout/store_product_card_view.xml	(revision bb0bbbdb612cdd92c9fb9e95e9ba08e385ed1b39)
++++ b/app/src/main/res/layout/store_product_card_view.xml	(date 1649808272554)
+@@ -28,7 +28,7 @@
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             app:layout_constraintVertical_bias="0.199"
+-            app:srcCompat="@drawable/costco" />
++            app:srcCompat="@drawable/logo" />
+ 
+         <LinearLayout
+             android:layout_width="169dp"
+@@ -70,7 +70,7 @@
+             android:orientation="vertical">
+ 
+             <ImageView
+-                android:id="@+id/imageView"
++                android:id="@+id/nextImageView"
+                 android:layout_width="16dp"
+                 android:layout_height="66dp"
+                 app:srcCompat="@drawable/next" />
+Index: app/src/main/java/com/example/groceryapp/StoreProductHelper/MyAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groceryapp.StoreProductHelper;\r\n\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.BitmapFactory;\r\nimport android.util.Base64;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.groceryapp.ItemHelper.ItemHelperClass;\r\nimport com.example.groceryapp.R;\r\nimport com.example.groceryapp.StoreHelper.StoreHelperClass;\r\n\r\nimport java.io.ByteArrayOutputStream;\r\nimport java.util.ArrayList;\r\n\r\npublic class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {\r\n    ArrayList<StoreProductHelperClass> locations;\r\n\r\n    public MyAdapter(ArrayList<StoreProductHelperClass> locations) {\r\n        this.locations = locations;\r\n    }\r\n\r\n\r\n    @NonNull\r\n    @Override\r\n    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        LayoutInflater inflater = LayoutInflater.from(parent.getContext());\r\n        View view = inflater.inflate(R.layout.store_product_card_view, parent, false);\r\n        return new MyViewHolder(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {\r\n        StoreProductHelperClass storeProductHelperClass = locations.get(position);\r\n        holder.itemName.setText(storeProductHelperClass.getItemName());\r\n        holder.itemId = storeProductHelperClass.getItemId();\r\n        holder.itemStock = storeProductHelperClass.getItemStock();\r\n        holder.restockTime = storeProductHelperClass.getRestockTime();\r\n        holder.itemPrice.setText(\"$ \" + storeProductHelperClass.getItemPrice());\r\n        holder.itemCategory = storeProductHelperClass.getItemCategory();\r\n        holder.itemImage.setImageBitmap(convertStringToBitImage(storeProductHelperClass.getItemImage()));\r\n    }\r\n\r\n    // this function is used to decode the string into image\r\n    public Bitmap convertStringToBitImage(String imageString){\r\n        // decode string to image\r\n        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();\r\n        byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);\r\n        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);\r\n        return decodedImage;\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return locations.size();\r\n    }\r\n\r\n    public class MyViewHolder extends RecyclerView.ViewHolder {\r\n        TextView itemName;\r\n        String itemId;\r\n        String itemStock;\r\n        String restockTime;\r\n        TextView itemPrice;\r\n        String itemCategory;\r\n        ImageView itemImage;\r\n\r\n        public MyViewHolder(@NonNull View itemView) {\r\n            super(itemView);\r\n            itemName = itemView.findViewById(R.id.productName);\r\n            itemPrice = itemView.findViewById(R.id.productPrice);\r\n            itemImage = itemView.findViewById(R.id.itemImage);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/StoreProductHelper/MyAdapter.java b/app/src/main/java/com/example/groceryapp/StoreProductHelper/MyAdapter.java
+--- a/app/src/main/java/com/example/groceryapp/StoreProductHelper/MyAdapter.java	(revision bb0bbbdb612cdd92c9fb9e95e9ba08e385ed1b39)
++++ b/app/src/main/java/com/example/groceryapp/StoreProductHelper/MyAdapter.java	(date 1649816854714)
+@@ -1,5 +1,6 @@
+ package com.example.groceryapp.StoreProductHelper;
+ 
++import android.content.Intent;
+ import android.graphics.Bitmap;
+ import android.graphics.BitmapFactory;
+ import android.util.Base64;
+@@ -12,21 +13,23 @@
+ import androidx.annotation.NonNull;
+ import androidx.recyclerview.widget.RecyclerView;
+ 
++import com.example.groceryapp.AddProduct;
+ import com.example.groceryapp.ItemHelper.ItemHelperClass;
+ import com.example.groceryapp.R;
+ import com.example.groceryapp.StoreHelper.StoreHelperClass;
++import com.example.groceryapp.UpdateProduct;
++import com.example.groceryapp.shopCategory;
+ 
+ import java.io.ByteArrayOutputStream;
+ import java.util.ArrayList;
+ 
+-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
++public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
+     ArrayList<StoreProductHelperClass> locations;
+ 
+     public MyAdapter(ArrayList<StoreProductHelperClass> locations) {
+         this.locations = locations;
+     }
+ 
+-
+     @NonNull
+     @Override
+     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+@@ -38,13 +41,32 @@
+     @Override
+     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+         StoreProductHelperClass storeProductHelperClass = locations.get(position);
+-        holder.itemName.setText(storeProductHelperClass.getItemName());
+-        holder.itemId = storeProductHelperClass.getItemId();
+-        holder.itemStock = storeProductHelperClass.getItemStock();
+-        holder.restockTime = storeProductHelperClass.getRestockTime();
+-        holder.itemPrice.setText("$ " + storeProductHelperClass.getItemPrice());
+-        holder.itemCategory = storeProductHelperClass.getItemCategory();
+-        holder.itemImage.setImageBitmap(convertStringToBitImage(storeProductHelperClass.getItemImage()));
++        String itemId = storeProductHelperClass.getItemId();
++        String itemName = storeProductHelperClass.getItemName();
++        String itemStock = storeProductHelperClass.getItemStock();
++        String restockTime = storeProductHelperClass.getRestockTime();
++        String itemPrice = storeProductHelperClass.getItemPrice();
++        String itemCategory = storeProductHelperClass.getItemCategory();
++        String itemImage = storeProductHelperClass.getItemImage();
++
++        holder.itemName.setText(itemName);
++        holder.itemPrice.setText("$ " + itemPrice);
++        holder.itemImage.setImageBitmap(convertStringToBitImage(itemImage));
++
++        // jump to update page if the item was clicked
++        holder.itemView.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                Intent intent = new Intent(view.getContext(), UpdateProduct.class);
++                intent.putExtra("itemId", itemId);
++                intent.putExtra("itemName", itemName);
++                intent.putExtra("itemCategory", itemCategory);
++                intent.putExtra("itemPrice", itemPrice);
++                intent.putExtra("itemStock", itemStock);
++                intent.putExtra("restockTime", restockTime);
++                view.getContext().startActivity(intent);
++            }
++        });
+     }
+ 
+     // this function is used to decode the string into image
+@@ -52,8 +74,7 @@
+         // decode string to image
+         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+         byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+-        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+-        return decodedImage;
++        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+     }
+ 
+     @Override
+@@ -63,11 +84,7 @@
+ 
+     public class MyViewHolder extends RecyclerView.ViewHolder {
+         TextView itemName;
+-        String itemId;
+-        String itemStock;
+-        String restockTime;
+         TextView itemPrice;
+-        String itemCategory;
+         ImageView itemImage;
+ 
+         public MyViewHolder(@NonNull View itemView) {
+Index: app/src/main/java/com/example/groceryapp/UpdateProduct.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/UpdateProduct.java b/app/src/main/java/com/example/groceryapp/UpdateProduct.java
+new file mode 100644
+--- /dev/null	(date 1649817139075)
++++ b/app/src/main/java/com/example/groceryapp/UpdateProduct.java	(date 1649817139075)
+@@ -0,0 +1,306 @@
++package com.example.groceryapp;
++
++import androidx.appcompat.app.AppCompatActivity;
++
++import android.app.DatePickerDialog;
++import android.content.Context;
++import android.content.Intent;
++import android.content.SharedPreferences;
++import android.graphics.Bitmap;
++import android.graphics.BitmapFactory;
++import android.graphics.drawable.BitmapDrawable;
++import android.net.Uri;
++import android.os.Bundle;
++import android.text.InputType;
++import android.util.Base64;
++import android.view.View;
++import android.widget.AdapterView;
++import android.widget.ArrayAdapter;
++import android.widget.Button;
++import android.widget.DatePicker;
++import android.widget.EditText;
++import android.widget.ImageView;
++import android.widget.Spinner;
++import android.widget.Toast;
++
++import com.example.groceryapp.StoreProductHelper.StoreProductHelperClass;
++
++import java.io.ByteArrayOutputStream;
++import java.util.Calendar;
++import java.util.List;
++import java.util.ArrayList;
++
++public class UpdateProduct extends AppCompatActivity{
++    ImageView back, productImage;
++    Button delete;
++    EditText productNameText, priceText, quantityText, restockTimeText;
++    String productCategory;
++    DatePickerDialog picker;
++    Button saveBtn;
++    int SELECT_PICTURE = 200;
++    SharedPreferences sharedPreferences;
++    private String sharedStoreId;
++    private String itemId;
++
++    // create array of Strings and store name of the categories
++    List<String> categories = new ArrayList<>();
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_update_product);
++
++        categories.add("Product");
++        categories.add("Meat & Seafood");
++        categories.add("Dairy & Eggs");
++        categories.add("Snacks");
++        categories.add("Others");
++
++        // retrieve data from previous page
++        Intent intent = getIntent();
++        itemId = intent.getStringExtra("itemId");
++        String previousItemName = intent.getStringExtra("itemName");
++        String previousItemCategory = intent.getStringExtra("itemCategory");
++        String previousItemPrice = intent.getStringExtra("itemPrice");
++        String previousItemStock = intent.getStringExtra("itemStock");
++        String previousItemRestockTime = intent.getStringExtra("restockTime");
++
++        productNameText = (EditText) findViewById(R.id.updateProductName);
++        priceText = (EditText) findViewById(R.id.updateProductPrice);
++        quantityText = (EditText) findViewById(R.id.updateProductQuantity);
++        saveBtn = (Button) findViewById(R.id.updateProductBtn);
++        productImage = (ImageView) findViewById(R.id.updateProductImage);
++        restockTimeText = (EditText) findViewById(R.id.updateRestockTime);
++
++        // set default values for each edit text
++        productNameText.setText(previousItemName);
++        priceText.setText(previousItemPrice);
++        quantityText.setText(previousItemStock);
++        restockTimeText.setText(previousItemRestockTime);
++        // retrieve the previous image from database and display
++        productImage.setImageBitmap(convertStringToBitImage(getImageString(itemId)));
++
++        // move back if back button clicked
++        back = (ImageView) findViewById(R.id.updateProductBackView);
++        back.setOnClickListener(new View.OnClickListener() {
++            public void onClick(View v) {
++                finish();
++            }
++        });
++
++        // delete the product if delete button clicked
++        delete = (Button) findViewById(R.id.deleteBtn);
++        delete.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                String query = ("delete from Items where id = " + itemId);
++                updateDB(query);
++            }
++        });
++
++        // Extract store id from local
++        sharedPreferences = getSharedPreferences("StorePrefs", Context.MODE_PRIVATE);
++        sharedStoreId = sharedPreferences.getString("storeId", null);
++
++        // Take the instance of Spinner and apply OnItemSelectedListener on it which
++        // tells which item of spinner is clicked
++        Spinner spin = findViewById(R.id.updateCategoriesSpinner);
++
++        // Create the instance of ArrayAdapter
++        ArrayAdapter ad
++                = new ArrayAdapter(
++                this,
++                android.R.layout.simple_spinner_item,
++                categories);
++
++        // set simple layout resource file for each item of spinner
++        ad.setDropDownViewResource(
++                android.R.layout
++                        .simple_spinner_dropdown_item);
++
++        // Set the ArrayAdapter (ad) data on the Spinner which binds data to spinner
++        spin.setAdapter(ad);
++        if (categories.contains(previousItemCategory)){
++            int position = ad.getPosition(previousItemCategory);
++            spin.setSelection(position);
++        }
++
++        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
++            @Override
++            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
++                productCategory = adapterView.getItemAtPosition(i).toString();
++            }
++
++            @Override
++            public void onNothingSelected(AdapterView<?> adapterView) {
++
++            }
++        });
++
++        // pick image from gallery
++        productImage.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                // create an instance of the intent of the type image
++                Intent i = new Intent();
++                i.setType("image/*");
++                i.setAction(Intent.ACTION_GET_CONTENT);
++
++                // pass the constant to compare it with the returned requestCode
++                startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
++            }
++        });
++
++        // create a date picker of restock time
++        restockTimeText = (EditText) findViewById(R.id.updateRestockTime);
++        restockTimeText.setInputType(InputType.TYPE_NULL);
++        restockTimeText.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                final Calendar cldr = Calendar.getInstance();
++                int day = cldr.get(Calendar.DAY_OF_MONTH);
++                int month = cldr.get(Calendar.MONTH);
++                int year = cldr.get(Calendar.YEAR);
++
++                // date picker dialog
++                picker = new DatePickerDialog(UpdateProduct.this,
++                        new DatePickerDialog.OnDateSetListener() {
++                            @Override
++                            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
++                                String monthOfYear = "";
++                                String dayOfMonth = "";
++                                if (i1 < 9){
++                                    monthOfYear = "0" + (i1 + 1);
++                                }else{
++                                    monthOfYear = "" + (i1 + 1);
++                                }
++                                if (i2 < 10){
++                                    dayOfMonth = "0" + i2;
++                                }else{
++                                    dayOfMonth = "" + i2;
++                                }
++                                restockTimeText.setText(i + "-" + monthOfYear + "-" + dayOfMonth);
++                            }
++                        }, year, month, day);
++
++                // set maximum date to be selected as today
++                picker.getDatePicker().setMinDate(cldr.getTimeInMillis());
++                picker.show();
++            }
++        });
++
++        // update data to database if save button clicked
++        saveBtn.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                // check the correction
++                if (checkCorrection()){
++                    // get the encoded image string
++                    String imageString = convertProductImageToString();
++                    // Update product data to database
++                    String query = ("update Items set "
++                            + "ItemName = '" + productNameText.getText() + "', "
++                            + "ItemStock = '" + new Float(quantityText.getText().toString()) + "', "
++                            + "RestockTime = '" + restockTimeText.getText() + "', "
++                            + "ItemPrice = '" + new Float(priceText.getText().toString()) + "', "
++                            + "ItemCategory = '" + productCategory + "', "
++                            + "ItemImage = '" + imageString + "', "
++                            + "RetailerId = '" + sharedStoreId + "' where id = " + itemId + ";"
++                            );
++                     updateDB(query);
++                }
++            }
++        });
++    }
++
++    // this function is used to encode the image into string
++    public String convertProductImageToString(){
++        //encode image to base64 string
++        BitmapDrawable bitmapDrawable = (BitmapDrawable) productImage.getDrawable();
++        Bitmap bitmap = bitmapDrawable.getBitmap();
++        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
++        bitmap.compress(Bitmap.CompressFormat.PNG,10, byteArrayOutputStream);
++        byte[] bytes = byteArrayOutputStream.toByteArray();
++        return Base64.encodeToString(bytes , Base64.DEFAULT);
++    }
++
++    public void updateDB(String query){
++        int temp = DBUtil.Update(query);
++        if (temp == 1) {
++            // Success
++            Toast.makeText(UpdateProduct.this,"Success!", Toast.LENGTH_LONG).show();
++            // Jump to previous page
++            finish();
++        } else {
++            // Error
++            Toast.makeText(UpdateProduct.this,"Error!", Toast.LENGTH_LONG).show();
++        }
++    }
++
++    public boolean checkCorrection(){
++        if (!productNameText.getText().toString().matches("")
++                && !priceText.getText().toString().matches("")
++                && !quantityText.getText().toString().matches("")
++                && !restockTimeText.getText().toString().matches("")
++                && !productCategory.matches("")
++                && productImage != null){
++            return true;
++        }else{
++            Toast.makeText(this, "Please complete all information", Toast.LENGTH_SHORT).show();
++        }
++        return false;
++    }
++
++    // this function is used to retrieve the image string from database
++    public String getImageString(String itemId){
++        // Request product list from db
++        ArrayList<ArrayList<String>> productList = DBUtil.Query(
++                "select ItemImage from Items where id = " + itemId);
++        if (productList.size() != 0) {
++            return productList.get(0).get(0);
++        }
++        return null;
++    }
++
++    // this function is used to decode the string into image
++    public Bitmap convertStringToBitImage(String imageString){
++        // decode string to image
++        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
++        byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
++        return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
++    }
++
++    // this function is triggered when
++    // the Select Image Button is clicked
++    void imageChooser() {
++        // create an instance of the
++        // intent of the type image
++        Intent i = new Intent();
++        i.setType("image/*");
++        i.setAction(Intent.ACTION_GET_CONTENT);
++
++        // pass the constant to compare it
++        // with the returned requestCode
++        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
++    }
++
++    // this function is triggered when user
++    // selects the image from the imageChooser
++    public void onActivityResult(int requestCode, int resultCode, Intent data) {
++        super.onActivityResult(requestCode, resultCode, data);
++        if (resultCode == RESULT_OK) {
++            // compare the resultCode with the
++            // SELECT_PICTURE constant
++            if (requestCode == SELECT_PICTURE) {
++                // Get the url of the image from data
++                Uri selectedImageUri = data.getData();
++                if (null != selectedImageUri) {
++                    // update the preview image in the layout
++                    productImage.setImageURI(selectedImageUri);
++                }
++            }
++        }
++    }
++
++
++}
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.example.groceryapp\" >\r\n    <!--\r\n         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use\r\n         Google Maps Android API v2, but you must specify either coarse or fine\r\n         location permissions for the \"MyLocation\" functionality.\r\n    -->\r\n    <uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />\r\n    <uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.CALL_PHONE\" />\r\n    <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.GroceryAPP\" >\r\n        <activity\r\n            android:name=\".AddProduct\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".StoreAccount\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".CustomerAccount\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".Signin\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".viewOrder\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".StoreHome\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".storeSignin\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".storeRegister\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".shopCategory\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".HistoryOrder\"\r\n            android:exported=\"false\" />\r\n        <!--\r\n             The API key for Google Maps-based APIs is defined as a string resource.\r\n             (See the file \"res/values/google_maps_api.xml\").\r\n             Note that the API key is linked to the encryption key used to sign the APK.\r\n             You need a different API key for each encryption key, including the release key that is used to\r\n             sign the APK for publishing.\r\n             You can define the keys for the debug and release targets in src/debug/ and src/release/.\r\n        -->\r\n        <meta-data\r\n            android:name=\"com.google.android.geo.API_KEY\"\r\n            android:value=\"@string/google_maps_key\" />\r\n\r\n        <activity\r\n            android:name=\".MapsActivity\"\r\n            android:exported=\"false\"\r\n            android:label=\"@string/title_activity_maps\" />\r\n        <activity\r\n            android:name=\".Cart\"\r\n            android:exported=\"false\" />\r\n\r\n        <uses-library android:name=\"com.google.android.maps\" />\r\n\r\n        <activity\r\n            android:name=\".Map\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".GroceryStores\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".Register\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".MainActivity\"\r\n            android:exported=\"true\" >\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision bb0bbbdb612cdd92c9fb9e95e9ba08e385ed1b39)
++++ b/app/src/main/AndroidManifest.xml	(date 1649804879496)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    package="com.example.groceryapp" >
++    package="com.example.groceryapp">
+     <!--
+          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+          Google Maps Android API v2, but you must specify either coarse or fine
+@@ -18,8 +18,11 @@
+         android:label="@string/app_name"
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+-        android:theme="@style/Theme.GroceryAPP" >
++        android:theme="@style/Theme.GroceryAPP">
+         <activity
++            android:name=".UpdateProduct"
++            android:exported="false" />
++        <activity
+             android:name=".AddProduct"
+             android:exported="false" />
+         <activity
+@@ -82,7 +85,7 @@
+             android:exported="false" />
+         <activity
+             android:name=".MainActivity"
+-            android:exported="true" >
++            android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+ 
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"DesignSurface\">\r\n    <option name=\"filePathToZoomLevelMap\">\r\n      <map>\r\n        <entry key=\"..\\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_add_product.xml\" value=\"0.264\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_4.xml\" value=\"0.5078125\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/drawable/layout_1.xml\" value=\"0.33697916666666666\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_addproduct.xml\" value=\"0.39945652173913043\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_cart.xml\" value=\"0.39945652173913043\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_customer_account.xml\" value=\"0.33\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_grocery_stores.xml\" value=\"0.33\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_history_order.xml\" value=\"0.39945652173913043\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_main.xml\" value=\"0.3723958333333333\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_map.xml\" value=\"0.39945652173913043\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_maps.xml\" value=\"0.39945652173913043\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_register.xml\" value=\"0.39945652173913043\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_shop_category.xml\" value=\"0.39945652173913043\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_signin.xml\" value=\"0.24322916666666666\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_account.xml\" value=\"0.3338541666666667\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_home.xml\" value=\"0.30885416666666665\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_register.xml\" value=\"0.39945652173913043\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_signin.xml\" value=\"0.39945652173913043\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_view_order.xml\" value=\"0.39945652173913043\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/cart_card_view.xml\" value=\"0.25885416666666666\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/item_card_view.xml\" value=\"0.303125\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/order_card_view.xml\" value=\"0.3338541666666667\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/store_card_view.xml\" value=\"0.3390625\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/store_product_card_view.xml\" value=\"0.3338541666666667\" />\r\n        <entry key=\"..\\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/menu/customer_bottom_nav_menu.xml\" value=\"0.3338541666666667\" />\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision bb0bbbdb612cdd92c9fb9e95e9ba08e385ed1b39)
++++ b/.idea/misc.xml	(date 1649806793022)
+@@ -4,6 +4,9 @@
+     <option name="filePathToZoomLevelMap">
+       <map>
+         <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_add_product.xml" value="0.264" />
++        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_store_home.xml" value="0.16802536231884058" />
++        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_update_product.xml" value="0.16802536231884058" />
++        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/store_product_card_view.xml" value="0.16802536231884058" />
+         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_4.xml" value="0.5078125" />
+         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/drawable/layout_1.xml" value="0.33697916666666666" />
+         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_addproduct.xml" value="0.39945652173913043" />

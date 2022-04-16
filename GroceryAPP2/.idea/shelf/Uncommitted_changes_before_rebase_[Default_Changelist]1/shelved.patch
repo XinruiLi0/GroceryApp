@@ -1,0 +1,491 @@
+Index: app/src/main/res/layout/activity_history_order.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"#E3E9DF\"\r\n    tools:context=\".HistoryOrder\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/title\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"My Order Detail\"\r\n        android:textColor=\"#2E5418\"\r\n        android:textSize=\"20sp\"\r\n        android:textStyle=\"bold\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.498\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.022\" />\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_weight=\"0.7\"\r\n        android:weightSum=\"1\"\r\n        android:orientation=\"vertical\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.0\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/back\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/cartNotify\">\r\n\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/orderDetailRecyclerView\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"0.7\"\r\n            android:weightSum=\"1\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@+id/back\" />\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"0dp\"\r\n            android:layout_weight=\"0.3\"\r\n            android:weightSum=\"1\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"horizontal\">\r\n            <Space\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_weight=\"0.85\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/totalPrice\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_gravity=\"center\"\r\n                android:layout_weight=\"0.15\"\r\n                android:gravity=\"center_vertical\"\r\n                android:text=\"Total: \"\r\n                android:textColor=\"#47C814\"\r\n                android:textSize=\"20sp\"\r\n                android:textStyle=\"bold\" />\r\n        </LinearLayout>\r\n\r\n    </LinearLayout>\r\n\r\n    <ImageButton\r\n        android:id=\"@+id/back\"\r\n        android:layout_width=\"50dp\"\r\n        android:layout_height=\"50dp\"\r\n        android:backgroundTint=\"#E3E9DF\"\r\n        android:scaleType=\"centerCrop\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.044\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.007\"\r\n        app:srcCompat=\"@drawable/back\"\r\n        app:tint=\"#FF308033\" />\r\n\r\n    <Button\r\n        android:id=\"@+id/cartNotify\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Get notification\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.719\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.878\" />\r\n\r\n    <ImageButton\r\n        android:id=\"@+id/cartCall\"\r\n        android:layout_width=\"55dp\"\r\n        android:layout_height=\"55dp\"\r\n        android:layout_marginTop=\"1dp\"\r\n        android:layout_marginBottom=\"30dp\"\r\n        android:background=\"@drawable/btn_3\"\r\n        android:scaleType=\"centerCrop\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/bottomNavigationView\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.03\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.333\"\r\n        app:srcCompat=\"@drawable/service\" />\r\n\r\n    <com.google.android.material.bottomnavigation.BottomNavigationView\r\n        android:id=\"@+id/bottomNavigationView\"\r\n        android:layout_width=\"413dp\"\r\n        android:layout_height=\"52dp\"\r\n        android:background=\"#BCCCB3\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.5\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:menu=\"@menu/customer_bottom_nav_menu\" >\r\n    </com.google.android.material.bottomnavigation.BottomNavigationView>\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_history_order.xml b/app/src/main/res/layout/activity_history_order.xml
+--- a/app/src/main/res/layout/activity_history_order.xml	(revision 46c0e2a64a4f212ce6896cebe9b5a8b1609064c7)
++++ b/app/src/main/res/layout/activity_history_order.xml	(date 1649733886492)
+@@ -8,10 +8,10 @@
+     tools:context=".HistoryOrder">
+ 
+     <TextView
+-        android:id="@+id/title"
++        android:id="@+id/textView32"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:text="My Order Detail"
++        android:text="My Order History"
+         android:textColor="#2E5418"
+         android:textSize="20sp"
+         android:textStyle="bold"
+@@ -23,69 +23,330 @@
+         app:layout_constraintVertical_bias="0.022" />
+ 
+     <LinearLayout
++        android:id="@+id/linearLayout"
+         android:layout_width="match_parent"
+-        android:layout_height="0dp"
+-        android:layout_weight="0.7"
+-        android:weightSum="1"
++        android:layout_height="430dp"
++        android:layout_marginTop="7dp"
++        android:layout_marginBottom="74dp"
+         android:orientation="vertical"
+-        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.0"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/back"
+-        app:layout_constraintBottom_toTopOf="@+id/cartNotify">
++        app:layout_constraintTop_toBottomOf="@+id/textView32"
++        app:layout_constraintVertical_bias="0.64">
+ 
+-        <androidx.recyclerview.widget.RecyclerView
+-            android:id="@+id/orderDetailRecyclerView"
++        <LinearLayout
+             android:layout_width="match_parent"
+-            android:layout_height="wrap_content"
+-            android:layout_weight="0.7"
+-            android:weightSum="1"
+-            app:layout_constraintEnd_toEndOf="parent"
+-            app:layout_constraintStart_toStartOf="parent"
+-            app:layout_constraintTop_toBottomOf="@+id/back" />
+-
+-        <LinearLayout
+-            android:layout_width="match_parent"
+-            android:layout_height="0dp"
+-            android:layout_weight="0.3"
+-            android:weightSum="1"
+-            android:gravity="center"
+-            android:orientation="horizontal">
+-            <Space
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:layout_weight="0.85" />
++            android:layout_height="97dp"
++            android:background="@drawable/layout_1"
++            android:gravity="left|center_vertical">
++
++            <ImageView
++                android:id="@+id/imageView12"
++                android:layout_width="122dp"
++                android:layout_height="90dp"
++                android:layout_gravity="left"
++                app:layout_constraintBottom_toBottomOf="parent"
++                app:layout_constraintEnd_toEndOf="parent"
++                app:layout_constraintHorizontal_bias="0.096"
++                app:layout_constraintStart_toStartOf="parent"
++                app:layout_constraintTop_toTopOf="parent"
++                app:layout_constraintVertical_bias="0.18"
++                app:srcCompat="@drawable/cucumber" />
++            <LinearLayout
++                android:layout_width="169dp"
++                android:layout_height="match_parent"
++                android:gravity="center"
++                android:orientation="vertical">
++            <TextView
++                android:id="@+id/cucumber3"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="Cucumber (each)"
++                android:textColor="#6D7278"
++                android:textSize="16sp"
++                android:textStyle="bold"
++                app:layout_constraintBottom_toBottomOf="parent"
++                app:layout_constraintEnd_toEndOf="parent"
++                app:layout_constraintHorizontal_bias="0.69"
++                app:layout_constraintStart_toStartOf="parent"
++                app:layout_constraintTop_toTopOf="parent"
++                app:layout_constraintVertical_bias="0.23" />
++            </LinearLayout>
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:gravity="center"
++                android:orientation="vertical">
++
++                <TextView
++                    android:id="@+id/textView25"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="Quantitive:"
++                    android:textColor="#6D7278"
++                    android:textSize="16sp"
++                    android:textStyle="bold"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintHorizontal_bias="0.875"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintVertical_bias="0.425" />
+ 
+-            <TextView
+-                android:id="@+id/totalPrice"
+-                android:layout_width="wrap_content"
++                <TextView
++                    android:id="@+id/cucumbercart2"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="x 0"
++                    android:textColor="#6D7278"
++                    android:textSize="16sp"
++                    android:textStyle="bold"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintHorizontal_bias="0.895"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintVertical_bias="0.317" />
++
++            </LinearLayout>
++
++        </LinearLayout>
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="97dp"
++            android:background="@drawable/layout_1"
++            android:gravity="left|center_vertical">
++
++            <ImageView
++                android:id="@+id/imageView11"
++                android:layout_width="122dp"
++                android:layout_height="90dp"
++                app:layout_constraintBottom_toBottomOf="parent"
++                app:layout_constraintEnd_toEndOf="parent"
++                app:layout_constraintHorizontal_bias="0.158"
++                app:layout_constraintStart_toStartOf="parent"
++                app:layout_constraintTop_toTopOf="parent"
++                app:layout_constraintVertical_bias="0.819"
++                app:srcCompat="@drawable/garlic" />
++            <LinearLayout
++                android:layout_width="169dp"
+                 android:layout_height="match_parent"
+-                android:layout_gravity="center"
+-                android:layout_weight="0.15"
+-                android:gravity="center_vertical"
+-                android:text="Total: "
+-                android:textColor="#47C814"
+-                android:textSize="20sp"
+-                android:textStyle="bold" />
++                android:gravity="center"
++                android:orientation="vertical">
++            <TextView
++                android:id="@+id/garlic3"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="Garlic  (3 counts)"
++                android:textColor="#6D7278"
++                android:textSize="16sp"
++                android:textStyle="bold"
++                app:layout_constraintBottom_toBottomOf="parent"
++                app:layout_constraintEnd_toEndOf="parent"
++                app:layout_constraintHorizontal_bias="0.684"
++                app:layout_constraintStart_toStartOf="parent"
++                app:layout_constraintTop_toTopOf="parent"
++                app:layout_constraintVertical_bias="0.738" />
++            </LinearLayout>
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:gravity="center"
++                android:orientation="vertical">
++
++                <TextView
++                    android:id="@+id/textView22"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="Quantitive:"
++                    android:textColor="#6D7278"
++                    android:textSize="16sp"
++                    android:textStyle="bold"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintHorizontal_bias="0.875"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintVertical_bias="0.244" />
++
++                <TextView
++                    android:id="@+id/garliccart2"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="x 0"
++                    android:textColor="#6D7278"
++                    android:textSize="16sp"
++                    android:textStyle="bold"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintHorizontal_bias="0.852"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintVertical_bias="0.849" />
++
++            </LinearLayout>
++
+         </LinearLayout>
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="97dp"
++            android:background="@drawable/layout_1"
++            android:gravity="left|center_vertical">
++
++            <ImageView
++                android:id="@+id/imageView9"
++                android:layout_width="122dp"
++                android:layout_height="90dp"
++                app:layout_constraintBottom_toBottomOf="parent"
++                app:layout_constraintEnd_toEndOf="parent"
++                app:layout_constraintHorizontal_bias="0.151"
++                app:layout_constraintStart_toStartOf="parent"
++                app:layout_constraintTop_toTopOf="parent"
++                app:layout_constraintVertical_bias="0.611"
++                app:srcCompat="@drawable/eggs" />
++            <LinearLayout
++                android:layout_width="169dp"
++                android:layout_height="match_parent"
++                android:gravity="center"
++                android:orientation="vertical">
++
++                <TextView
++                    android:id="@+id/eggs3"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="Large White Eggs (18 counts)"
++                    android:textAlignment="center"
++                    android:textColor="#6D7278"
++                    android:textSize="16sp"
++                    android:textStyle="bold"
++                    app:layout_constraintBottom_toBottomOf="@id/eggcart2"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintHorizontal_bias="0.924"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintVertical_bias="0.55" />
++            </LinearLayout>
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:gravity="center"
++                android:orientation="vertical">
++
++                <TextView
++                    android:id="@+id/textView5"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="Quantitive:"
++                    android:textColor="#6D7278"
++                    android:textSize="16sp"
++                    android:textStyle="bold"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintHorizontal_bias="0.875"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintVertical_bias="0.592" />
++
++                <TextView
++                    android:id="@+id/eggcart2"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="x 0"
++                    android:textColor="#6D7278"
++                    android:textSize="16sp"
++                    android:textStyle="bold"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintHorizontal_bias="0.875"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintVertical_bias="0.675" />
++
++            </LinearLayout>
+ 
+-    </LinearLayout>
++        </LinearLayout>
+ 
+-    <ImageButton
+-        android:id="@+id/back"
+-        android:layout_width="50dp"
+-        android:layout_height="50dp"
+-        android:backgroundTint="#E3E9DF"
+-        android:scaleType="centerCrop"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.044"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="0.007"
+-        app:srcCompat="@drawable/back"
+-        app:tint="#FF308033" />
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="97dp"
++            android:background="@drawable/layout_1"
++            android:gravity="left|center_vertical">
++
++            <ImageView
++                android:id="@+id/imageView10"
++                android:layout_width="122dp"
++                android:layout_height="90dp"
++                app:layout_constraintBottom_toBottomOf="parent"
++                app:layout_constraintEnd_toEndOf="parent"
++                app:layout_constraintHorizontal_bias="0.11"
++                app:layout_constraintStart_toStartOf="parent"
++                app:layout_constraintTop_toTopOf="parent"
++                app:layout_constraintVertical_bias="0.42"
++                app:srcCompat="@drawable/blueberry" />
++            <LinearLayout
++                android:layout_width="169dp"
++                android:layout_height="match_parent"
++                android:gravity="center"
++                android:orientation="vertical">
++            <TextView
++                android:id="@+id/blueberry3"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:text="Blueberry (170g)"
++                android:textColor="#6D7278"
++                android:textSize="16sp"
++                android:textStyle="bold"
++                app:layout_constraintBottom_toBottomOf="parent"
++                app:layout_constraintEnd_toEndOf="parent"
++                app:layout_constraintHorizontal_bias="0.685"
++                app:layout_constraintStart_toStartOf="@id/imageView10"
++                app:layout_constraintTop_toTopOf="parent"
++                app:layout_constraintVertical_bias="0.45" />
++            </LinearLayout>
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:gravity="center"
++                android:orientation="vertical">
++
++                <TextView
++                    android:id="@+id/textView27"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="Quantitive:"
++                    android:textSize="16sp"
++                    android:textStyle="bold"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintHorizontal_bias="0.875"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintVertical_bias="0.776" />
++
++                <TextView
++                    android:id="@+id/blueberrycart2"
++                    android:layout_width="wrap_content"
++                    android:layout_height="wrap_content"
++                    android:text="x 0"
++                    android:textColor="#6D7278"
++                    android:textSize="16sp"
++                    android:textStyle="bold"
++                    app:layout_constraintBottom_toBottomOf="parent"
++                    app:layout_constraintEnd_toEndOf="parent"
++                    app:layout_constraintHorizontal_bias="0.893"
++                    app:layout_constraintStart_toStartOf="parent"
++                    app:layout_constraintTop_toTopOf="parent"
++                    app:layout_constraintVertical_bias="0.491" />
++
++            </LinearLayout>
++
++        </LinearLayout>
++
++    </LinearLayout>
+ 
+     <Button
+         android:id="@+id/cartNotify"
+@@ -99,6 +360,18 @@
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintVertical_bias="0.878" />
+ 
++    <com.google.android.material.bottomnavigation.BottomNavigationView
++        android:id="@+id/bottomNavigationView2"
++        android:layout_width="413dp"
++        android:layout_height="52dp"
++        android:background="#BCCCB3"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.5"
++        app:layout_constraintStart_toStartOf="parent"
++        app:menu="@menu/customer_bottom_nav_menu" >
++    </com.google.android.material.bottomnavigation.BottomNavigationView>
++
+     <ImageButton
+         android:id="@+id/cartCall"
+         android:layout_width="55dp"
+@@ -107,23 +380,56 @@
+         android:layout_marginBottom="30dp"
+         android:background="@drawable/btn_3"
+         android:scaleType="centerCrop"
+-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
++        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.03"
+         app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+         app:layout_constraintVertical_bias="0.333"
+         app:srcCompat="@drawable/service" />
+ 
+-    <com.google.android.material.bottomnavigation.BottomNavigationView
+-        android:id="@+id/bottomNavigationView"
+-        android:layout_width="413dp"
+-        android:layout_height="52dp"
+-        android:background="#BCCCB3"
++    <ImageButton
++        android:id="@+id/imageButton5"
++        android:layout_width="50dp"
++        android:layout_height="50dp"
++        android:backgroundTint="#E3E9DF"
++        android:scaleType="centerCrop"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.5"
++        app:layout_constraintHorizontal_bias="0.044"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:menu="@menu/customer_bottom_nav_menu" >
+-    </com.google.android.material.bottomnavigation.BottomNavigationView>
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.007"
++        app:srcCompat="@drawable/back"
++        app:tint="#FF308033" />
++
++    <TextView
++        android:id="@+id/textView40"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="Order Number:"
++        android:textSize="16sp"
++        android:textStyle="bold"
++        app:layout_constraintBottom_toTopOf="@+id/textView42"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.069"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="1.0" />
++
++    <TextView
++        android:id="@+id/textView42"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginBottom="11dp"
++        android:text="Order Date:"
++        android:textSize="16sp"
++        android:textStyle="bold"
++        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.063"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.969" />
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file

@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_add_product.xml" value="0.264" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_store_home.xml" value="0.16802536231884058" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/activity_update_product.xml" value="0.16802536231884058" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/cart_card_view.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/item_card_view.xml" value="0.26132246376811596" />
+        <entry key="..\:/++R/5175/GroceryApp_main/GroceryAPP2/app/src/main/res/layout/store_product_card_view.xml" value="0.16802536231884058" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_1.xml" value="0.1695" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_2.xml" value="0.145" />
         <entry key="..\:/Ottawa/DTI 5175/final/GroceryApp/GroceryAPP2/app/src/main/res/drawable/btn_3.xml" value="0.145" />
@@ -46,7 +51,6 @@
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_register.xml" value="0.39945652173913043" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_store_signin.xml" value="0.39945652173913043" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/activity_view_order.xml" value="0.39945652173913043" />
-        <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/cart_card_view.xml" value="0.2046875" />
         <entry key="..\:/Users/temp/Desktop/temp/Android/git/GroceryApp/GroceryAPP2/app/src/main/res/layout/store_card_view.xml" value="0.3390625" />
       </map>
     </option>

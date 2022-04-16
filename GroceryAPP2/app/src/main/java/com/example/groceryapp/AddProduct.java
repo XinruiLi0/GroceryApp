@@ -3,13 +3,16 @@ package com.example.groceryapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.appsearch.StorageInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.InputType;
 import android.util.Base64;
 import android.view.View;
@@ -22,13 +25,23 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 public class AddProduct extends AppCompatActivity{
-    ImageView back, productImage, imageTest;
+    ImageView back, productImage;
     EditText productNameText, priceText, quantityText, restockTimeText;
     String productCategory;
     DatePickerDialog picker;
@@ -36,6 +49,7 @@ public class AddProduct extends AppCompatActivity{
     int SELECT_PICTURE = 200;
     SharedPreferences sharedPreferences;
     private String sharedStoreId;
+    Uri selectedImageUri;
 
     // create array of Strings and store name of the categories
     List<String> categories = new ArrayList<>();
@@ -65,7 +79,6 @@ public class AddProduct extends AppCompatActivity{
                 finish();
             }
         });
-
         // Extract store id from local
         sharedPreferences = getSharedPreferences("StorePrefs", Context.MODE_PRIVATE);
         sharedStoreId = sharedPreferences.getString("storeId", null);
@@ -162,8 +175,8 @@ public class AddProduct extends AppCompatActivity{
             public void onClick(View view) {
                 // check the correction
                 if (checkCorrection()){
-                    // get the encoded image string
-                    String imageString = convertProductImageToString();
+                    // upload image to firebase
+                    String fileName = uploadImage();
                     // Update product data to database
                     String query = ("insert into Products(ItemName, ItemStock, RestockTime, ItemPrice, ItemCategory, ItemImage, RetailerId) " + "values ('"
                             + productNameText.getText() + "', '"
@@ -171,7 +184,7 @@ public class AddProduct extends AppCompatActivity{
                             + restockTimeText.getText() + "', '"
                             + new Float(priceText.getText().toString()) + "', '"
                             + productCategory + "', '"
-                            + imageString + "', '"
+                            + fileName + "', '"
                             + sharedStoreId +"')");
 
                     int temp = DBUtil.Update(query);
@@ -189,15 +202,13 @@ public class AddProduct extends AppCompatActivity{
         });
     }
 
-    // this function is used to encode the image into string
-    public String convertProductImageToString(){
-        //encode image to base64 string
-        BitmapDrawable bitmapDrawable = (BitmapDrawable) productImage.getDrawable();
-        Bitmap bitmap = bitmapDrawable.getBitmap();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,0, byteArrayOutputStream);
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(bytes , Base64.DEFAULT);
+    public String uploadImage(){
+        // generate a unique string as the file name
+        String fileName = UUID.randomUUID().toString();
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/" + fileName);
+        storageReference.putFile(selectedImageUri);
+        return fileName;
     }
 
     public boolean checkCorrection(){
@@ -237,7 +248,7 @@ public class AddProduct extends AppCompatActivity{
             // SELECT_PICTURE constant
             if (requestCode == SELECT_PICTURE) {
                 // Get the url of the image from data
-                Uri selectedImageUri = data.getData();
+                selectedImageUri = data.getData();
                 if (null != selectedImageUri) {
                     // update the preview image in the layout
                     productImage.setImageURI(selectedImageUri);

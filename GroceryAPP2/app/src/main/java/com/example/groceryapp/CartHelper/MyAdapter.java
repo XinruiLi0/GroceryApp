@@ -14,8 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.groceryapp.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
@@ -42,17 +48,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         holder.restockTime = cartHelperClass.getRestockTime();
         holder.itemPrice.setText("$ " +cartHelperClass.getItemPrice());
         holder.itemCategory = cartHelperClass.getItemCategory();
-        holder.itemImage.setImageBitmap(convertStringToBitImage(cartHelperClass.getItemImage()));
+        loadImage(holder, cartHelperClass.getItemImage());
         holder.itemAmount.setText("x " +cartHelperClass.getItemAmount());
     }
 
-    // this function is used to decode the string into image
-    public Bitmap convertStringToBitImage(String imageString){
-        // decode string to image
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
-        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        return decodedImage;
+    public void loadImage(MyViewHolder holder, String fileName) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + fileName);
+        try {
+            final File localFile = File.createTempFile(fileName, "image");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    holder.itemImage.setImageBitmap(bitmap);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

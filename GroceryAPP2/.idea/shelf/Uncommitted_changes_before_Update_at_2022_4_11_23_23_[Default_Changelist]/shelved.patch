@@ -1,0 +1,1450 @@
+Index: app/src/main/res/layout/order_card_view.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/order_card_view.xml b/app/src/main/res/layout/order_card_view.xml
+new file mode 100644
+--- /dev/null	(date 1649733537800)
++++ b/app/src/main/res/layout/order_card_view.xml	(date 1649733537800)
+@@ -0,0 +1,74 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="match_parent"
++    android:layout_height="wrap_content"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:weightSum="1">
++
++    <LinearLayout
++        android:id="@+id/order"
++        android:layout_width="match_parent"
++        android:layout_height="80dp"
++        android:background="@drawable/layout_1"
++        android:gravity="center"
++        android:orientation="horizontal">
++
++        <Space
++            android:layout_width="0dp"
++            android:layout_height="wrap_content"
++            android:layout_weight="0.1" />
++
++        <LinearLayout
++            android:layout_width="0dp"
++            android:layout_height="wrap_content"
++            android:layout_weight="0.5"
++            android:gravity="center"
++            android:orientation="vertical">
++
++            <TextView
++                android:id="@+id/orderNum"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:text="Order Number:"
++                android:textSize="16sp"
++                android:textStyle="bold"
++                android:textColor="#3f3f3f" />
++
++            <Space
++                android:layout_width="match_parent"
++                android:layout_height="5dp" />
++
++            <TextView
++                android:id="@+id/orderDate"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:text="Order Date:"
++                android:textSize="16sp"
++                android:textStyle="bold"
++                android:textColor="#3f3f3f" />
++        </LinearLayout>
++        <LinearLayout
++            android:layout_marginTop="5dp"
++            android:layout_marginBottom="5dp"
++            android:layout_width="0dp"
++            android:layout_height="wrap_content"
++            android:layout_weight="0.2"
++            android:background="#FFFFFFFF"
++            android:gravity="center"
++            android:orientation="vertical"
++            android:weightSum="1">
++            <ImageButton
++                android:id="@+id/next"
++                android:layout_width="30dp"
++                android:layout_height="30dp"
++                android:layout_gravity="center"
++                android:layout_weight="1"
++                android:background="#FFFFFFFF"
++                android:scaleType="fitCenter"
++                app:srcCompat="@drawable/next"
++                app:tint="#0070C8" />
++        </LinearLayout>
++    </LinearLayout>
++
++</androidx.cardview.widget.CardView>
+\ No newline at end of file
+Index: app/src/main/java/com/example/groceryapp/GroceryStores.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groceryapp;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.MenuItem;\r\n\r\nimport com.example.groceryapp.StoreHelper.MyAdapter;\r\nimport com.example.groceryapp.StoreHelper.StoreHelperClass;\r\nimport com.google.android.material.bottomnavigation.BottomNavigationView;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class GroceryStores extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {\r\n    BottomNavigationView bottomNavigationView;\r\n\r\n    private String userID;\r\n    private String userName;\r\n\r\n    RecyclerView recyclerView;\r\n    RecyclerView.Adapter adapter;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_grocery_stores);\r\n\r\n        bottomNavigationView = findViewById(R.id.bottomNavigationView);\r\n        bottomNavigationView.setOnNavigationItemSelectedListener(this);\r\n        bottomNavigationView.setSelectedItemId(R.id.home);\r\n\r\n        // Extract user name from local\r\n        Intent intent = getIntent();\r\n        userID = intent.getStringExtra(\"userID\");\r\n        userName = intent.getStringExtra(\"userName\");\r\n\r\n        // Request store list from db\r\n        ArrayList<ArrayList<String>> result = DBUtil.Query(\"select id, StoreName from Retailers\");\r\n\r\n        // Show the stores in view\r\n        recyclerView = findViewById(R.id.storeRecyclerView);\r\n\r\n        recyclerView.setHasFixedSize(true);\r\n        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));\r\n\r\n        ArrayList<StoreHelperClass> locations = new ArrayList<>();\r\n\r\n        for (int i = 0; i < result.size(); ++i) {\r\n            locations.add(new StoreHelperClass(result.get(i).get(1), result.get(i).get(0), userName, userID));\r\n        }\r\n\r\n        adapter = new MyAdapter(locations);\r\n        recyclerView.setAdapter(adapter);\r\n\r\n    }\r\n\r\n    // navigation view\r\n//    CustomerAccount customerAccount = new CustomerAccount();\r\n//    @Override\r\n    public boolean onNavigationItemSelected(@NonNull MenuItem item) {\r\n        switch (item.getItemId()) {\r\n            case R.id.home:\r\n//                Intent homeIntent = new Intent(GroceryStores.this, GroceryStores.class);\r\n//                startActivity(homeIntent);\r\n                return true;\r\n\r\n            // jump to account page\r\n            case R.id.account:\r\n                Intent accountIntent = new Intent(GroceryStores.this, CustomerAccount.class);\r\n                startActivity(accountIntent);\r\n                return true;\r\n        }\r\n\r\n        return false;\r\n    }\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/GroceryStores.java b/app/src/main/java/com/example/groceryapp/GroceryStores.java
+--- a/app/src/main/java/com/example/groceryapp/GroceryStores.java	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/java/com/example/groceryapp/GroceryStores.java	(date 1649733537770)
+@@ -70,8 +70,9 @@
+ 
+             // jump to account page
+             case R.id.account:
+-                Intent accountIntent = new Intent(GroceryStores.this, CustomerAccount.class);
+-                startActivity(accountIntent);
++                Intent intent = new Intent(GroceryStores.this, CustomerAccount.class);
++                intent.putExtra("userID", userID);
++                startActivity(intent);
+                 return true;
+         }
+ 
+Index: app/src/main/res/layout/activity_history_order.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"#E3E9DF\"\r\n    tools:context=\".HistoryOrder\">\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView32\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"My Order History\"\r\n        android:textColor=\"#2E5418\"\r\n        android:textSize=\"20sp\"\r\n        android:textStyle=\"bold\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.498\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.022\" />\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/linearLayout\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"430dp\"\r\n        android:layout_marginTop=\"7dp\"\r\n        android:layout_marginBottom=\"74dp\"\r\n        android:orientation=\"vertical\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/bottomNavigationView2\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.0\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/textView32\"\r\n        app:layout_constraintVertical_bias=\"0.64\">\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"97dp\"\r\n            android:background=\"@drawable/layout_1\"\r\n            android:gravity=\"left|center_vertical\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView12\"\r\n                android:layout_width=\"122dp\"\r\n                android:layout_height=\"90dp\"\r\n                android:layout_gravity=\"left\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.096\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.18\"\r\n                app:srcCompat=\"@drawable/cucumber\" />\r\n            <LinearLayout\r\n                android:layout_width=\"169dp\"\r\n                android:layout_height=\"match_parent\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\">\r\n            <TextView\r\n                android:id=\"@+id/cucumber3\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Cucumber (each)\"\r\n                android:textColor=\"#6D7278\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.69\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.23\" />\r\n            </LinearLayout>\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\">\r\n\r\n                <TextView\r\n                    android:id=\"@+id/textView25\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Quantitive:\"\r\n                    android:textColor=\"#6D7278\"\r\n                    android:textSize=\"16sp\"\r\n                    android:textStyle=\"bold\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintHorizontal_bias=\"0.875\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintVertical_bias=\"0.425\" />\r\n\r\n                <TextView\r\n                    android:id=\"@+id/cucumbercart2\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"x 0\"\r\n                    android:textColor=\"#6D7278\"\r\n                    android:textSize=\"16sp\"\r\n                    android:textStyle=\"bold\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintHorizontal_bias=\"0.895\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintVertical_bias=\"0.317\" />\r\n\r\n            </LinearLayout>\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"97dp\"\r\n            android:background=\"@drawable/layout_1\"\r\n            android:gravity=\"left|center_vertical\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView11\"\r\n                android:layout_width=\"122dp\"\r\n                android:layout_height=\"90dp\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.158\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.819\"\r\n                app:srcCompat=\"@drawable/garlic\" />\r\n            <LinearLayout\r\n                android:layout_width=\"169dp\"\r\n                android:layout_height=\"match_parent\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\">\r\n            <TextView\r\n                android:id=\"@+id/garlic3\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Garlic  (3 counts)\"\r\n                android:textColor=\"#6D7278\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.684\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.738\" />\r\n            </LinearLayout>\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\">\r\n\r\n                <TextView\r\n                    android:id=\"@+id/textView22\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Quantitive:\"\r\n                    android:textColor=\"#6D7278\"\r\n                    android:textSize=\"16sp\"\r\n                    android:textStyle=\"bold\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintHorizontal_bias=\"0.875\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintVertical_bias=\"0.244\" />\r\n\r\n                <TextView\r\n                    android:id=\"@+id/garliccart2\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"x 0\"\r\n                    android:textColor=\"#6D7278\"\r\n                    android:textSize=\"16sp\"\r\n                    android:textStyle=\"bold\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintHorizontal_bias=\"0.852\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintVertical_bias=\"0.849\" />\r\n\r\n            </LinearLayout>\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"97dp\"\r\n            android:background=\"@drawable/layout_1\"\r\n            android:gravity=\"left|center_vertical\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView9\"\r\n                android:layout_width=\"122dp\"\r\n                android:layout_height=\"90dp\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.151\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.611\"\r\n                app:srcCompat=\"@drawable/eggs\" />\r\n            <LinearLayout\r\n                android:layout_width=\"169dp\"\r\n                android:layout_height=\"match_parent\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\">\r\n\r\n                <TextView\r\n                    android:id=\"@+id/eggs3\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Large White Eggs (18 counts)\"\r\n                    android:textAlignment=\"center\"\r\n                    android:textColor=\"#6D7278\"\r\n                    android:textSize=\"16sp\"\r\n                    android:textStyle=\"bold\"\r\n                    app:layout_constraintBottom_toBottomOf=\"@id/eggcart2\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintHorizontal_bias=\"0.924\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintVertical_bias=\"0.55\" />\r\n            </LinearLayout>\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\">\r\n\r\n                <TextView\r\n                    android:id=\"@+id/textView5\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Quantitive:\"\r\n                    android:textColor=\"#6D7278\"\r\n                    android:textSize=\"16sp\"\r\n                    android:textStyle=\"bold\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintHorizontal_bias=\"0.875\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintVertical_bias=\"0.592\" />\r\n\r\n                <TextView\r\n                    android:id=\"@+id/eggcart2\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"x 0\"\r\n                    android:textColor=\"#6D7278\"\r\n                    android:textSize=\"16sp\"\r\n                    android:textStyle=\"bold\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintHorizontal_bias=\"0.875\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintVertical_bias=\"0.675\" />\r\n\r\n            </LinearLayout>\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"97dp\"\r\n            android:background=\"@drawable/layout_1\"\r\n            android:gravity=\"left|center_vertical\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/imageView10\"\r\n                android:layout_width=\"122dp\"\r\n                android:layout_height=\"90dp\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.11\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.42\"\r\n                app:srcCompat=\"@drawable/blueberry\" />\r\n            <LinearLayout\r\n                android:layout_width=\"169dp\"\r\n                android:layout_height=\"match_parent\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\">\r\n            <TextView\r\n                android:id=\"@+id/blueberry3\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Blueberry (170g)\"\r\n                android:textColor=\"#6D7278\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.685\"\r\n                app:layout_constraintStart_toStartOf=\"@id/imageView10\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.45\" />\r\n            </LinearLayout>\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\">\r\n\r\n                <TextView\r\n                    android:id=\"@+id/textView27\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"Quantitive:\"\r\n                    android:textSize=\"16sp\"\r\n                    android:textStyle=\"bold\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintHorizontal_bias=\"0.875\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintVertical_bias=\"0.776\" />\r\n\r\n                <TextView\r\n                    android:id=\"@+id/blueberrycart2\"\r\n                    android:layout_width=\"wrap_content\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:text=\"x 0\"\r\n                    android:textColor=\"#6D7278\"\r\n                    android:textSize=\"16sp\"\r\n                    android:textStyle=\"bold\"\r\n                    app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                    app:layout_constraintEnd_toEndOf=\"parent\"\r\n                    app:layout_constraintHorizontal_bias=\"0.893\"\r\n                    app:layout_constraintStart_toStartOf=\"parent\"\r\n                    app:layout_constraintTop_toTopOf=\"parent\"\r\n                    app:layout_constraintVertical_bias=\"0.491\" />\r\n\r\n            </LinearLayout>\r\n\r\n        </LinearLayout>\r\n\r\n    </LinearLayout>\r\n\r\n    <Button\r\n        android:id=\"@+id/cartNotify\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Get notification\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.719\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.878\" />\r\n\r\n    <com.google.android.material.bottomnavigation.BottomNavigationView\r\n        android:id=\"@+id/bottomNavigationView2\"\r\n        android:layout_width=\"413dp\"\r\n        android:layout_height=\"52dp\"\r\n        android:background=\"#BCCCB3\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.5\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:menu=\"@menu/customer_bottom_nav_menu\" >\r\n    </com.google.android.material.bottomnavigation.BottomNavigationView>\r\n\r\n    <ImageButton\r\n        android:id=\"@+id/cartCall\"\r\n        android:layout_width=\"55dp\"\r\n        android:layout_height=\"55dp\"\r\n        android:layout_marginTop=\"1dp\"\r\n        android:layout_marginBottom=\"30dp\"\r\n        android:background=\"@drawable/btn_3\"\r\n        android:scaleType=\"centerCrop\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/bottomNavigationView2\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.03\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/linearLayout\"\r\n        app:layout_constraintVertical_bias=\"0.333\"\r\n        app:srcCompat=\"@drawable/service\" />\r\n\r\n    <ImageButton\r\n        android:id=\"@+id/imageButton5\"\r\n        android:layout_width=\"50dp\"\r\n        android:layout_height=\"50dp\"\r\n        android:backgroundTint=\"#E3E9DF\"\r\n        android:scaleType=\"centerCrop\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.044\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.007\"\r\n        app:srcCompat=\"@drawable/back\"\r\n        app:tint=\"#FF308033\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView40\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Order Number:\"\r\n        android:textSize=\"16sp\"\r\n        android:textStyle=\"bold\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/textView42\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.069\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"1.0\" />\r\n\r\n    <TextView\r\n        android:id=\"@+id/textView42\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"11dp\"\r\n        android:text=\"Order Date:\"\r\n        android:textSize=\"16sp\"\r\n        android:textStyle=\"bold\"\r\n        app:layout_constraintBottom_toTopOf=\"@+id/linearLayout\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.063\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.969\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_history_order.xml b/app/src/main/res/layout/activity_history_order.xml
+--- a/app/src/main/res/layout/activity_history_order.xml	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/res/layout/activity_history_order.xml	(date 1649733537797)
+@@ -8,10 +8,10 @@
+     tools:context=".HistoryOrder">
+ 
+     <TextView
+-        android:id="@+id/textView32"
++        android:id="@+id/title"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:text="My Order History"
++        android:text="My Order Detail"
+         android:textColor="#2E5418"
+         android:textSize="20sp"
+         android:textStyle="bold"
+@@ -23,330 +23,69 @@
+         app:layout_constraintVertical_bias="0.022" />
+ 
+     <LinearLayout
+-        android:id="@+id/linearLayout"
+         android:layout_width="match_parent"
+-        android:layout_height="430dp"
+-        android:layout_marginTop="7dp"
+-        android:layout_marginBottom="74dp"
++        android:layout_height="0dp"
++        android:layout_weight="0.7"
++        android:weightSum="1"
+         android:orientation="vertical"
+-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
++        app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.0"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/textView32"
+-        app:layout_constraintVertical_bias="0.64">
++        app:layout_constraintTop_toBottomOf="@+id/back"
++        app:layout_constraintBottom_toTopOf="@+id/cartNotify">
+ 
+-        <LinearLayout
++        <androidx.recyclerview.widget.RecyclerView
++            android:id="@+id/orderDetailRecyclerView"
+             android:layout_width="match_parent"
+-            android:layout_height="97dp"
+-            android:background="@drawable/layout_1"
+-            android:gravity="left|center_vertical">
+-
+-            <ImageView
+-                android:id="@+id/imageView12"
+-                android:layout_width="122dp"
+-                android:layout_height="90dp"
+-                android:layout_gravity="left"
+-                app:layout_constraintBottom_toBottomOf="parent"
+-                app:layout_constraintEnd_toEndOf="parent"
+-                app:layout_constraintHorizontal_bias="0.096"
+-                app:layout_constraintStart_toStartOf="parent"
+-                app:layout_constraintTop_toTopOf="parent"
+-                app:layout_constraintVertical_bias="0.18"
+-                app:srcCompat="@drawable/cucumber" />
+-            <LinearLayout
+-                android:layout_width="169dp"
+-                android:layout_height="match_parent"
+-                android:gravity="center"
+-                android:orientation="vertical">
+-            <TextView
+-                android:id="@+id/cucumber3"
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:text="Cucumber (each)"
+-                android:textColor="#6D7278"
+-                android:textSize="16sp"
+-                android:textStyle="bold"
+-                app:layout_constraintBottom_toBottomOf="parent"
+-                app:layout_constraintEnd_toEndOf="parent"
+-                app:layout_constraintHorizontal_bias="0.69"
+-                app:layout_constraintStart_toStartOf="parent"
+-                app:layout_constraintTop_toTopOf="parent"
+-                app:layout_constraintVertical_bias="0.23" />
+-            </LinearLayout>
+-            <LinearLayout
+-                android:layout_width="match_parent"
+-                android:layout_height="match_parent"
+-                android:gravity="center"
+-                android:orientation="vertical">
+-
+-                <TextView
+-                    android:id="@+id/textView25"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="Quantitive:"
+-                    android:textColor="#6D7278"
+-                    android:textSize="16sp"
+-                    android:textStyle="bold"
+-                    app:layout_constraintBottom_toBottomOf="parent"
+-                    app:layout_constraintEnd_toEndOf="parent"
+-                    app:layout_constraintHorizontal_bias="0.875"
+-                    app:layout_constraintStart_toStartOf="parent"
+-                    app:layout_constraintTop_toTopOf="parent"
+-                    app:layout_constraintVertical_bias="0.425" />
++            android:layout_height="wrap_content"
++            android:layout_weight="0.7"
++            android:weightSum="1"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toBottomOf="@+id/back" />
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="0dp"
++            android:layout_weight="0.3"
++            android:weightSum="1"
++            android:gravity="center"
++            android:orientation="horizontal">
++            <Space
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_weight="0.85" />
+ 
+-                <TextView
+-                    android:id="@+id/cucumbercart2"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="x 0"
+-                    android:textColor="#6D7278"
+-                    android:textSize="16sp"
+-                    android:textStyle="bold"
+-                    app:layout_constraintBottom_toBottomOf="parent"
+-                    app:layout_constraintEnd_toEndOf="parent"
+-                    app:layout_constraintHorizontal_bias="0.895"
+-                    app:layout_constraintStart_toStartOf="parent"
+-                    app:layout_constraintTop_toTopOf="parent"
+-                    app:layout_constraintVertical_bias="0.317" />
+-
+-            </LinearLayout>
+-
+-        </LinearLayout>
+-
+-        <LinearLayout
+-            android:layout_width="match_parent"
+-            android:layout_height="97dp"
+-            android:background="@drawable/layout_1"
+-            android:gravity="left|center_vertical">
+-
+-            <ImageView
+-                android:id="@+id/imageView11"
+-                android:layout_width="122dp"
+-                android:layout_height="90dp"
+-                app:layout_constraintBottom_toBottomOf="parent"
+-                app:layout_constraintEnd_toEndOf="parent"
+-                app:layout_constraintHorizontal_bias="0.158"
+-                app:layout_constraintStart_toStartOf="parent"
+-                app:layout_constraintTop_toTopOf="parent"
+-                app:layout_constraintVertical_bias="0.819"
+-                app:srcCompat="@drawable/garlic" />
+-            <LinearLayout
+-                android:layout_width="169dp"
++            <TextView
++                android:id="@+id/totalPrice"
++                android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+-                android:gravity="center"
+-                android:orientation="vertical">
+-            <TextView
+-                android:id="@+id/garlic3"
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:text="Garlic  (3 counts)"
+-                android:textColor="#6D7278"
+-                android:textSize="16sp"
+-                android:textStyle="bold"
+-                app:layout_constraintBottom_toBottomOf="parent"
+-                app:layout_constraintEnd_toEndOf="parent"
+-                app:layout_constraintHorizontal_bias="0.684"
+-                app:layout_constraintStart_toStartOf="parent"
+-                app:layout_constraintTop_toTopOf="parent"
+-                app:layout_constraintVertical_bias="0.738" />
+-            </LinearLayout>
+-            <LinearLayout
+-                android:layout_width="match_parent"
+-                android:layout_height="match_parent"
+-                android:gravity="center"
+-                android:orientation="vertical">
+-
+-                <TextView
+-                    android:id="@+id/textView22"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="Quantitive:"
+-                    android:textColor="#6D7278"
+-                    android:textSize="16sp"
+-                    android:textStyle="bold"
+-                    app:layout_constraintBottom_toBottomOf="parent"
+-                    app:layout_constraintEnd_toEndOf="parent"
+-                    app:layout_constraintHorizontal_bias="0.875"
+-                    app:layout_constraintStart_toStartOf="parent"
+-                    app:layout_constraintTop_toTopOf="parent"
+-                    app:layout_constraintVertical_bias="0.244" />
+-
+-                <TextView
+-                    android:id="@+id/garliccart2"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="x 0"
+-                    android:textColor="#6D7278"
+-                    android:textSize="16sp"
+-                    android:textStyle="bold"
+-                    app:layout_constraintBottom_toBottomOf="parent"
+-                    app:layout_constraintEnd_toEndOf="parent"
+-                    app:layout_constraintHorizontal_bias="0.852"
+-                    app:layout_constraintStart_toStartOf="parent"
+-                    app:layout_constraintTop_toTopOf="parent"
+-                    app:layout_constraintVertical_bias="0.849" />
+-
+-            </LinearLayout>
++                android:layout_gravity="center"
++                android:layout_weight="0.15"
++                android:gravity="center_vertical"
++                android:text="Total: "
++                android:textColor="#47C814"
++                android:textSize="20sp"
++                android:textStyle="bold" />
++        </LinearLayout>
+ 
+-        </LinearLayout>
++    </LinearLayout>
+ 
+-        <LinearLayout
+-            android:layout_width="match_parent"
+-            android:layout_height="97dp"
+-            android:background="@drawable/layout_1"
+-            android:gravity="left|center_vertical">
+-
+-            <ImageView
+-                android:id="@+id/imageView9"
+-                android:layout_width="122dp"
+-                android:layout_height="90dp"
+-                app:layout_constraintBottom_toBottomOf="parent"
+-                app:layout_constraintEnd_toEndOf="parent"
+-                app:layout_constraintHorizontal_bias="0.151"
+-                app:layout_constraintStart_toStartOf="parent"
+-                app:layout_constraintTop_toTopOf="parent"
+-                app:layout_constraintVertical_bias="0.611"
+-                app:srcCompat="@drawable/eggs" />
+-            <LinearLayout
+-                android:layout_width="169dp"
+-                android:layout_height="match_parent"
+-                android:gravity="center"
+-                android:orientation="vertical">
+-
+-                <TextView
+-                    android:id="@+id/eggs3"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="Large White Eggs (18 counts)"
+-                    android:textAlignment="center"
+-                    android:textColor="#6D7278"
+-                    android:textSize="16sp"
+-                    android:textStyle="bold"
+-                    app:layout_constraintBottom_toBottomOf="@id/eggcart2"
+-                    app:layout_constraintEnd_toEndOf="parent"
+-                    app:layout_constraintHorizontal_bias="0.924"
+-                    app:layout_constraintStart_toStartOf="parent"
+-                    app:layout_constraintTop_toTopOf="parent"
+-                    app:layout_constraintVertical_bias="0.55" />
+-            </LinearLayout>
+-            <LinearLayout
+-                android:layout_width="match_parent"
+-                android:layout_height="match_parent"
+-                android:gravity="center"
+-                android:orientation="vertical">
+-
+-                <TextView
+-                    android:id="@+id/textView5"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="Quantitive:"
+-                    android:textColor="#6D7278"
+-                    android:textSize="16sp"
+-                    android:textStyle="bold"
+-                    app:layout_constraintBottom_toBottomOf="parent"
+-                    app:layout_constraintEnd_toEndOf="parent"
+-                    app:layout_constraintHorizontal_bias="0.875"
+-                    app:layout_constraintStart_toStartOf="parent"
+-                    app:layout_constraintTop_toTopOf="parent"
+-                    app:layout_constraintVertical_bias="0.592" />
+-
+-                <TextView
+-                    android:id="@+id/eggcart2"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="x 0"
+-                    android:textColor="#6D7278"
+-                    android:textSize="16sp"
+-                    android:textStyle="bold"
+-                    app:layout_constraintBottom_toBottomOf="parent"
+-                    app:layout_constraintEnd_toEndOf="parent"
+-                    app:layout_constraintHorizontal_bias="0.875"
+-                    app:layout_constraintStart_toStartOf="parent"
+-                    app:layout_constraintTop_toTopOf="parent"
+-                    app:layout_constraintVertical_bias="0.675" />
+-
+-            </LinearLayout>
+-
+-        </LinearLayout>
+-
+-        <LinearLayout
+-            android:layout_width="match_parent"
+-            android:layout_height="97dp"
+-            android:background="@drawable/layout_1"
+-            android:gravity="left|center_vertical">
+-
+-            <ImageView
+-                android:id="@+id/imageView10"
+-                android:layout_width="122dp"
+-                android:layout_height="90dp"
+-                app:layout_constraintBottom_toBottomOf="parent"
+-                app:layout_constraintEnd_toEndOf="parent"
+-                app:layout_constraintHorizontal_bias="0.11"
+-                app:layout_constraintStart_toStartOf="parent"
+-                app:layout_constraintTop_toTopOf="parent"
+-                app:layout_constraintVertical_bias="0.42"
+-                app:srcCompat="@drawable/blueberry" />
+-            <LinearLayout
+-                android:layout_width="169dp"
+-                android:layout_height="match_parent"
+-                android:gravity="center"
+-                android:orientation="vertical">
+-            <TextView
+-                android:id="@+id/blueberry3"
+-                android:layout_width="wrap_content"
+-                android:layout_height="wrap_content"
+-                android:text="Blueberry (170g)"
+-                android:textColor="#6D7278"
+-                android:textSize="16sp"
+-                android:textStyle="bold"
+-                app:layout_constraintBottom_toBottomOf="parent"
+-                app:layout_constraintEnd_toEndOf="parent"
+-                app:layout_constraintHorizontal_bias="0.685"
+-                app:layout_constraintStart_toStartOf="@id/imageView10"
+-                app:layout_constraintTop_toTopOf="parent"
+-                app:layout_constraintVertical_bias="0.45" />
+-            </LinearLayout>
+-            <LinearLayout
+-                android:layout_width="match_parent"
+-                android:layout_height="match_parent"
+-                android:gravity="center"
+-                android:orientation="vertical">
+-
+-                <TextView
+-                    android:id="@+id/textView27"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="Quantitive:"
+-                    android:textSize="16sp"
+-                    android:textStyle="bold"
+-                    app:layout_constraintBottom_toBottomOf="parent"
+-                    app:layout_constraintEnd_toEndOf="parent"
+-                    app:layout_constraintHorizontal_bias="0.875"
+-                    app:layout_constraintStart_toStartOf="parent"
+-                    app:layout_constraintTop_toTopOf="parent"
+-                    app:layout_constraintVertical_bias="0.776" />
+-
+-                <TextView
+-                    android:id="@+id/blueberrycart2"
+-                    android:layout_width="wrap_content"
+-                    android:layout_height="wrap_content"
+-                    android:text="x 0"
+-                    android:textColor="#6D7278"
+-                    android:textSize="16sp"
+-                    android:textStyle="bold"
+-                    app:layout_constraintBottom_toBottomOf="parent"
+-                    app:layout_constraintEnd_toEndOf="parent"
+-                    app:layout_constraintHorizontal_bias="0.893"
+-                    app:layout_constraintStart_toStartOf="parent"
+-                    app:layout_constraintTop_toTopOf="parent"
+-                    app:layout_constraintVertical_bias="0.491" />
+-
+-            </LinearLayout>
+-
+-        </LinearLayout>
+-
+-    </LinearLayout>
++    <ImageButton
++        android:id="@+id/back"
++        android:layout_width="50dp"
++        android:layout_height="50dp"
++        android:backgroundTint="#E3E9DF"
++        android:scaleType="centerCrop"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.044"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintVertical_bias="0.007"
++        app:srcCompat="@drawable/back"
++        app:tint="#FF308033" />
+ 
+     <Button
+         android:id="@+id/cartNotify"
+@@ -360,18 +99,6 @@
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintVertical_bias="0.878" />
+ 
+-    <com.google.android.material.bottomnavigation.BottomNavigationView
+-        android:id="@+id/bottomNavigationView2"
+-        android:layout_width="413dp"
+-        android:layout_height="52dp"
+-        android:background="#BCCCB3"
+-        app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.5"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:menu="@menu/customer_bottom_nav_menu" >
+-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+-
+     <ImageButton
+         android:id="@+id/cartCall"
+         android:layout_width="55dp"
+@@ -380,56 +107,23 @@
+         android:layout_marginBottom="30dp"
+         android:background="@drawable/btn_3"
+         android:scaleType="centerCrop"
+-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
++        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.03"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+         app:layout_constraintVertical_bias="0.333"
+         app:srcCompat="@drawable/service" />
+ 
+-    <ImageButton
+-        android:id="@+id/imageButton5"
+-        android:layout_width="50dp"
+-        android:layout_height="50dp"
+-        android:backgroundTint="#E3E9DF"
+-        android:scaleType="centerCrop"
++    <com.google.android.material.bottomnavigation.BottomNavigationView
++        android:id="@+id/bottomNavigationView"
++        android:layout_width="413dp"
++        android:layout_height="52dp"
++        android:background="#BCCCB3"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.044"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="0.007"
+-        app:srcCompat="@drawable/back"
+-        app:tint="#FF308033" />
+-
+-    <TextView
+-        android:id="@+id/textView40"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Order Number:"
+-        android:textSize="16sp"
+-        android:textStyle="bold"
+-        app:layout_constraintBottom_toTopOf="@+id/textView42"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.069"
+-        app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="1.0" />
+-
+-    <TextView
+-        android:id="@+id/textView42"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginBottom="11dp"
+-        android:text="Order Date:"
+-        android:textSize="16sp"
+-        android:textStyle="bold"
+-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+-        app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.063"
++        app:layout_constraintHorizontal_bias="0.5"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="0.969" />
++        app:menu="@menu/customer_bottom_nav_menu" >
++    </com.google.android.material.bottomnavigation.BottomNavigationView>
+ 
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/groceryapp/OrderHelper/MyAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/OrderHelper/MyAdapter.java b/app/src/main/java/com/example/groceryapp/OrderHelper/MyAdapter.java
+new file mode 100644
+--- /dev/null	(date 1649733537772)
++++ b/app/src/main/java/com/example/groceryapp/OrderHelper/MyAdapter.java	(date 1649733537772)
+@@ -0,0 +1,93 @@
++package com.example.groceryapp.OrderHelper;
++
++import android.content.Intent;
++import android.view.LayoutInflater;
++import android.view.View;
++import android.view.ViewGroup;
++import android.widget.ImageButton;
++import android.widget.LinearLayout;
++import android.widget.TextView;
++
++import androidx.annotation.NonNull;
++import androidx.recyclerview.widget.RecyclerView;
++
++import com.example.groceryapp.HistoryOrder;
++import com.example.groceryapp.Map;
++import com.example.groceryapp.R;
++import com.example.groceryapp.OrderHelper.OrderHelperClass;
++import com.example.groceryapp.shopCategory;
++
++import java.util.ArrayList;
++
++public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
++    ArrayList<OrderHelperClass> locations;
++
++    public MyAdapter(ArrayList<OrderHelperClass> locations) {
++        this.locations = locations;
++    }
++
++    @NonNull
++    @Override
++    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
++        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
++        View view = inflater.inflate(R.layout.order_card_view, parent, false);
++        return new MyViewHolder(view);
++    }
++
++    @Override
++    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
++        OrderHelperClass orderHelperClass = locations.get(position);
++        holder.id = orderHelperClass.getId();
++        holder.orderNumber.setText("Order Number: "+orderHelperClass.getOrderNumber());
++        holder.orderDate.setText("Order Date: "+orderHelperClass.getOrderDate());
++        holder.name = orderHelperClass.getName();
++        holder.phoneNumber = orderHelperClass.getPhoneNumber();
++    }
++
++    @Override
++    public int getItemCount() {
++        return locations.size();
++    }
++
++    public class MyViewHolder extends RecyclerView.ViewHolder {
++        String id;
++        LinearLayout order;
++        ImageButton next;
++        TextView orderNumber;
++        TextView orderDate;
++        String name;
++        String phoneNumber;
++
++        public MyViewHolder(@NonNull View itemView) {
++            super(itemView);
++
++            order = itemView.findViewById(R.id.order);
++            next = itemView.findViewById(R.id.next);
++            orderNumber = itemView.findViewById(R.id.orderNum);
++            orderDate = itemView.findViewById(R.id.orderDate);
++
++            order.setOnClickListener(new View.OnClickListener() {
++                @Override
++                public void onClick(View view) {
++                    Intent intent = new Intent(view.getContext(), HistoryOrder.class);
++                    intent.putExtra("id", id);
++                    intent.putExtra("orderNumber", ((String) orderNumber.getText()).split("Order Number: ")[1]);
++                    intent.putExtra("name", name);
++                    intent.putExtra("phoneNumber", phoneNumber);
++                    view.getContext().startActivity(intent);
++                }
++            });
++            next.setOnClickListener(new View.OnClickListener() {
++                @Override
++                public void onClick(View view) {
++                    Intent intent = new Intent(view.getContext(), HistoryOrder.class);
++                    intent.putExtra("id", id);
++                    intent.putExtra("orderNumber", ((String) orderNumber.getText()).split("Order Number: ")[1]);
++                    intent.putExtra("name", name);
++                    intent.putExtra("phoneNumber", phoneNumber);
++                    view.getContext().startActivity(intent);
++                }
++            });
++        }
++    }
++}
+Index: app/src/main/res/layout/cart_card_view.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.cardview.widget.CardView xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"0dp\"\r\n        android:orientation=\"horizontal\"\r\n        android:background=\"@drawable/layout_1\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n        <ImageView\r\n            android:id=\"@+id/itemImage\"\r\n            android:layout_width=\"122dp\"\r\n            android:layout_height=\"93dp\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.055\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\"\r\n            app:layout_constraintVertical_bias=\"0.199\"\r\n            app:srcCompat=\"@drawable/costco\" />\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"169dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/itemName\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Item Name\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.65\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.221\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/itemPrice\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"$\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.553\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.34\" />\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"119dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/textView18\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Quantitive:\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.84\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.261\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/amount\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"x 0\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.864\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.335\" />\r\n        </LinearLayout>\r\n\r\n    </LinearLayout>\r\n\r\n</androidx.cardview.widget.CardView>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/cart_card_view.xml b/app/src/main/res/layout/cart_card_view.xml
+--- a/app/src/main/res/layout/cart_card_view.xml	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/res/layout/cart_card_view.xml	(date 1649733537799)
+@@ -40,6 +40,8 @@
+                 android:text="Item Name"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
++                android:textColor="#3f3f3f"
++                android:gravity="center"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintHorizontal_bias="0.65"
+@@ -54,6 +56,7 @@
+                 android:text="$"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
++                android:textColor="#3f3f3f"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintHorizontal_bias="0.553"
+                 app:layout_constraintStart_toStartOf="parent"
+@@ -74,6 +77,7 @@
+                 android:text="Quantitive:"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
++                android:textColor="#3f3f3f"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintHorizontal_bias="0.84"
+@@ -88,6 +92,7 @@
+                 android:text="x 0"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
++                android:textColor="#3f3f3f"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintHorizontal_bias="0.864"
+Index: app/src/main/java/com/example/groceryapp/CustomerAccount.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groceryapp;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.ImageButton;\r\nimport android.widget.ImageView;\r\n\r\npublic class CustomerAccount extends AppCompatActivity {\r\n    ImageButton back;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_customer_account);\r\n\r\n        back = (ImageButton) findViewById(R.id.accountBack);\r\n        back.setOnClickListener(new View.OnClickListener() {\r\n            public void onClick(View v) {\r\n                finish();\r\n            }\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/CustomerAccount.java b/app/src/main/java/com/example/groceryapp/CustomerAccount.java
+--- a/app/src/main/java/com/example/groceryapp/CustomerAccount.java	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/java/com/example/groceryapp/CustomerAccount.java	(date 1649733537769)
+@@ -1,25 +1,89 @@
+ package com.example.groceryapp;
+ 
++import androidx.annotation.NonNull;
+ import androidx.appcompat.app.AppCompatActivity;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
+ 
++import android.content.Intent;
+ import android.os.Bundle;
++import android.view.MenuItem;
+ import android.view.View;
++import android.widget.Button;
+ import android.widget.ImageButton;
+ import android.widget.ImageView;
+ 
+-public class CustomerAccount extends AppCompatActivity {
+-    ImageButton back;
++import com.example.groceryapp.OrderHelper.OrderHelperClass;
++import com.example.groceryapp.OrderHelper.MyAdapter;
++import com.google.android.material.bottomnavigation.BottomNavigationView;
++
++import java.util.ArrayList;
++
++public class CustomerAccount extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
++    private String userID;
++    private String userName;
++    private String storeID;
++    private RecyclerView recyclerView;
++    private RecyclerView.Adapter adapter;
++
++    private BottomNavigationView bottomNavigationView;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_customer_account);
+ 
+-        back = (ImageButton) findViewById(R.id.accountBack);
+-        back.setOnClickListener(new View.OnClickListener() {
+-            public void onClick(View v) {
+-                finish();
+-            }
+-        });
++        bottomNavigationView = findViewById(R.id.bottomNavigationView);
++        bottomNavigationView.setOnNavigationItemSelectedListener(this);
++        bottomNavigationView.setSelectedItemId(R.id.account);
++
++        // Extract user id from local
++        Intent intent = getIntent();
++        userID = intent.getStringExtra("userID");
++        if (userID == null) {
++            userID = intent.getStringExtra("id");
++        }
++
++        // Request order list from db
++        ArrayList<ArrayList<String>> orderList = DBUtil.Query("select OrderNumber, PurchaseTime, PhoneNumber, StoreName "
++                + "from Orders join Retailers on Orders.RetailerId = Retailers.id where CustomerId = "
++                + userID + " group by OrderNumber, PurchaseTime, PhoneNumber, StoreName order by OrderNumber desc");
++
++        // Show the order detail in view
++        recyclerView = findViewById(R.id.orderRecyclerView);
++
++        recyclerView.setHasFixedSize(true);
++        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
++
++        ArrayList<OrderHelperClass> locations = new ArrayList<>();
++        for (int i = 0; i < orderList.size(); ++i) {
++            locations.add(new OrderHelperClass(
++                    userID,
++                    orderList.get(i).get(0),
++                    orderList.get(i).get(1),
++                    orderList.get(i).get(3),
++                    orderList.get(i).get(2)));
++        }
++
++        adapter = new MyAdapter(locations);
++        recyclerView.setAdapter(adapter);
++
+     }
+-}
+\ No newline at end of file
++
++    // navigation view
++    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
++        switch (item.getItemId()) {
++            // jump to home page
++            case R.id.home:
++                Intent intent = new Intent(CustomerAccount.this, GroceryStores.class);
++                intent.putExtra("userID", userID);
++                startActivity(intent);
++                return true;
++
++            case R.id.account:
++                return true;
++        }
++
++        return false;
++    }
++}
+Index: app/src/main/res/layout/activity_customer_account.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".CustomerAccount\">\r\n\r\n    <ImageButton\r\n        android:id=\"@+id/accountBack\"\r\n        android:layout_width=\"49dp\"\r\n        android:layout_height=\"51dp\"\r\n        android:backgroundTint=\"@color/white\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.041\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.022\"\r\n        app:srcCompat=\"@drawable/back\" />\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_customer_account.xml b/app/src/main/res/layout/activity_customer_account.xml
+--- a/app/src/main/res/layout/activity_customer_account.xml	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/res/layout/activity_customer_account.xml	(date 1649733537797)
+@@ -4,18 +4,46 @@
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:background="#F8FFF8"
+     tools:context=".CustomerAccount">
+ 
+-    <ImageButton
+-        android:id="@+id/accountBack"
+-        android:layout_width="49dp"
+-        android:layout_height="51dp"
+-        android:backgroundTint="@color/white"
++    <TextView
++        android:id="@+id/textView38"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:text="My History Orders"
++        android:textColor="#2E5418"
++        android:textSize="20sp"
++        android:textStyle="bold"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.041"
++        app:layout_constraintHorizontal_bias="0.498"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+-        app:layout_constraintVertical_bias="0.022"
+-        app:srcCompat="@drawable/back" />
++        app:layout_constraintVertical_bias="0.022" />
++
++    <androidx.recyclerview.widget.RecyclerView
++        android:id="@+id/orderRecyclerView"
++        android:layout_width="match_parent"
++        android:layout_height="0dp"
++        android:layout_weight="0.7"
++        android:weightSum="1"
++        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/textView38" />
++
++    <com.google.android.material.bottomnavigation.BottomNavigationView
++        android:id="@+id/bottomNavigationView"
++        android:layout_width="413dp"
++        android:layout_height="52dp"
++        android:background="#BCCCB3"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintHorizontal_bias="0.5"
++        app:layout_constraintStart_toStartOf="parent"
++        app:menu="@menu/customer_bottom_nav_menu" >
++    </com.google.android.material.bottomnavigation.BottomNavigationView>
++
++
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/groceryapp/Map.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groceryapp;\r\n\r\n\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.core.app.ActivityCompat;\r\n\r\nimport android.Manifest;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.content.pm.PackageManager;\r\nimport android.graphics.Color;\r\nimport android.location.Location;\r\nimport android.location.LocationListener;\r\nimport android.location.LocationManager;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.ImageButton;\r\nimport android.widget.Toast;\r\n\r\nimport com.google.android.gms.location.FusedLocationProviderClient;\r\nimport com.google.android.gms.maps.CameraUpdate;\r\nimport com.google.android.gms.maps.CameraUpdateFactory;\r\nimport com.google.android.gms.maps.GoogleMap;\r\nimport com.google.android.gms.maps.MapView;\r\nimport com.google.android.gms.maps.OnMapReadyCallback;\r\nimport com.google.android.gms.maps.SupportMapFragment;\r\nimport com.google.android.gms.maps.model.LatLng;\r\nimport com.google.android.gms.maps.model.Marker;\r\nimport com.google.android.gms.maps.model.MarkerOptions;\r\nimport com.google.android.gms.maps.model.Polyline;\r\nimport com.google.android.gms.maps.model.PolylineOptions;\r\nimport com.google.android.gms.tasks.OnSuccessListener;\r\nimport com.google.android.gms.tasks.Task;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n\r\npublic class Map extends AppCompatActivity implements OnMapReadyCallback, LocationListener {\r\n\r\n    private GoogleMap map;\r\n    private LocationManager locationManager;\r\n    ImageButton back;\r\n    private String storeID;\r\n    private String storeName;\r\n    private ArrayList<String> storeLatLng;\r\n\r\n    private List<LatLng> list = new ArrayList<>();\r\n\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_map);\r\n\r\n        // Extract store name from local\r\n        Intent intent = getIntent();\r\n        storeID = intent.getStringExtra(\"storeID\");\r\n        storeName = intent.getStringExtra(\"storeName\");\r\n\r\n        // Request store position from db\r\n        ArrayList<ArrayList<String>> result = DBUtil.Query(\"select latitude, longitude from Retailers where id = \"+storeID);\r\n        storeLatLng = result.get(0);\r\n\r\n        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);\r\n\r\n        SupportMapFragment mapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));\r\n        mapFragment.getMapAsync(this);\r\n\r\n        Button myLocation = (Button) findViewById(R.id.Mapshowlocation);\r\n        myLocation.setOnClickListener(new View.OnClickListener() {\r\n            public void onClick(View v) {\r\n\r\n                LatLng curLocation = list.get(1);\r\n                map.addMarker(new MarkerOptions()\r\n                        .position(curLocation)\r\n                        .title(\"Your location is here\"));\r\n                map.moveCamera(CameraUpdateFactory.newLatLngZoom(curLocation, 12));\r\n                PolylineOptions polyline_options = new PolylineOptions()\r\n                        .addAll(list).color(Color.BLUE).width(10);\r\n\r\n                Polyline polyline = map.addPolyline(polyline_options);\r\n\r\n            }\r\n        });\r\n        back = (ImageButton) findViewById(R.id.back);\r\n        back.setOnClickListener(new View.OnClickListener() {\r\n            public void onClick(View v) {\r\n                // go back\r\n                Intent intent = new Intent(Map.this, GroceryStores.class);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n    }\r\n\r\n\r\n    @Override\r\n    protected void onResume() {\r\n        super.onResume();\r\n        // mapFragment.onResume();\r\n        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {\r\n            // TODO: Consider calling\r\n            //    ActivityCompat#requestPermissions\r\n            // here to request the missing permissions, and then overriding\r\n            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,\r\n            //                                          int[] grantResults)\r\n            // to handle the case where the user grants the permission. See the documentation\r\n            // for ActivityCompat#requestPermissions for more details.\r\n            return;\r\n        }\r\n        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);\r\n\r\n    }\r\n\r\n    @Override\r\n    protected void onPause() {\r\n        //mMapView.onPause();\r\n        super.onPause();\r\n        locationManager.removeUpdates(this);\r\n    }\r\n\r\n    //Call map and enable my location functionality\r\n    @Override\r\n    public void onMapReady(GoogleMap googleMap) {\r\n        map = googleMap;\r\n\r\n//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {\r\n//            // TODO: Consider calling\r\n//            //    ActivityCompat#requestPermissions\r\n//            // here to request the missing permissions, and then overriding\r\n//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,\r\n//            //                                          int[] grantResults)\r\n//            // to handle the case where the user grants the permission. See the documentation\r\n//            // for ActivityCompat#requestPermissions for more details.\r\n//            return;\r\n//        }\r\n//        map.setMyLocationEnabled(true);\r\n        LatLng store = new LatLng(Double.parseDouble(storeLatLng.get(0)), Double.parseDouble(storeLatLng.get(1)));\r\n        list.add(0,store);\r\n        map.addMarker(new MarkerOptions().position(store).title(\"Our store is here!\"));\r\n        map.moveCamera(CameraUpdateFactory.newLatLngZoom(store,12));\r\n        map.getUiSettings().setZoomControlsEnabled(true);\r\n    }\r\n\r\n    @Override\r\n    public void onLocationChanged(Location newLoc) {\r\n        //  LatLng latLng = new LatLng(newLoc.getLatitude(), location.getLongitude());\r\n        // CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);\r\n        //map.animateCamera(cameraUpdate);\r\n\r\n        LatLng curLocation = new LatLng(newLoc.getLatitude(), newLoc.getLongitude());\r\n        list.add(1,curLocation);\r\n        locationManager.removeUpdates(this);\r\n\r\n\r\n    }\r\n\r\n\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/Map.java b/app/src/main/java/com/example/groceryapp/Map.java
+--- a/app/src/main/java/com/example/groceryapp/Map.java	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/java/com/example/groceryapp/Map.java	(date 1649733537772)
+@@ -46,6 +46,8 @@
+     ImageButton back;
+     private String storeID;
+     private String storeName;
++    private String userID;
++    private String userName;
+     private ArrayList<String> storeLatLng;
+ 
+     private List<LatLng> list = new ArrayList<>();
+@@ -60,6 +62,8 @@
+         Intent intent = getIntent();
+         storeID = intent.getStringExtra("storeID");
+         storeName = intent.getStringExtra("storeName");
++        userID = intent.getStringExtra("userID");
++        userName = intent.getStringExtra("userName");
+ 
+         // Request store position from db
+         ArrayList<ArrayList<String>> result = DBUtil.Query("select latitude, longitude from Retailers where id = "+storeID);
+@@ -86,11 +90,14 @@
+ 
+             }
+         });
++
+         back = (ImageButton) findViewById(R.id.back);
+         back.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+                 // go back
+                 Intent intent = new Intent(Map.this, GroceryStores.class);
++                intent.putExtra("userID", userID);
++                intent.putExtra("userName", userName);
+                 startActivity(intent);
+             }
+         });
+Index: app/src/main/res/layout/activity_shop_category.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"#E3E9DF\"\r\n    tools:context=\".shopCategory\">\r\n\r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/itemRecyclerView\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"530dp\"\r\n        android:orientation=\"vertical\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"1.0\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.676\"/>\r\n\r\n    <ImageButton\r\n        android:id=\"@+id/imageButton2\"\r\n        android:layout_width=\"45dp\"\r\n        android:layout_height=\"45dp\"\r\n        android:backgroundTint=\"#D0D5CD\"\r\n        android:scaleType=\"centerCrop\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.076\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.023\"\r\n        app:srcCompat=\"@drawable/back\"\r\n        app:tint=\"#308033\" />\r\n\r\n    <ImageButton\r\n        android:id=\"@+id/imageButton\"\r\n        style=\"@style/Widget.AppCompat.ImageButton\"\r\n        android:layout_width=\"50dp\"\r\n        android:layout_height=\"50dp\"\r\n        android:backgroundTint=\"#D0D5CD\"\r\n        android:scaleType=\"fitCenter\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.917\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.023\"\r\n        app:srcCompat=\"@drawable/cart\"\r\n        app:tint=\"#246326\" />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_shop_category.xml b/app/src/main/res/layout/activity_shop_category.xml
+--- a/app/src/main/res/layout/activity_shop_category.xml	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/res/layout/activity_shop_category.xml	(date 1649733537798)
+@@ -10,17 +10,16 @@
+     <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/itemRecyclerView"
+         android:layout_width="match_parent"
+-        android:layout_height="530dp"
++        android:layout_height="wrap_content"
+         android:orientation="vertical"
+-        app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="1.0"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/cart"
+         app:layout_constraintVertical_bias="0.676"/>
+ 
+     <ImageButton
+-        android:id="@+id/imageButton2"
++        android:id="@+id/back"
+         android:layout_width="45dp"
+         android:layout_height="45dp"
+         android:backgroundTint="#D0D5CD"
+@@ -35,7 +34,7 @@
+         app:tint="#308033" />
+ 
+     <ImageButton
+-        android:id="@+id/imageButton"
++        android:id="@+id/cart"
+         style="@style/Widget.AppCompat.ImageButton"
+         android:layout_width="50dp"
+         android:layout_height="50dp"
+Index: app/src/main/res/layout/activity_cart.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"#E3E9DF\"\r\n    android:weightSum=\"1\"\r\n    tools:context=\".Cart\">\r\n\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_weight=\"0.7\"\r\n        android:weightSum=\"1\"\r\n        android:orientation=\"vertical\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.0\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toBottomOf=\"@+id/imageButton3\">\r\n\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/CardRecyclerView\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:orientation=\"vertical\"/>\r\n\r\n        <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_weight=\"0.1\"\r\n        android:weightSum=\"1\"\r\n        android:gravity=\"center\"\r\n        android:orientation=\"horizontal\">\r\n        <Space\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_weight=\"0.85\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/totalPrice\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_gravity=\"center\"\r\n            android:layout_weight=\"0.15\"\r\n            android:gravity=\"center_vertical\"\r\n            android:text=\"Total: \"\r\n            android:textColor=\"#47C814\"\r\n            android:textSize=\"20sp\"\r\n            android:textStyle=\"bold\" />\r\n\r\n\r\n    </LinearLayout>\r\n        <Button\r\n            android:id=\"@+id/checkout\"\r\n            android:layout_width=\"211dp\"\r\n            android:layout_height=\"50dp\"\r\n            android:layout_gravity=\"center\"\r\n            android:background=\"@drawable/btn_1\"\r\n            android:text=\"Proceed to check out\"\r\n            android:textColor=\"#FFFFFFFF\"\r\n            android:textSize=\"16sp\"\r\n            android:textStyle=\"bold\" />\r\n    </LinearLayout>\r\n\r\n    <ImageButton\r\n        android:id=\"@+id/imageButton3\"\r\n        android:layout_width=\"50dp\"\r\n        android:layout_height=\"50dp\"\r\n        android:backgroundTint=\"#E3E9DF\"\r\n        android:scaleType=\"centerCrop\"\r\n        app:layout_constraintBottom_toBottomOf=\"parent\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintHorizontal_bias=\"0.076\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\"\r\n        app:layout_constraintVertical_bias=\"0.023\"\r\n        app:srcCompat=\"@drawable/back\"\r\n        app:tint=\"#FF308033\"  />\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_cart.xml b/app/src/main/res/layout/activity_cart.xml
+--- a/app/src/main/res/layout/activity_cart.xml	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/res/layout/activity_cart.xml	(date 1649733537796)
+@@ -28,31 +28,29 @@
+             android:orientation="vertical"/>
+ 
+         <LinearLayout
+-        android:layout_width="match_parent"
+-        android:layout_height="0dp"
+-        android:layout_weight="0.1"
+-        android:weightSum="1"
+-        android:gravity="center"
+-        android:orientation="horizontal">
+-        <Space
+-            android:layout_width="wrap_content"
+-            android:layout_height="wrap_content"
+-            android:layout_weight="0.85" />
++            android:layout_width="match_parent"
++            android:layout_height="0dp"
++            android:layout_weight="0.1"
++            android:weightSum="1"
++            android:gravity="center"
++            android:orientation="horizontal">
++            <Space
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_weight="0.85" />
+ 
+-        <TextView
+-            android:id="@+id/totalPrice"
+-            android:layout_width="wrap_content"
+-            android:layout_height="match_parent"
+-            android:layout_gravity="center"
+-            android:layout_weight="0.15"
+-            android:gravity="center_vertical"
+-            android:text="Total: "
+-            android:textColor="#47C814"
+-            android:textSize="20sp"
+-            android:textStyle="bold" />
+-
+-
+-    </LinearLayout>
++            <TextView
++                android:id="@+id/totalPrice"
++                android:layout_width="wrap_content"
++                android:layout_height="match_parent"
++                android:layout_gravity="center"
++                android:layout_weight="0.15"
++                android:gravity="center_vertical"
++                android:text="Total: "
++                android:textColor="#47C814"
++                android:textSize="20sp"
++                android:textStyle="bold" />
++        </LinearLayout>
+         <Button
+             android:id="@+id/checkout"
+             android:layout_width="211dp"
+Index: app/src/main/res/layout/item_card_view.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.cardview.widget.CardView xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:weightSum=\"1\">\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/linearLayout2\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:background=\"@drawable/layout_1\"\r\n        android:gravity=\"left|center_vertical\"\r\n        android:orientation=\"horizontal\"\r\n        app:layout_constraintEnd_toEndOf=\"parent\"\r\n        app:layout_constraintStart_toStartOf=\"parent\"\r\n        app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n        <ImageView\r\n            android:id=\"@+id/itemImage\"\r\n            android:layout_width=\"122dp\"\r\n            android:layout_height=\"93dp\"\r\n            android:background=\"#00FFFFFF\"\r\n            android:paddingLeft=\"1dp\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintHorizontal_bias=\"0.055\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\"\r\n            app:layout_constraintVertical_bias=\"0.199\"\r\n            app:srcCompat=\"@drawable/costco\" />\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"169dp\"\r\n            android:layout_height=\"93dp\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/productName\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Item Name\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.65\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.221\" />\r\n\r\n            <TextView\r\n                android:id=\"@+id/productPrice\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"$\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                tools:layout_editor_absoluteX=\"197dp\"\r\n                tools:layout_editor_absoluteY=\"236dp\" />\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"93dp\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/quantities\"\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Quantities:\"\r\n                android:textSize=\"16sp\"\r\n                android:textStyle=\"bold\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.84\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.261\" />\r\n\r\n            <EditText\r\n                android:id=\"@+id/number\"\r\n                android:layout_width=\"82dp\"\r\n                android:layout_height=\"30dp\"\r\n                android:ems=\"10\"\r\n                android:inputType=\"number\"\r\n                app:layout_constraintBottom_toBottomOf=\"parent\"\r\n                app:layout_constraintEnd_toEndOf=\"parent\"\r\n                app:layout_constraintHorizontal_bias=\"0.878\"\r\n                app:layout_constraintStart_toStartOf=\"parent\"\r\n                app:layout_constraintTop_toTopOf=\"parent\"\r\n                app:layout_constraintVertical_bias=\"0.318\" />\r\n\r\n        </LinearLayout>\r\n\r\n    </LinearLayout>\r\n\r\n</androidx.cardview.widget.CardView>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/item_card_view.xml b/app/src/main/res/layout/item_card_view.xml
+--- a/app/src/main/res/layout/item_card_view.xml	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/res/layout/item_card_view.xml	(date 1649733537799)
+@@ -1,7 +1,7 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+-    android:layout_height="match_parent"
++    android:layout_height="wrap_content"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:weightSum="1">
+@@ -38,12 +38,14 @@
+             android:orientation="vertical">
+ 
+             <TextView
+-                android:id="@+id/productName"
++                android:id="@+id/itemName"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="Item Name"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
++                android:textColor="#3f3f3f"
++                android:gravity="center"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintHorizontal_bias="0.65"
+@@ -52,12 +54,13 @@
+                 app:layout_constraintVertical_bias="0.221" />
+ 
+             <TextView
+-                android:id="@+id/productPrice"
++                android:id="@+id/itemPrice"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="$"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
++                android:textColor="#3f3f3f"
+                 tools:layout_editor_absoluteX="197dp"
+                 tools:layout_editor_absoluteY="236dp" />
+ 
+@@ -76,6 +79,7 @@
+                 android:text="Quantities:"
+                 android:textSize="16sp"
+                 android:textStyle="bold"
++                android:textColor="#3f3f3f"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintHorizontal_bias="0.84"
+@@ -86,9 +90,12 @@
+             <EditText
+                 android:id="@+id/number"
+                 android:layout_width="82dp"
+-                android:layout_height="30dp"
++                android:layout_height="40dp"
+                 android:ems="10"
+                 android:inputType="number"
++                android:textColor="#3f3f3f"
++                android:textSize="16sp"
++                android:paddingTop="0dp"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintHorizontal_bias="0.878"
+Index: app/src/debug/res/values/google_maps_api.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <!--\r\n    TODO: Before you run your application, you need a Google Maps API key.\r\n\r\n    To get one, follow this link, follow the directions and press \"Create\" at the end:\r\n\r\n    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=D2:D5:8A:AE:0B:27:51:86:7D:38:CC:BF:94:54:3C:5A:BA:8C:45:00%3Bcom.example.groceryapp\r\n\r\n    You can also add your credentials to an existing key, using these values:\r\n\r\n    Package name:\r\n    com.example.groceryapp\r\n\r\n    SHA-1 certificate fingerprint:\r\n    D2:D5:8A:AE:0B:27:51:86:7D:38:CC:BF:94:54:3C:5A:BA:8C:45:00\r\n\r\n    Alternatively, follow the directions here:\r\n    https://developers.google.com/maps/documentation/android/start#get-key\r\n\r\n    Once you have your key (it starts with \"AIza\"), replace the \"google_maps_key\"\r\n    string in this file.\r\n    -->\r\n    <string name=\"google_maps_key\" templateMergeStrategy=\"preserve\" translatable=\"false\">AIzaSyAsrjE4TjIdydJ0FUkoaYS-ejXDHGV06eIv</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/debug/res/values/google_maps_api.xml b/app/src/debug/res/values/google_maps_api.xml
+--- a/app/src/debug/res/values/google_maps_api.xml	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/debug/res/values/google_maps_api.xml	(date 1649733537769)
+@@ -20,5 +20,5 @@
+     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+     string in this file.
+     -->
+-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAsrjE4TjIdydJ0FUkoaYS-ejXDHGV06eIv</string>
++    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAsrjE4TjIdydJ0FUkoaYS-ejXDHGV06eI</string>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/java/com/example/groceryapp/shopCategory.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groceryapp;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.cardview.widget.CardView;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.EditText;\r\nimport android.widget.ImageButton;\r\nimport android.widget.LinearLayout;\r\n\r\nimport com.example.groceryapp.ItemHelper.MyAdapter;\r\nimport com.example.groceryapp.ItemHelper.ItemHelperClass;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class shopCategory extends AppCompatActivity {\r\n\r\n    private String storeID;\r\n    private String userID;\r\n    private ArrayList<ArrayList<String>> itemList;\r\n    ImageButton back;\r\n\r\n    private RecyclerView recyclerView;\r\n    private RecyclerView.Adapter adapter;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_shop_category);\r\n\r\n        // Extract store id and user name from local\r\n        Intent intent = getIntent();\r\n        storeID = intent.getStringExtra(\"storeID\");\r\n        userID = intent.getStringExtra(\"userID\");\r\n\r\n        // Request product list from db\r\n        itemList = DBUtil.Query(\"select * from Products where RetailerId = \" + storeID);\r\n        // Optional: Request categories list from db\r\n        // ArrayList<ArrayList<String>> categoryList = DBUtil.Query(\"select ItemCategory from Products where RetailerId = \" + storeID + \" group by ItemCategory\");\r\n\r\n        // Show the items in view\r\n        recyclerView = findViewById(R.id.itemRecyclerView);\r\n\r\n        recyclerView.setHasFixedSize(true);\r\n        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));\r\n\r\n        ArrayList<ItemHelperClass> locations = new ArrayList<>();\r\n\r\n        for (int i = 0; i < itemList.size(); ++i) {\r\n            locations.add(new ItemHelperClass(\r\n                    itemList.get(i).get(1),\r\n                    itemList.get(i).get(0),\r\n                    itemList.get(i).get(2),\r\n                    itemList.get(i).get(3),\r\n                    itemList.get(i).get(4),\r\n                    itemList.get(i).get(5),\r\n                    itemList.get(i).get(6)));\r\n        }\r\n\r\n        adapter = new MyAdapter(locations);\r\n        recyclerView.setAdapter(adapter);\r\n\r\n        ImageButton cart = (ImageButton) findViewById(R.id.imageButton);\r\n        back = (ImageButton) findViewById(R.id.imageButton2);\r\n\r\n        cart.setOnClickListener(new View.OnClickListener() {\r\n            public void onClick(View v) {\r\n                ArrayList<ArrayList<String>> items = new ArrayList<ArrayList<String>>();\r\n                for (int i = 0; i < recyclerView.getChildCount(); i++) {\r\n                    EditText amount = (EditText) ((CardView) recyclerView.getChildAt(i)).findViewById(R.id.number);\r\n                    if (!amount.getText().toString().isEmpty() && Integer.parseInt(amount.getText().toString()) > 0) {\r\n                        if (itemList.get(i).size() == 8) {\r\n                            itemList.get(i).add(amount.getText().toString());\r\n                        } else {\r\n                            itemList.get(i).set(8, amount.getText().toString());\r\n                        }\r\n                        items.add(itemList.get(i));\r\n                    }\r\n                }\r\n                Intent intent = new Intent(shopCategory.this, Cart.class);\r\n                intent.putExtra(\"storeID\", storeID);\r\n                intent.putExtra(\"userID\", userID);\r\n                intent.putExtra(\"itemList\", items);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n\r\n        back.setOnClickListener(new View.OnClickListener() {\r\n            public void onClick(View v) {\r\n                // go back\r\n                Intent intent = new Intent(shopCategory.this, GroceryStores.class);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/shopCategory.java b/app/src/main/java/com/example/groceryapp/shopCategory.java
+--- a/app/src/main/java/com/example/groceryapp/shopCategory.java	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/java/com/example/groceryapp/shopCategory.java	(date 1649733537796)
+@@ -64,8 +64,8 @@
+         adapter = new MyAdapter(locations);
+         recyclerView.setAdapter(adapter);
+ 
+-        ImageButton cart = (ImageButton) findViewById(R.id.imageButton);
+-        back = (ImageButton) findViewById(R.id.imageButton2);
++        ImageButton cart = (ImageButton) findViewById(R.id.cart);
++        back = (ImageButton) findViewById(R.id.back);
+ 
+         cart.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+@@ -93,6 +93,7 @@
+             public void onClick(View v) {
+                 // go back
+                 Intent intent = new Intent(shopCategory.this, GroceryStores.class);
++                intent.putExtra("userID", userID);
+                 startActivity(intent);
+             }
+         });
+Index: app/src/main/java/com/example/groceryapp/StoreHelper/MyAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groceryapp.StoreHelper;\r\n\r\nimport android.content.Intent;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.ImageButton;\r\nimport android.widget.TextView;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.groceryapp.Map;\r\nimport com.example.groceryapp.R;\r\nimport com.example.groceryapp.shopCategory;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {\r\n\r\n    ArrayList<StoreHelperClass> locations;\r\n\r\n    public MyAdapter(ArrayList<StoreHelperClass> locations) {\r\n        this.locations = locations;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        LayoutInflater inflater = LayoutInflater.from(parent.getContext());\r\n        View view = inflater.inflate(R.layout.store_card_view, parent, false);\r\n        return new MyViewHolder(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {\r\n        StoreHelperClass storeHelperClass = locations.get(position);\r\n        holder.storeName.setText(storeHelperClass.getStoreName());\r\n        holder.storeId.setText(storeHelperClass.getStoreId());\r\n        holder.userId = storeHelperClass.getUserId();\r\n        holder.userName = storeHelperClass.getUserName();\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return locations.size();\r\n    }\r\n\r\n    public class MyViewHolder extends RecyclerView.ViewHolder {\r\n        String userId;\r\n        String userName;\r\n\r\n        TextView storeName;\r\n        TextView storeId;\r\n        ImageButton next;\r\n        ImageButton map;\r\n        ImageButton share;\r\n\r\n        public MyViewHolder(@NonNull View itemView) {\r\n            super(itemView);\r\n\r\n            storeName = itemView.findViewById(R.id.storeName);\r\n            storeId = itemView.findViewById(R.id.storeId);\r\n            next = itemView.findViewById(R.id.next);\r\n            map = itemView.findViewById(R.id.map);\r\n            share = itemView.findViewById(R.id.share);\r\n\r\n            storeName.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View view) {\r\n                    Intent intent = new Intent(view.getContext(), shopCategory.class);\r\n                    intent.putExtra(\"userName\", userName);\r\n                    intent.putExtra(\"userID\", userId);\r\n                    intent.putExtra(\"storeName\", (String) storeName.getText());\r\n                    intent.putExtra(\"storeID\", (String) storeId.getText());\r\n                    view.getContext().startActivity(intent);\r\n                }\r\n            });\r\n\r\n            next.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View view) {\r\n                    Intent intent = new Intent(view.getContext(), shopCategory.class);\r\n                    intent.putExtra(\"userName\", userName);\r\n                    intent.putExtra(\"userID\", userId);\r\n                    intent.putExtra(\"storeName\", (String) storeName.getText());\r\n                    intent.putExtra(\"storeID\", (String) storeId.getText());\r\n                    view.getContext().startActivity(intent);\r\n                }\r\n            });\r\n\r\n            map.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View view) {\r\n                    Intent intent = new Intent(view.getContext(), Map.class);\r\n                    intent.putExtra(\"storeName\", (String) storeName.getText());\r\n                    intent.putExtra(\"storeID\", (String) storeId.getText());\r\n                    view.getContext().startActivity(intent);\r\n                }\r\n            });\r\n\r\n            share.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View view) {\r\n                    Intent intent = new Intent();\r\n                    intent.setAction(Intent.ACTION_SEND);\r\n                    intent.putExtra(Intent.EXTRA_TEXT,\"Share this store\");\r\n                    intent.setType(\"text/plain\");\r\n                    view.getContext().startActivity(intent);\r\n                }\r\n            });\r\n\r\n\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/StoreHelper/MyAdapter.java b/app/src/main/java/com/example/groceryapp/StoreHelper/MyAdapter.java
+--- a/app/src/main/java/com/example/groceryapp/StoreHelper/MyAdapter.java	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/java/com/example/groceryapp/StoreHelper/MyAdapter.java	(date 1649733537795)
+@@ -93,6 +93,8 @@
+                 @Override
+                 public void onClick(View view) {
+                     Intent intent = new Intent(view.getContext(), Map.class);
++                    intent.putExtra("userName", userName);
++                    intent.putExtra("userID", userId);
+                     intent.putExtra("storeName", (String) storeName.getText());
+                     intent.putExtra("storeID", (String) storeId.getText());
+                     view.getContext().startActivity(intent);
+Index: app/src/main/java/com/example/groceryapp/ItemHelper/MyAdapter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groceryapp.ItemHelper;\r\n\r\nimport static android.widget.Toast.LENGTH_LONG;\r\n\r\nimport android.content.Intent;\r\nimport android.graphics.Color;\r\nimport android.text.Editable;\r\nimport android.text.TextWatcher;\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.EditText;\r\nimport android.widget.ImageButton;\r\nimport android.widget.ImageView;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport com.example.groceryapp.Map;\r\nimport com.example.groceryapp.R;\r\nimport com.example.groceryapp.ItemHelper.ItemHelperClass;\r\nimport com.example.groceryapp.Cart;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {\r\n\r\n    ArrayList<ItemHelperClass> locations;\r\n\r\n    public MyAdapter(ArrayList<ItemHelperClass> locations) {\r\n        this.locations = locations;\r\n    }\r\n\r\n    @NonNull\r\n    @Override\r\n    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {\r\n        LayoutInflater inflater = LayoutInflater.from(parent.getContext());\r\n        View view = inflater.inflate(R.layout.item_card_view, null, false);\r\n        return new MyViewHolder(view);\r\n    }\r\n\r\n    @Override\r\n    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {\r\n        ItemHelperClass itemHelperClass = locations.get(position);\r\n        holder.itemName.setText(itemHelperClass.getItemName());\r\n        holder.itemId = itemHelperClass.getItemId();\r\n        holder.itemStock = itemHelperClass.getItemStock();\r\n        holder.restockTime = itemHelperClass.getRestockTime();\r\n        if (Double.parseDouble(holder.itemStock) < 1) {\r\n            holder.itemQuantities.setText(\"Out of Stock\");\r\n            holder.itemQuantities.setTextColor(Color.RED);\r\n            holder.itemNumber.setFocusable(false);\r\n        }\r\n        holder.itemPrice.setText(\"$ \" +itemHelperClass.getItemPrice());\r\n        holder.itemCategory = itemHelperClass.getItemCategory();\r\n        ArrayList<Integer> itemList = new ArrayList<Integer> ();\r\n        itemList.add(R.drawable.costco);\r\n        itemList.add(R.drawable.cucumber);\r\n        itemList.add(R.drawable.blueberry);\r\n        itemList.add(R.drawable.eggs);\r\n        itemList.add(R.drawable.garlic);\r\n        int imageIndex = Integer.parseInt(itemHelperClass.getItemImage());\r\n        holder.itemImage.setImageResource(itemList.get(imageIndex));\r\n    }\r\n\r\n    @Override\r\n    public int getItemCount() {\r\n        return locations.size();\r\n    }\r\n\r\n    public class MyViewHolder extends RecyclerView.ViewHolder {\r\n        TextView itemName;\r\n        String itemId;\r\n        String itemStock;\r\n        String restockTime;\r\n        TextView itemPrice;\r\n        String itemCategory;\r\n        ImageView itemImage;\r\n        TextView itemQuantities;\r\n        EditText itemNumber;\r\n\r\n        public MyViewHolder(@NonNull View itemView) {\r\n            super(itemView);\r\n\r\n            itemName = itemView.findViewById(R.id.itemName);\r\n            itemPrice = itemView.findViewById(R.id.itemPrice);\r\n            itemImage = itemView.findViewById(R.id.itemImage);\r\n            itemQuantities = itemView.findViewById(R.id.quantities);\r\n            itemNumber = itemView.findViewById(R.id.number);\r\n\r\n            itemQuantities.setOnClickListener(new View.OnClickListener() {\r\n                @Override\r\n                public void onClick(View view) {\r\n                    Toast.makeText(view.getContext(), \"The next restock time for \"+itemName.getText()+\" is \"+restockTime, LENGTH_LONG).show();\r\n                }\r\n            });\r\n\r\n            itemNumber.addTextChangedListener(new TextWatcher() {\r\n                public void afterTextChanged(Editable s) {\r\n                    if (s.toString().isEmpty()) { return; }\r\n                    int temp = Integer.parseInt(s.toString());\r\n                    if (temp > Double.parseDouble(itemStock)) {\r\n                        Toast.makeText(itemView.getContext(), \"Your amount exceed the item storage, the storage for \"+itemName.getText()+\" is \"+itemStock, LENGTH_LONG).show();\r\n                        s.clear();\r\n                    }\r\n                }\r\n\r\n                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}\r\n                public void onTextChanged(CharSequence s, int start, int before, int count) {}\r\n            });\r\n        }\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/ItemHelper/MyAdapter.java b/app/src/main/java/com/example/groceryapp/ItemHelper/MyAdapter.java
+--- a/app/src/main/java/com/example/groceryapp/ItemHelper/MyAdapter.java	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/java/com/example/groceryapp/ItemHelper/MyAdapter.java	(date 1649733537771)
+@@ -37,7 +37,7 @@
+     @Override
+     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+-        View view = inflater.inflate(R.layout.item_card_view, null, false);
++        View view = inflater.inflate(R.layout.item_card_view, parent, false);
+         return new MyViewHolder(view);
+     }
+ 
+Index: app/src/main/java/com/example/groceryapp/OrderHelper/OrderHelperClass.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/OrderHelper/OrderHelperClass.java b/app/src/main/java/com/example/groceryapp/OrderHelper/OrderHelperClass.java
+new file mode 100644
+--- /dev/null	(date 1649733537794)
++++ b/app/src/main/java/com/example/groceryapp/OrderHelper/OrderHelperClass.java	(date 1649733537794)
+@@ -0,0 +1,37 @@
++package com.example.groceryapp.OrderHelper;
++
++public class OrderHelperClass {
++    private String id;
++    private String orderNumber;
++    private String orderDate;
++    private String name;
++    private String phoneNumber;
++
++    public OrderHelperClass(String id, String orderNumber, String orderDate, String name, String phoneNumber) {
++        this.id = id;
++        this.orderNumber = orderNumber;
++        this.orderDate = orderDate;
++        this.name = name;
++        this.phoneNumber = phoneNumber;
++    }
++
++    public String getId() {
++        return id;
++    }
++
++    public String getOrderNumber() {
++        return orderNumber;
++    }
++
++    public String getOrderDate() {
++        return orderDate;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public String getPhoneNumber() {
++        return phoneNumber;
++    }
++}
+Index: app/src/main/java/com/example/groceryapp/HistoryOrder.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.groceryapp;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.core.app.NotificationCompat;\r\nimport androidx.core.app.NotificationManagerCompat;\r\n\r\nimport android.app.NotificationChannel;\r\nimport android.app.NotificationManager;\r\nimport android.content.Intent;\r\nimport android.net.Uri;\r\nimport android.os.Build;\r\nimport android.os.Bundle;\r\nimport android.view.MenuItem;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.ImageButton;\r\n\r\nimport com.google.android.material.bottomnavigation.BottomNavigationView;\r\n\r\nimport java.util.ArrayList;\r\n\r\npublic class HistoryOrder extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {\r\n\r\n    private int userID;\r\n    BottomNavigationView bottomNavigationView;\r\n    ImageButton Call;\r\n    Button Notify;\r\n\r\n    int phoneNum;\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_history_order);\r\n\r\n        bottomNavigationView = findViewById(R.id.bottomNavigationView);\r\n        bottomNavigationView.setOnNavigationItemSelectedListener(this);\r\n        bottomNavigationView.setSelectedItemId(R.id.home);\r\n\r\n        // Extract user id from local\r\n        // TODO\r\n\r\n        // Request order list from db\r\n        ArrayList<ArrayList<String>> orderList = DBUtil.Query(\"select * from Orders where CustomerId = \"+userID);\r\n\r\n        // Show the order detail in view\r\n        // TODO\r\n\r\n        Call = (ImageButton) findViewById(R.id.cartCall);\r\n        Notify = (Button) findViewById(R.id.cartNotify);\r\n        phoneNum = 123456;\r\n\r\n        Call.setOnClickListener(new View.OnClickListener() {\r\n            public void onClick(View v) {\r\n                Intent intent = new Intent(Intent.ACTION_DIAL);\r\n                Uri data = Uri.parse(\"tel:\" + phoneNum);\r\n                intent.setData(data);\r\n                startActivity(intent);\r\n            }\r\n        });\r\n\r\n        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {\r\n            //创建通知渠道实例（这三个参数是必须要有的）\r\n            NotificationChannel channel = new NotificationChannel(\"Notification\",\"Notification\", NotificationManager.IMPORTANCE_DEFAULT);\r\n            //创建通知渠道的通知管理器\r\n            NotificationManager manager = (NotificationManager) getSystemService(NotificationManager.class);\r\n            //将实例交给管理器\r\n            manager.createNotificationChannel(channel);\r\n        }\r\n\r\n\r\n        Notify.setOnClickListener(new View.OnClickListener() {\r\n            public void onClick(View v) {\r\n                NotificationCompat.Builder builder = new NotificationCompat.Builder(HistoryOrder.this,\"Notification\");\r\n                builder.setContentText(\"You have items in cart!\");\r\n                builder.setContentTitle(\"Grocery Notification!\");\r\n                builder.setSmallIcon(R.drawable.ic_launcher_foreground);\r\n                builder.setAutoCancel(true);\r\n\r\n                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(HistoryOrder.this);\r\n                managerCompat.notify(1,builder.build());\r\n            }\r\n        });\r\n    }\r\n\r\n\r\n    // navigation view\r\n//    CustomerAccount customerAccount = new CustomerAccount();\r\n//    @Override\r\n    public boolean onNavigationItemSelected(@NonNull MenuItem item) {\r\n        switch (item.getItemId()) {\r\n            // jump to customer home page\r\n            case R.id.home:\r\n                Intent homeIntent = new Intent(HistoryOrder.this, GroceryStores.class);\r\n                startActivity(homeIntent);\r\n                return true;\r\n\r\n            case R.id.account:\r\n//                Intent accountIntent = new Intent(GroceryStores.this, CustomerAccount.class);\r\n//                startActivity(accountIntent);\r\n                return true;\r\n        }\r\n\r\n        return false;\r\n    }\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/groceryapp/HistoryOrder.java b/app/src/main/java/com/example/groceryapp/HistoryOrder.java
+--- a/app/src/main/java/com/example/groceryapp/HistoryOrder.java	(revision 3d3807f601c0bd186da4437c3a200904e40e9c51)
++++ b/app/src/main/java/com/example/groceryapp/HistoryOrder.java	(date 1649733537770)
+@@ -4,6 +4,8 @@
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.core.app.NotificationCompat;
+ import androidx.core.app.NotificationManagerCompat;
++import androidx.recyclerview.widget.LinearLayoutManager;
++import androidx.recyclerview.widget.RecyclerView;
+ 
+ import android.app.NotificationChannel;
+ import android.app.NotificationManager;
+@@ -15,19 +17,34 @@
+ import android.view.View;
+ import android.widget.Button;
+ import android.widget.ImageButton;
++import android.widget.TextView;
+ 
++import com.example.groceryapp.CartHelper.CartHelperClass;
++import com.example.groceryapp.CartHelper.MyAdapter;
++import com.example.groceryapp.ItemHelper.ItemHelperClass;
+ import com.google.android.material.bottomnavigation.BottomNavigationView;
+ 
+ import java.util.ArrayList;
+ 
+ public class HistoryOrder extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+ 
+-    private int userID;
++    private String userID;
++    private String orderNumber;
++    private String name;
++    private String phoneNumber;
+     BottomNavigationView bottomNavigationView;
+     ImageButton Call;
+     Button Notify;
+ 
++    private ImageButton back;
++    private double price;
++
++    private String storeID;
++    private RecyclerView recyclerView;
++    private RecyclerView.Adapter adapter;
++
+     int phoneNum;
++
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+@@ -35,36 +52,77 @@
+ 
+         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+-        bottomNavigationView.setSelectedItemId(R.id.home);
++        bottomNavigationView.setSelectedItemId(R.id.account);
++
+ 
+         // Extract user id from local
+-        // TODO
++        Intent intent = getIntent();
++        userID = intent.getStringExtra("id");
++        orderNumber = intent.getStringExtra("orderNumber");
++        name = intent.getStringExtra("name");
++        phoneNumber = intent.getStringExtra("phoneNumber");
+ 
+         // Request order list from db
+-        ArrayList<ArrayList<String>> orderList = DBUtil.Query("select * from Orders where CustomerId = "+userID);
++        String temp = "select ItemName, ItemImage, Quantities, Price, TotalPrice from Orders join Products on Orders.ItemId = Products.id where OrderNumber = "+orderNumber;
++        ArrayList<ArrayList<String>> orderDetail = DBUtil.Query("select ItemName, ItemImage, Quantities, Price, TotalPrice from Orders join Products on Orders.ItemId = Products.id where OrderNumber = "+orderNumber);
+ 
+         // Show the order detail in view
+-        // TODO
++        recyclerView = findViewById(R.id.orderDetailRecyclerView);
++
++        recyclerView.setHasFixedSize(true);
++        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
++
++        ArrayList<CartHelperClass> locations = new ArrayList<>();
++
++        price = 0;
++        for (int i = 0; i < orderDetail.size(); ++i) {
++            price = Double.parseDouble(orderDetail.get(i).get(4));
++            locations.add(new CartHelperClass(
++                    orderDetail.get(i).get(0),
++                    "",
++                    "",
++                    "",
++                    orderDetail.get(i).get(3),
++                    "",
++                    orderDetail.get(i).get(1),
++                    orderDetail.get(i).get(2)));
++        }
++        price = (double) Math.round(price * 100) / 100;
++
++        adapter = new MyAdapter(locations);
++        recyclerView.setAdapter(adapter);
++
++        TextView totalPrice = (TextView) findViewById(R.id.totalPrice);
++        totalPrice.setText("Total: $" + price);
++
++        back = (ImageButton) findViewById(R.id.back);
++        back.setOnClickListener(new View.OnClickListener() {
++            public void onClick(View v) {
++                // go back
++                Intent intent = new Intent(HistoryOrder.this, CustomerAccount.class);
++                intent.putExtra("id", userID);
++                startActivity(intent);
++            }
++        });
+ 
+         Call = (ImageButton) findViewById(R.id.cartCall);
+         Notify = (Button) findViewById(R.id.cartNotify);
+-        phoneNum = 123456;
+ 
+         Call.setOnClickListener(new View.OnClickListener() {
+             public void onClick(View v) {
+                 Intent intent = new Intent(Intent.ACTION_DIAL);
+-                Uri data = Uri.parse("tel:" + phoneNum);
++                Uri data = Uri.parse("tel:" + phoneNumber);
+                 intent.setData(data);
+                 startActivity(intent);
+             }
+         });
+ 
+         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
+-            //创建通知渠道实例（这三个参数是必须要有的）
++
+             NotificationChannel channel = new NotificationChannel("Notification","Notification", NotificationManager.IMPORTANCE_DEFAULT);
+-            //创建通知渠道的通知管理器
++
+             NotificationManager manager = (NotificationManager) getSystemService(NotificationManager.class);
+-            //将实例交给管理器
++
+             manager.createNotificationChannel(channel);
+         }
+ 
+@@ -81,28 +139,25 @@
+                 managerCompat.notify(1,builder.build());
+             }
+         });
+-    }
+ 
++    }
+ 
+     // navigation view
+-//    CustomerAccount customerAccount = new CustomerAccount();
+-//    @Override
+     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+         switch (item.getItemId()) {
+-            // jump to customer home page
++            // jump to home page
+             case R.id.home:
+-                Intent homeIntent = new Intent(HistoryOrder.this, GroceryStores.class);
+-                startActivity(homeIntent);
++                Intent intent = new Intent(HistoryOrder.this, GroceryStores.class);
++                intent.putExtra("userID", userID);
++                startActivity(intent);
+                 return true;
+ 
+             case R.id.account:
+-//                Intent accountIntent = new Intent(GroceryStores.this, CustomerAccount.class);
+-//                startActivity(accountIntent);
+                 return true;
+         }
+ 
+         return false;
+     }
+ 
++}
+ 
+-}
+\ No newline at end of file

@@ -3,7 +3,6 @@ package com.example.groceryapp.StoreProductHelper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groceryapp.AddProduct;
-import com.example.groceryapp.ItemHelper.ItemHelperClass;
 import com.example.groceryapp.R;
-import com.example.groceryapp.StoreHelper.StoreHelperClass;
 import com.example.groceryapp.UpdateProduct;
-import com.example.groceryapp.shopCategory;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
@@ -50,7 +50,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
         holder.itemName.setText(itemName);
         holder.itemPrice.setText("$ " + itemPrice);
-        holder.itemImage.setImageBitmap(convertStringToBitImage(storeProductHelperClass.getItemImage()));
+        loadImage(holder, storeProductHelperClass.getItemImage());
 
         // jump to update page if the item was clicked
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,13 +68,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         });
     }
 
-    // this function is used to decode the string into image
-    public Bitmap convertStringToBitImage(String imageString){
-        // decode string to image
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        byte[] imageBytes = Base64.decode(imageString, Base64.DEFAULT);
-        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        return decodedImage;
+    public void loadImage(MyViewHolder holder, String fileName) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + fileName);
+        try {
+            final File localFile = File.createTempFile(fileName, "image");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    holder.itemImage.setImageBitmap(bitmap);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

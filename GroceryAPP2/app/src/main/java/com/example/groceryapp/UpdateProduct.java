@@ -23,12 +23,20 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.groceryapp.StoreProductHelper.MyAdapter;
 import com.example.groceryapp.StoreProductHelper.StoreProductHelperClass;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class UpdateProduct extends AppCompatActivity{
     ImageView back, productImage;
@@ -41,6 +49,7 @@ public class UpdateProduct extends AppCompatActivity{
     SharedPreferences sharedPreferences;
     private String sharedStoreId;
     private String itemId;
+    Uri selectedImageUri;
 
     // create array of Strings and store name of the categories
     List<String> categories = new ArrayList<>();
@@ -78,7 +87,8 @@ public class UpdateProduct extends AppCompatActivity{
         quantityText.setText(previousItemStock);
         restockTimeText.setText(previousItemRestockTime);
         // retrieve the previous image from database and display
-        productImage.setImageBitmap(convertStringToBitImage(getImageString(itemId)));
+//        productImage.setImageBitmap(convertStringToBitImage(getImageName(itemId)));
+        loadImage(getImageName(itemId));
 
         // move back if back button clicked
         back = (ImageView) findViewById(R.id.updateProductBackView);
@@ -195,33 +205,56 @@ public class UpdateProduct extends AppCompatActivity{
             public void onClick(View view) {
                 // check the correction
                 if (checkCorrection()){
-                    // get the encoded image string
-                    String imageString = convertProductImageToString();
-                    // Update product data to database
-                    String query = ("update Products set "
-                            + "ItemName = '" + productNameText.getText() + "', "
-                            + "ItemStock = '" + new Float(quantityText.getText().toString()) + "', "
-                            + "RestockTime = '" + restockTimeText.getText() + "', "
-                            + "ItemPrice = '" + new Float(priceText.getText().toString()) + "', "
-                            + "ItemCategory = '" + productCategory + "', "
-                            + "ItemImage = '" + imageString + "', "
-                            + "RetailerId = '" + sharedStoreId + "' where id = " + itemId + ";"
-                            );
-                     updateDB(query);
+                    String query;
+                    if (null != selectedImageUri) {
+                        String fileName = updateImage();
+                        // Update product data to database
+                        query = ("update Products set "
+                                + "ItemName = '" + productNameText.getText() + "', "
+                                + "ItemStock = '" + new Float(quantityText.getText().toString()) + "', "
+                                + "RestockTime = '" + restockTimeText.getText() + "', "
+                                + "ItemPrice = '" + new Float(priceText.getText().toString()) + "', "
+                                + "ItemCategory = '" + productCategory + "', "
+                                + "ItemImage = '" + fileName + "', "
+                                + "RetailerId = '" + sharedStoreId + "' where id = " + itemId + ";");
+                    }else{
+                        query = ("update Products set "
+                                + "ItemName = '" + productNameText.getText() + "', "
+                                + "ItemStock = '" + new Float(quantityText.getText().toString()) + "', "
+                                + "RestockTime = '" + restockTimeText.getText() + "', "
+                                + "ItemPrice = '" + new Float(priceText.getText().toString()) + "', "
+                                + "ItemCategory = '" + productCategory + "', "
+                                + "RetailerId = '" + sharedStoreId + "' where id = " + itemId + ";");
+                    }
+                    updateDB(query);
                 }
             }
         });
     }
 
-    // this function is used to encode the image into string
-    public String convertProductImageToString(){
-        //encode image to base64 string
-        BitmapDrawable bitmapDrawable = (BitmapDrawable) productImage.getDrawable();
-        Bitmap bitmap = bitmapDrawable.getBitmap();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,10, byteArrayOutputStream);
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(bytes , Base64.DEFAULT);
+    public String updateImage(){
+        // generate a unique string as the file name
+        String fileName = UUID.randomUUID().toString();
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("images/" + fileName);
+        storageReference.putFile(selectedImageUri);
+        return fileName;
+    }
+
+    public void loadImage(String fileName) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + fileName);
+        try {
+            final File localFile = File.createTempFile(fileName, "image");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    productImage.setImageBitmap(bitmap);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateDB(String query){
@@ -252,7 +285,7 @@ public class UpdateProduct extends AppCompatActivity{
     }
 
     // this function is used to retrieve the image string from database
-    public String getImageString(String itemId){
+    public String getImageName(String itemId){
         // Request product list from db
         ArrayList<ArrayList<String>> productList = DBUtil.Query(
                 "select ItemImage from Products where id = " + itemId);
@@ -293,7 +326,7 @@ public class UpdateProduct extends AppCompatActivity{
             // SELECT_PICTURE constant
             if (requestCode == SELECT_PICTURE) {
                 // Get the url of the image from data
-                Uri selectedImageUri = data.getData();
+                selectedImageUri = data.getData();
                 if (null != selectedImageUri) {
                     // update the preview image in the layout
                     productImage.setImageURI(selectedImageUri);
